@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Home from "../components/Home";
 import HomeLayout from "../components/layouts/HomeLayout";
+import PlayGround from "../components/PlayGround";
 
 const AllRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const AllRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/playground" element={<PlayGround />} />
         </Route>
 
         {/* <Route element={<RootLayout />}>

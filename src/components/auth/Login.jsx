@@ -4,12 +4,20 @@ import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlinePassword } from "react-icons/md";
 import { UserContext } from "../../context/User";
 import { useNavigate } from "react-router-dom";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { registerUser } from "../../../graphQL/Mutations";
+import { LoginUser } from "../../../graphQL/Quary";
 
 const Login = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [newUser, setNewUser] = useState(true);
+  const [error, setError] = useState("");
   const [data, setData] = useState({ userName: "", email: "", password: "" });
+  const [register, { data: rdata, error: rerror, loading: rloading }] =
+    useMutation(registerUser);
+  const [login, { data: ldata, loading: lloading, error: lerror }] =
+    useLazyQuery(LoginUser);
   useEffect(() => {
     console.log("user: ", user);
     if (user) navigate(-1);
@@ -24,8 +32,21 @@ const Login = () => {
     setData({ userName: "", email: "", password: "" });
     setNewUser(newUser);
   };
-  const handleLogin = () => {
-    setUser({ id: "123", name: "raghav", email: "raghav@gmail.com" });
+  const handleLogin = async () => {
+    var res;
+    setError("");
+    if (newUser) res = await register({ variables: { newUser: data } });
+    else
+      res = await login({
+        variables: { email: data.email, password: data.password },
+      });
+    if (res.errors) setError(res.errors?.[0]?.message);
+    else {
+      const { token, user } = res.data.user;
+      localStorage.setItem("token", token);
+      setUser({ ...user });
+    }
+    // setUser({ id: "123", name: "raghav", email: "raghav@gmail.com" });
   };
   return (
     <>
@@ -46,6 +67,8 @@ const Login = () => {
                 <Button data="Sign Up" selected={newUser} />
               </span>
             </div>
+            {error && <h1 className="text-red-700 mt-4">{error}</h1>}
+
             <div className="bg-form bg-opacity-10 my-5">
               {newUser && (
                 <Input
@@ -76,7 +99,13 @@ const Login = () => {
             </div>
             <div onClick={handleLogin}>
               <Button
-                data={newUser ? "Create Account" : "Login"}
+                data={
+                  rloading || lloading
+                    ? "Loding..."
+                    : newUser
+                    ? "Create Account"
+                    : "Login"
+                }
                 selected={true}
               />
             </div>

@@ -5,3 +5,33 @@
 body{
     color:#eef2f5;
 }
+
+.gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-vertical {
+    cursor: row-resize;
+}
+.split {
+    display: flex;
+    flex-direction: row;
+}
+
+.gutter {
+    background-color: #e9eef3;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    cursor: col-resize;
+}
+.gutter.gutter-horizontal:hover {
+    background: blue;
+}
+.gutter.gutter-vertical:hover {
+    background: blue;
+}
