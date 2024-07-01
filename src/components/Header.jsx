@@ -36,19 +36,30 @@ const Header = () => {
   );
 };
 const Menu = ({ user, setUser }) => {
-  return (
-    <div className="hidden absolute z-10 p-4 w-44 h-fit border-gray-200 border group-hover:flex right-0 top-full bg-white cursor-pointer flex-col gap-2 font-normal text-neutral-600 rounded-lg shadow-md">
+    return (
+    <div className="hidden absolute z-10 p-4 min-w-56 h-fit border-gray-200 border group-hover:flex right-0 top-full bg-white cursor-pointer flex-col gap-1 font-normal text-neutral-600 rounded-lg shadow-md">
       <NavLink
         to={"/profile"}
-        className="flex justify-between items-center p-1 hover:bg-neutral-200"
+        className="flex justify-center gap-2 items-center rounded-md"
       >
         <HiMiniUserCircle className="size-20" />
-        <h1>{user.name}</h1>
+        <h1>{user.userName || user.firstName}</h1>
       </NavLink>
-      <NavLink className="p-1 hover:bg-neutral-200">All Submitions</NavLink>
+      <NavLink className="p-2 hover:bg-neutral-300 rounded-md">
+        All Submitions
+      </NavLink>
+      <NavLink className="p-2 hover:bg-neutral-300 rounded-md">
+        Organise Contest
+      </NavLink>
+      <NavLink className="p-2 hover:bg-neutral-300 rounded-md">
+        Join Contest
+      </NavLink>
       <div
-        className="flex gap-4 items-center p-1 hover:bg-neutral-200"
-        onClick={() => setUser("")}
+        className="flex gap-4 items-center p-2 hover:bg-neutral-300 rounded-md"
+        onClick={() => {
+          setUser("");
+          localStorage.removeItem("token");
+        }}
       >
         <IoMdExit className="size-7" />
         <h1>Logout</h1>

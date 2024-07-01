@@ -15,11 +15,10 @@ const Login = () => {
   const [error, setError] = useState("");
   const [data, setData] = useState({ userName: "", email: "", password: "" });
   const [register, { data: rdata, error: rerror, loading: rloading }] =
-    useMutation(registerUser);
+    useMutation(registerUser, { onError: (ex) => {} });
   const [login, { data: ldata, loading: lloading, error: lerror }] =
     useLazyQuery(LoginUser);
   useEffect(() => {
-    console.log("user: ", user);
     if (user) navigate(-1);
   }, [user]);
   const handleChange = (e) => {
@@ -31,6 +30,7 @@ const Login = () => {
   const handleUser = (newUser) => {
     setData({ userName: "", email: "", password: "" });
     setNewUser(newUser);
+    setError("");
   };
   const handleLogin = async () => {
     var res;
@@ -40,14 +40,21 @@ const Login = () => {
       res = await login({
         variables: { email: data.email, password: data.password },
       });
-    if (res.errors) setError(res.errors?.[0]?.message);
-    else {
+
+    if (res.errors) {
+      const errorMessage =
+        res?.errors?.[0]?.message ||
+        res?.errors?.graphQLErrors?.[0]?.message ||
+        "un Known";
+      console.log(errorMessage);
+      setError(errorMessage);
+    } else {
       const { token, user } = res.data.user;
       localStorage.setItem("token", token);
       setUser({ ...user });
     }
-    // setUser({ id: "123", name: "raghav", email: "raghav@gmail.com" });
   };
+  // setUser({ id: "123", name: "raghav", email: "raghav@gmail.com" });
   return (
     <>
       <div className="bg-light-bg h-screen w-full pt-8">
@@ -67,8 +74,8 @@ const Login = () => {
                 <Button data="Sign Up" selected={newUser} />
               </span>
             </div>
-            {error && <h1 className="text-red-700 mt-4">{error}</h1>}
 
+            {error && <h1 className="text-red-700 mt-4">{error}</h1>}
             <div className="bg-form bg-opacity-10 my-5">
               {newUser && (
                 <Input

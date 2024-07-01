@@ -4,12 +4,9 @@ import { BrowserRouter } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { LoginUser } from "../graphQL/Quary";
 import { UserContext } from "./context/User";
+import useGetUser from "./hooks/useGetUser";
 const App = () => {
-  const { data, error, loading } = useQuery(LoginUser, {
-    variables: { email: "ajju@gmail.com", password: "12345" },
-  });
-  console.log(data);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useGetUser();
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>
