@@ -1,19 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AllRoutes from "./config/routes";
 import { BrowserRouter } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { LoginUser } from "../graphQL/Quary";
+import { UserContext } from "./context/User";
 const App = () => {
   const { data, error, loading } = useQuery(LoginUser, {
     variables: { email: "ajju@gmail.com", password: "12345" },
   });
   console.log(data);
+  const [user, setUser] = useState(null);
   return (
-    <BrowserRouter>
-      <main>
-        <AllRoutes />
-      </main>
-    </BrowserRouter>
+    <UserContext.Provider value={(user, setUser)}>
+      <BrowserRouter>
+        <main>
+          <AllRoutes />
+        </main>
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 };
 

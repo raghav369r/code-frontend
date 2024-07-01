@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PiTextbox } from "react-icons/pi";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlinePassword } from "react-icons/md";
 import Footer from "../Footer";
+import { UserContext } from "../../context/User";
 
 const Login = () => {
+  const { user, setUser } = useContext(UserContext);
   const [newUser, setNewUser] = useState(true);
   const [data, setData] = useState({ userName: "", email: "", password: "" });
   const handleChange = (e) => {
@@ -13,6 +15,7 @@ const Login = () => {
     ndata[name] = value;
     setData(ndata);
   };
+  console.log(user);
   const handleUser = (newUser) => {
     setData({ userName: "", email: "", password: "" });
     setNewUser(newUser);
@@ -72,7 +75,7 @@ const Login = () => {
           <img src="/images/login1.png" className="hidden md:block" />
         </div>
       </div>
-        <Footer />
+      <Footer />
     </>
   );
 };
@@ -93,7 +96,7 @@ const Input = ({ type, Logo, placeholder, name, handleChange, data }) => (
       name={name}
       value={data[name]}
       type={type}
-      className="appearence-none outline-0 w-full bg-form"
+      className="appearence-none outline-0 w-full bg-form text-black"
       placeholder={placeholder}
       onChange={handleChange}
     />
