@@ -9,9 +9,9 @@ const App = () => {
     variables: { email: "ajju@gmail.com", password: "12345" },
   });
   console.log(data);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("");
   return (
-    <UserContext.Provider value={(user, setUser)}>
+    <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>
         <main>
           <AllRoutes />

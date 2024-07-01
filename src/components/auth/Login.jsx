@@ -1,32 +1,39 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PiTextbox } from "react-icons/pi";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlinePassword } from "react-icons/md";
-import Footer from "../Footer";
 import { UserContext } from "../../context/User";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [newUser, setNewUser] = useState(true);
   const [data, setData] = useState({ userName: "", email: "", password: "" });
+  useEffect(() => {
+    console.log("user: ", user);
+    if (user) navigate(-1);
+  }, [user]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     var ndata = { ...data };
     ndata[name] = value;
     setData(ndata);
   };
-  console.log(user);
   const handleUser = (newUser) => {
     setData({ userName: "", email: "", password: "" });
     setNewUser(newUser);
   };
+  const handleLogin = () => {
+    setUser({ id: "123", name: "raghav", email: "raghav@gmail.com" });
+  };
   return (
     <>
-      <div className="bg-light-bg h-screen w-screen pt-20">
+      <div className="bg-light-bg h-screen w-full pt-8">
         <div className="md:flex flex-row items-center justify-around container mx-auto">
           <div className="">
             <h1 className="text-gray-700 text-3xl font-semibold py-4">
-              Sign up on Coderbyte
+              Sign up on Code Here
             </h1>
             <h2 className="text-gray-500 text-2xl font-semibold py-4">
               Access your account or get started with us
@@ -67,23 +74,24 @@ const Login = () => {
                 Logo={MdOutlinePassword}
               />
             </div>
-            <Button
-              data={newUser ? "Create Account" : "Login"}
-              selected={true}
-            />
+            <div onClick={handleLogin}>
+              <Button
+                data={newUser ? "Create Account" : "Login"}
+                selected={true}
+              />
+            </div>
           </div>
           <img src="/images/login1.png" className="hidden md:block" />
         </div>
       </div>
-      <Footer />
     </>
   );
 };
 
 const Button = ({ data, selected }) => (
   <button
-    className={`px-6 py-4 border-2 border-sky-500 font-semibold  ${
-      selected ? "bg-sky-500" : ""
+    className={`px-6 py-4 border-2 border-sky-500 font-semibold ${
+      selected ? "bg-sky-500 text-white" : "text-sky-500"
     }`}
   >
     {data}
