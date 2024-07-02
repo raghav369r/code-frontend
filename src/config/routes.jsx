@@ -4,6 +4,9 @@ import Login from "../components/auth/Login";
 import Home from "../components/Home";
 import HomeLayout from "../components/layouts/HomeLayout";
 import PlayGround from "../components/PlayGround";
+import AuthLayout from "../components/layouts/AuthLayout";
+import Profile from "../components/Profile";
+import Edit from "../components/Edit";
 
 const AllRoutes = () => {
   return (
@@ -15,7 +18,10 @@ const AllRoutes = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/playground" element={<PlayGround />} />
         </Route>
-
+        <Route element={<AuthLayout />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/edit" element={<Edit />} />
+        </Route>
         {/* <Route element={<RootLayout />}>
         <Route path="/explore" element={<Explore />} />
         <Route path="/people" element={<AllPeople />} />
