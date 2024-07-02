@@ -10,7 +10,6 @@ export const LoginUser = gql`
         lastName
         userName
         email
-        password
         createdAt
         profileLink
         linkedinLink

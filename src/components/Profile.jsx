@@ -5,13 +5,15 @@ import { CiLocationOn } from "react-icons/ci";
 import { LiaLinkedin } from "react-icons/lia";
 import { BsGithub } from "react-icons/bs";
 import { FaAngleRight } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { PiListChecksBold } from "react-icons/pi";
 import { MdCloudDone } from "react-icons/md";
+import { FaLink } from "react-icons/fa6";
 
 const Profile = () => {
   const { user } = useContext(UserContext);
   const [rc, setRc] = useState(true);
+  const navigate = useNavigate();
   return (
     <div className="bg-[#f7f8fa] w-full">
       <div className="container mx-auto py-10 gap-4 grid grid-cols-12 text-gray-500">
@@ -21,7 +23,10 @@ const Profile = () => {
             <h1 className="text-2xl font-semibold">{user.firstName}</h1>
             <h2>{user.userName}</h2>
           </div>
-          <button className="text-green-500 bg-green-500 bg-opacity-25 py-2 px-4 rounded-lg">
+          <button
+            className="text-green-500 bg-green-500 bg-opacity-25 py-2 px-4 rounded-lg"
+            onClick={() => navigate("edit")}
+          >
             Edit Profile
           </button>
           <div className="flex gap-4 items-center">
@@ -30,11 +35,15 @@ const Profile = () => {
           </div>
           <div className="flex gap-4 items-center">
             <LiaLinkedin className="size-6" />
-            <h1>{user.linkedinUrl || "not Set"}</h1>
+            <h1>{user.linkedinLink || "not Set"}</h1>
           </div>
           <div className="flex gap-4 items-center">
             <BsGithub className="size-6" />
-            <h1>{user.gitHubUrl || "not Set"}</h1>
+            <h1>{user.githubLink || "not Set"}</h1>
+          </div>
+          <div className="flex gap-4 items-center">
+            <FaLink className="size-6" />
+            <h1>{user.portfolioLink || "not Set"}</h1>
           </div>
           <hr />
           <h1 className="text-black">Languages</h1>
