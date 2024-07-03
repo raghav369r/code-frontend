@@ -3,8 +3,10 @@ import React, { useRef, useState } from "react";
 import Split from "react-split";
 import { FaCaretDown } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
+import useRunCode from "../hooks/useRunCode";
 
 const EditorCode = () => {
+  const [run, data, loading, error] = useRunCode();
   const [language, setLanguage] = useState("cpp");
   const [height, setHeight] = useState("0");
   const [code, setCode] = useState("//write ur code here");
@@ -13,9 +15,14 @@ const EditorCode = () => {
   const editorRef = useRef(null);
   const splitRef = useRef(null);
 
+  const handleRun = async () => {
+    const res = await run({ variables: { input: { code, language } } });
+    console.log(data);
+  };
+
   const handleConsoleExpand = () => {
     const size = splitRef?.current?.split?.getSizes();
-    if (size[1] < 1) splitRef.current.split.setSizes([50, 50]);
+    if (size[1] < 1) splitRef.current.split.setSizes([40, 60]);
     else splitRef.current.split.setSizes([100, 0]);
   };
 
@@ -43,7 +50,7 @@ const EditorCode = () => {
     }
   };
   return (
-    <div className="h-full flex flex-col p-2 m-2 border rounded-lg border-gray-300 text-gray-900">
+    <div className="h-full overflow-hidden  flex flex-col p-2 m-2 border rounded-lg border-gray-300 text-gray-900">
       <div
         ref={warningRef}
         className="absolute z-[1000] p-4 border-gray-300 -translate-x-1/2 -top-full transition-all duration-500 border rounded-xl bg-white text-red-600 font-semibold left-1/2"
@@ -115,7 +122,7 @@ const EditorCode = () => {
         minSize={0}
         sizes={[100, 0]}
       >
-        <div className="h-full bg-white">
+        <div className=" bg-white">
           <Editor
             className="z-0"
             height={"100%"}
@@ -142,7 +149,33 @@ const EditorCode = () => {
             }}
           />
         </div>
-        <div className="bg-gradient-to-r from-red-500 to-yellow-300 via-orange-400"></div>
+        <div className="overflow-y-scroll flex flex-col bg-white">
+          <ul className="flex gap-4 border-b">
+            <li className="font-semibold  cursor-pointer px-2 py-2 bg-neutral-300">
+              TestCases
+            </li>
+            <li className="font-semibold  cursor-pointer px-2 py-2 ">
+              TestResult
+            </li>
+            <li className="font-semibold  cursor-pointer px-2 py-2 ">OutPut</li>
+          </ul>
+          <div className="p-2">
+            {data?.output?.stdout && (
+              <h1 className="bg-opacity-30 rounded-xl bg-green-600 p-2 text-green-800">
+                {data?.output?.stdout.split("\n").map((ele, ind) => (
+                  <h1 key={ind}>{ele}</h1>
+                ))}
+              </h1>
+            )}
+            {data?.output?.stderr && (
+              <h1 className="bg-opacity-30 rounded-xl bg-red-600 p-2 text-red-800">
+                {data?.output?.stderr.split("\n").map((ele, ind) => (
+                  <h1 key={ind}>{ele}</h1>
+                ))}
+              </h1>
+            )}
+          </div>
+        </div>
       </Split>
       <div className="border-t h-fit">
         <div className="flex justify-between items-center p-1">
@@ -156,9 +189,9 @@ const EditorCode = () => {
           <div className="flex flex-row-reverse gap-4 text-white font-semibold">
             <button
               className="px-4 py-1 bg-green-500 rounded-lg"
-              onClick={() => setCode("Changes!!")}
+              onClick={handleRun}
             >
-              Run
+              {loading ? "Loading..." : "Run"}
             </button>
             <button className="px-4 py-1 bg-gray-500 rounded-lg">Submit</button>
           </div>

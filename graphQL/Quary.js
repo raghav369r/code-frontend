@@ -22,7 +22,7 @@ export const LoginUser = gql`
 `;
 export const RunCode = gql`
   query RunCode($input: codeInput) {
-    runCode(input: $input) {
+    output:runCode(input: $input) {
       stdout
       error
       stderr
