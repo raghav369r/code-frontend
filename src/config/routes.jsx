@@ -7,6 +7,8 @@ import PlayGround from "../components/PlayGround";
 import AuthLayout from "../components/layouts/AuthLayout";
 import Profile from "../components/Profile";
 import Edit from "../components/Edit";
+import EditorCode from "../components/EditorCode";
+import CodeLayout from "../components/layouts/CodeLayout";
 
 const AllRoutes = () => {
   return (
@@ -21,6 +23,9 @@ const AllRoutes = () => {
         <Route element={<AuthLayout />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<Edit />} />
+        </Route>
+        <Route element={<CodeLayout />}>
+          <Route path="/editor" element={<EditorCode />} />
         </Route>
         {/* <Route element={<RootLayout />}>
         <Route path="/explore" element={<Explore />} />

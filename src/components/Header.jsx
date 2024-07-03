@@ -8,7 +8,7 @@ const Header = () => {
   const { user, setUser } = useContext(UserContext);
 
   return (
-    <div className=" p-3 flex justify-between items-center h-fit bg-white shadow-lg text-sky-500 sticky top-0">
+    <div className="z-[20] p-3 flex justify-between items-center h-fit bg-white shadow-lg text-sky-500 sticky top-0">
       <NavLink to={"/"} className="h-full">
         <img src="/images/logo_title.png" className="object-contain h-12" />
       </NavLink>
