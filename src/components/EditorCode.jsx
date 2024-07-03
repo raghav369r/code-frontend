@@ -1,5 +1,7 @@
 import Editor from "@monaco-editor/react";
 import React, { useRef, useState } from "react";
+import Split from "react-split";
+import { FaCaretDown } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
 
 const EditorCode = () => {
@@ -9,6 +11,14 @@ const EditorCode = () => {
   const warningRef = useRef(null);
   const selectorRef = useRef(null);
   const editorRef = useRef(null);
+  const splitRef = useRef(null);
+
+  const handleConsoleExpand = () => {
+    const size = splitRef?.current?.split?.getSizes();
+    if (size[1] < 1) splitRef.current.split.setSizes([50, 50]);
+    else splitRef.current.split.setSizes([100, 0]);
+  };
+
   const handleLan = (e) => {
     setLanguage(e.target.innerHTML);
     setHeight("0");
@@ -21,11 +31,7 @@ const EditorCode = () => {
     editorRef.current = editor;
   };
   const handleContent = (e, editor) => {
-    if (
-      (e.indexOf(code) != -1 && e.length <= code.length + 5) ||
-      code.indexOf(e) != -1
-    )
-      setCode(e);
+    if (e.length <= code.length + 5 || code.indexOf(e) != -1) setCode(e);
     else {
       editorRef.current.setValue(code);
       warningRef.current.classList.remove("-top-full");
@@ -46,9 +52,13 @@ const EditorCode = () => {
       </div>
       <div className="flex justify-between h-fit">
         <div className="relative px-4 py-1 bg-neutral-200 min-w-32 rounded-lg">
-          <h1 className="font-semibold cursor-pointer" onClick={handleSelecor}>
-            {language}
-          </h1>
+          <div
+            className="flex items-center gap-3 justify-between font-semibold cursor-pointer"
+            onClick={handleSelecor}
+          >
+            <h1>{language}</h1>
+            <FaCaretDown />
+          </div>
           {height != "0" && (
             <ul
               ref={selectorRef}
@@ -58,7 +68,7 @@ const EditorCode = () => {
                 className=" py-2 hover:bg-neutral-100 border-b"
                 onClick={handleLan}
               >
-                c++
+                cpp
               </li>
               <li
                 className=" py-2 hover:bg-neutral-100 border-b"
@@ -97,22 +107,49 @@ const EditorCode = () => {
           )}
         </div>
       </div>
-      <div className="h-full bg-white">
-        <Editor
-          className="z-0"
-          height={"100%"}
-          language={language}
-          value={code}
-          onMount={handleEditorDidMount} // Handle editor mount
-          options={{
-            selectOnLineNumbers: true,
-          }}
-          onChange={handleContent}
-        />
-      </div>
+      <Split
+        ref={splitRef}
+        className="h-full overflow-y-hidden flex flex-col"
+        direction="vertical"
+        gutterSize={5}
+        minSize={0}
+        sizes={[100, 0]}
+      >
+        <div className="h-full bg-white">
+          <Editor
+            className="z-0"
+            height={"100%"}
+            language={language}
+            value={code}
+            onMount={handleEditorDidMount}
+            onChange={handleContent}
+            min
+            options={{
+              minimap: { enabled: false },
+              selectOnLineNumbers: true,
+              quickSuggestions: {
+                other: false,
+                comments: false,
+                strings: false,
+              },
+              parameterHints: {
+                enabled: false,
+              },
+              suggestOnTriggerCharacters: false,
+              acceptSuggestionOnEnter: "off",
+              tabCompletion: "off",
+              wordBasedSuggestions: false,
+            }}
+          />
+        </div>
+        <div className="bg-gradient-to-r from-red-500 to-yellow-300 via-orange-400"></div>
+      </Split>
       <div className="border-t h-fit">
         <div className="flex justify-between items-center p-1">
-          <button className="flex bg-neutral-200 gap-3 rounded-lg px-4 py-1 items-center">
+          <button
+            className="flex bg-neutral-200 gap-3 rounded-lg px-4 py-1 items-center"
+            onClick={handleConsoleExpand}
+          >
             <h1 className="font-semibold"> console</h1>
             <BiSolidUpArrow />
           </button>

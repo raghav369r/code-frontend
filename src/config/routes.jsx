@@ -9,6 +9,7 @@ import Profile from "../components/Profile";
 import Edit from "../components/Edit";
 import EditorCode from "../components/EditorCode";
 import CodeLayout from "../components/layouts/CodeLayout";
+import Test from "../components/test";
 
 const AllRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AllRoutes = () => {
         <Route element={<CodeLayout />}>
           <Route path="/editor" element={<EditorCode />} />
         </Route>
+        <Route path="/test" element={<Test />} />
         {/* <Route element={<RootLayout />}>
         <Route path="/explore" element={<Explore />} />
         <Route path="/people" element={<AllPeople />} />
