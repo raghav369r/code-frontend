@@ -10,6 +10,8 @@ import Edit from "../components/Edit";
 import EditorCode from "../components/EditorCode";
 import CodeLayout from "../components/layouts/CodeLayout";
 import Test from "../components/test";
+import ProblemTable from "../components/ProblemTable";
+import SolveProblem from "../components/SolveProblem";
 
 const AllRoutes = () => {
   return (
@@ -19,14 +21,16 @@ const AllRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/playground" element={<PlayGround />} />
+          {/* <Route path="/playground" element={<PlayGround />} /> */}
+          <Route path="/problems" element={<ProblemTable />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<Edit />} />
         </Route>
         <Route element={<CodeLayout />}>
-          <Route path="/editor" element={<EditorCode />} />
+          <Route path="/playground" element={<EditorCode />} />
+          <Route path="/problem/:id" element={<SolveProblem />} />
         </Route>
         <Route path="/test" element={<Test />} />
         {/* <Route element={<RootLayout />}>

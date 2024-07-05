@@ -8,9 +8,9 @@ const Header = () => {
   const { user, setUser } = useContext(UserContext);
 
   return (
-    <div className="z-[20] p-3 flex justify-between items-center h-fit bg-white shadow-lg text-sky-500 sticky top-0">
+    <div className="z-[20] p-2 flex justify-between items-center h-fit bg-white shadow-lg text-sky-500 sticky top-0">
       <NavLink to={"/"} className="h-full">
-        <img src="/images/logo_title.png" className="object-contain h-12" />
+        <img src="/images/logo_title.png" className="object-contain h-11" />
       </NavLink>
       <div className="flex gap-6 items-center font-semibold">
         <NavLink to={"/contest"}>Contest</NavLink>

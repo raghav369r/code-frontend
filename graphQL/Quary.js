@@ -22,7 +22,7 @@ export const LoginUser = gql`
 `;
 export const RunCode = gql`
   query RunCode($input: codeInput) {
-    output:runCode(input: $input) {
+    output: runCode(input: $input) {
       stdout
       error
       stderr
@@ -62,6 +62,44 @@ export const GetUser = gql`
       githubLink
       instagramLink
       portfolioLink
+    }
+  }
+`;
+export const GetAllProblems = gql`
+  query GetAllProblems {
+    problems: getAllProblems {
+      id
+      title
+      description
+      difficulty
+      topics
+      createdAt
+      createdBy
+    }
+  }
+`;
+
+export const GetProblem = gql`
+  query GetProblem($getProblemId: ID!) {
+    problem: getProblem(id: $getProblemId) {
+      id
+      title
+      description
+      difficulty
+      startCode
+      topics
+      solutionCode
+      createdAt
+      createdBy
+      constraints
+      expectedComplexity
+      examples {
+        id
+        input
+        output
+        explanation
+        problemId
+      }
     }
   }
 `;

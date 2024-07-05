@@ -4,9 +4,10 @@ import Split from "react-split";
 import { FaCaretDown } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
 import useRunCode from "../hooks/useRunCode";
+import OutputCard from "./OutputCard";
 
-const EditorCode = () => {
-  const [run, data, loading, error] = useRunCode();
+const EditorCode = ({examples}) => {
+  const [run, data, error, loading] = useRunCode();
   const [language, setLanguage] = useState("cpp");
   const [height, setHeight] = useState("0");
   const [code, setCode] = useState("//write ur code here");
@@ -17,6 +18,8 @@ const EditorCode = () => {
 
   const handleRun = async () => {
     const res = await run({ variables: { input: { code, language } } });
+    const size = splitRef?.current?.split?.getSizes();
+    if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
     console.log(data);
   };
 
@@ -149,33 +152,7 @@ const EditorCode = () => {
             }}
           />
         </div>
-        <div className="overflow-y-scroll flex flex-col bg-white">
-          <ul className="flex gap-4 border-b">
-            <li className="font-semibold  cursor-pointer px-2 py-2 bg-neutral-300">
-              TestCases
-            </li>
-            <li className="font-semibold  cursor-pointer px-2 py-2 ">
-              TestResult
-            </li>
-            <li className="font-semibold  cursor-pointer px-2 py-2 ">OutPut</li>
-          </ul>
-          <div className="p-2">
-            {data?.output?.stdout && (
-              <h1 className="bg-opacity-30 rounded-xl bg-green-600 p-2 text-green-800">
-                {data?.output?.stdout.split("\n").map((ele, ind) => (
-                  <h1 key={ind}>{ele}</h1>
-                ))}
-              </h1>
-            )}
-            {data?.output?.stderr && (
-              <h1 className="bg-opacity-30 rounded-xl bg-red-600 p-2 text-red-800">
-                {data?.output?.stderr.split("\n").map((ele, ind) => (
-                  <h1 key={ind}>{ele}</h1>
-                ))}
-              </h1>
-            )}
-          </div>
-        </div>
+        <OutputCard data={data} error={error} loading={loading} examples={examples}/>
       </Split>
       <div className="border-t h-fit">
         <div className="flex justify-between items-center p-1">
@@ -184,7 +161,7 @@ const EditorCode = () => {
             onClick={handleConsoleExpand}
           >
             <h1 className="font-semibold"> console</h1>
-            <BiSolidUpArrow />
+            <BiSolidUpArrow className="size-3" />
           </button>
           <div className="flex flex-row-reverse gap-4 text-white font-semibold">
             <button

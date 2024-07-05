@@ -14,3 +14,5 @@ const HomeLayout = () => {
 };
 
 export default HomeLayout;
+
+// bg-gradient-to-r from-yellow-100 to-red-300 via-orange-100

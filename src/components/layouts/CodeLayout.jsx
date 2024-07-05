@@ -4,7 +4,7 @@ import Header from "../Header";
 
 const CodeLayout = () => {
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className="w-full h-screen flex flex-col ">
       <Header />
       <Outlet />
     </div>
