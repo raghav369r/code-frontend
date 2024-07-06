@@ -16,8 +16,8 @@ const Profile = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-[#f7f8fa] w-full">
-      <div className="container mx-auto py-10 gap-4 grid grid-cols-12 text-gray-500">
-        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 col-span-3">
+      <div className="container mx-auto py-10 gap-4 md:grid grid-cols-12  text-gray-500">
+        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 md:col-span-3">
           <div className="flex gap-3 items-center">
             <CgProfile className="size-32" />
             <h1 className="text-2xl font-semibold">{user.firstName}</h1>

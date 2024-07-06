@@ -5,8 +5,9 @@ import { FaCaretDown } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
 import useRunCode from "../hooks/useRunCode";
 import OutputCard from "./OutputCard";
+import { useParams } from "react-router-dom";
 
-const EditorCode = ({examples}) => {
+const EditorCode = ({ examples }) => {
   const [run, data, error, loading] = useRunCode();
   const [language, setLanguage] = useState("cpp");
   const [height, setHeight] = useState("0");
@@ -15,12 +16,12 @@ const EditorCode = ({examples}) => {
   const selectorRef = useRef(null);
   const editorRef = useRef(null);
   const splitRef = useRef(null);
+  const { problemId } = useParams();
 
   const handleRun = async () => {
-    const res = await run({ variables: { input: { code, language } } });
     const size = splitRef?.current?.split?.getSizes();
+    const res = run({ variables: { input: { language, code, problemId } } });
     if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
-    console.log(data);
   };
 
   const handleConsoleExpand = () => {
@@ -41,7 +42,7 @@ const EditorCode = ({examples}) => {
     editorRef.current = editor;
   };
   const handleContent = (e, editor) => {
-    if (e.length <= code.length + 5 || code.indexOf(e) != -1) setCode(e);
+    if (e.length <= code.length + 15 || code.indexOf(e) != -1) setCode(e);
     else {
       editorRef.current.setValue(code);
       warningRef.current.classList.remove("-top-full");
@@ -53,7 +54,7 @@ const EditorCode = ({examples}) => {
     }
   };
   return (
-    <div className="h-full overflow-hidden  flex flex-col p-2 m-2 border rounded-lg border-gray-300 text-gray-900">
+    <div className="h-full overflow-hidden  flex flex-col p-2 m-2 ml-0 border rounded-lg border-gray-300 text-gray-900">
       <div
         ref={warningRef}
         className="absolute z-[1000] p-4 border-gray-300 -translate-x-1/2 -top-full transition-all duration-500 border rounded-xl bg-white text-red-600 font-semibold left-1/2"
@@ -61,7 +62,7 @@ const EditorCode = ({examples}) => {
         Not Allowed To Paste Code
       </div>
       <div className="flex justify-between h-fit">
-        <div className="relative px-4 py-1 bg-neutral-200 min-w-32 rounded-lg">
+        <div className="relative px-4 py-1 bg-slate-200 min-w-32 rounded-lg">
           <div
             className="flex items-center gap-3 justify-between font-semibold cursor-pointer"
             onClick={handleSelecor}
@@ -121,7 +122,7 @@ const EditorCode = ({examples}) => {
         ref={splitRef}
         className="h-full overflow-y-hidden flex flex-col"
         direction="vertical"
-        gutterSize={5}
+        gutterSize={8}
         minSize={0}
         sizes={[100, 0]}
       >
@@ -152,7 +153,12 @@ const EditorCode = ({examples}) => {
             }}
           />
         </div>
-        <OutputCard data={data} error={error} loading={loading} examples={examples}/>
+        <OutputCard
+          data={data}
+          error={error}
+          loading={loading}
+          examples={examples}
+        />
       </Split>
       <div className="border-t h-fit">
         <div className="flex justify-between items-center p-1">

@@ -27,6 +27,7 @@ export const RunCode = gql`
       error
       stderr
       testCasesResult
+      testcaseOutput
     }
   }
 `;
@@ -100,6 +101,15 @@ export const GetProblem = gql`
         explanation
         problemId
       }
+    }
+  }
+`;
+
+export const isnameAvailable = gql`
+  query IsContestNameAvailable($contestName: String!) {
+    isContestNameAvailable(contestName: $contestName) {
+      ok
+      error
     }
   }
 `;

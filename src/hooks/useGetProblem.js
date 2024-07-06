@@ -2,15 +2,15 @@ import { useLazyQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { GetProblem } from "../../graphQL/Quary";
 
-const useGetProblem = (id) => {
+const useGetProblem = (problemId) => {
   const [getProblem, { data, error, loading }] = useLazyQuery(GetProblem);
   useEffect(() => {
     const start = async () => {
-      const res = await getProblem({ variables: { getProblemId: id } });
+      const res = await getProblem({ variables: { getProblemId: problemId } });
       console.log(res);
     };
-    if (id) start();
-  }, [id]);
+    if (problemId) start();
+  }, [problemId]);
   return [data, error, loading];
 };
 

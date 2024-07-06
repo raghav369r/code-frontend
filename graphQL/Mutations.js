@@ -37,3 +37,17 @@ export const editProfile = gql`
     }
   }
 `;
+export const AddContest = gql`
+  mutation AddContest($newContest: contestInput) {
+    addContest(newContest: $newContest) {
+      id
+      name
+      url
+      startTime
+      endTime
+      owner
+      mediators
+      organisation
+    }
+  }
+`;
