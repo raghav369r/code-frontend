@@ -12,6 +12,10 @@ import Test from "../components/test";
 import ProblemTable from "../components/ProblemTable";
 import SolveProblem from "../components/SolveProblem";
 import Create from "../components/contest/Create";
+import SubmissionsTable from "../components/SubmissionsTable";
+import ContestHome from "../components/contest/ContestHome";
+import ContestProblems from "../components/contest/ContestProblems";
+import ContestLayout from "../components/layouts/ContestLayout";
 
 const AllRoutes = () => {
   return (
@@ -23,23 +27,39 @@ const AllRoutes = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/problems" element={<ProblemTable />} />
         </Route>
+        <Route
+          path="contest/participate/:contestId"
+          element={<ContestLayout />}
+        >
+          <Route index element={<ContestProblems />} />
+          <Route path="solve/:problemId" element={<SolveProblem />} />
+        </Route>
         <Route element={<AuthLayout />}>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/edit" element={<Edit />} />
-          <Route path="/contest" element={<Create />} />
+          <Route path="/contest">
+            <Route index element={<ContestHome />} />
+            <Route path="create" element={<Create />} />
+            <Route
+              path="responseClosed"
+              element={
+                <div className="h-[90vh] w-full flex justify-center  items-center">
+                  <h1 className="text-red-600 text-2xl ">
+                    your submission canceled due to excessive switching of tabs
+                  </h1>
+                </div>
+              }
+            />
+          </Route>
+          <Route path="/profile">
+            <Route index element={<Profile />} />
+            <Route path="edit" element={<Edit />} />
+            <Route path="allsubmissions" element={<SubmissionsTable />} />
+          </Route>
         </Route>
         <Route element={<CodeLayout />}>
           <Route path="/playground" element={<EditorCode />} />
           <Route path="/problem/:problemId" element={<SolveProblem />} />
         </Route>
         <Route path="/test" element={<Test />} />
-        {/* <Route element={<RootLayout />}>
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/people" element={<AllPeople />} />
-        <Route path="/saved" element={<Saved />} />
-        <Route path="/create-post" element={<CreatePost />} />
-        <Route path="/user/:userId" element={<User />} />
-      </Route> */}
       </Routes>
     </div>
   );

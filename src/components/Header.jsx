@@ -6,7 +6,7 @@ import { IoMdExit } from "react-icons/io";
 
 const Header = () => {
   const { user, setUser } = useContext(UserContext);
-
+  
   return (
     <div className="z-[20] p-2 flex justify-between items-center h-fit bg-white shadow-lg text-sky-500 sticky top-0">
       <NavLink to={"/"} className="h-full">
@@ -36,7 +36,7 @@ const Header = () => {
   );
 };
 const Menu = ({ user, setUser }) => {
-    return (
+  return (
     <div className="hidden absolute z-10 p-4 min-w-56 h-fit border-gray-200 border group-hover:flex right-0 top-full bg-white cursor-pointer flex-col gap-1 font-normal text-neutral-600 rounded-lg shadow-md">
       <NavLink
         to={"/profile"}
@@ -45,13 +45,19 @@ const Menu = ({ user, setUser }) => {
         <HiMiniUserCircle className="size-20" />
         <h1>{user.userName || user.firstName}</h1>
       </NavLink>
-      <NavLink className="p-2 hover:bg-neutral-300 rounded-md">
+      <NavLink
+        to={"/profile/allsubmissions"}
+        className="p-2 hover:bg-neutral-300 rounded-md"
+      >
         All Submitions
       </NavLink>
-      <NavLink className="p-2 hover:bg-neutral-300 rounded-md">
+      <NavLink
+        to={"/contest/create"}
+        className="p-2 hover:bg-neutral-300 rounded-md"
+      >
         Organise Contest
       </NavLink>
-      <NavLink className="p-2 hover:bg-neutral-300 rounded-md">
+      <NavLink to={"/contest"} className="p-2 hover:bg-neutral-300 rounded-md">
         Join Contest
       </NavLink>
       <div

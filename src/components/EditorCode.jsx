@@ -6,9 +6,13 @@ import { BiSolidUpArrow } from "react-icons/bi";
 import useRunCode from "../hooks/useRunCode";
 import OutputCard from "./OutputCard";
 import { useParams } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { SubmitCode } from "../../graphQL/Mutations";
 
 const EditorCode = ({ examples }) => {
   const [run, data, error, loading] = useRunCode();
+  const [submitCode, { data: sdata, loading: sloading, error: serror }] =
+    useMutation(SubmitCode);
   const [language, setLanguage] = useState("cpp");
   const [height, setHeight] = useState("0");
   const [code, setCode] = useState("//write ur code here");
@@ -20,8 +24,16 @@ const EditorCode = ({ examples }) => {
 
   const handleRun = async () => {
     const size = splitRef?.current?.split?.getSizes();
-    const res = run({ variables: { input: { language, code, problemId } } });
     if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
+    const res = run({ variables: { input: { language, code, problemId } } });
+    console.log(res);
+  };
+  const handleSubmit = async () => {
+    const size = splitRef?.current?.split?.getSizes();
+    if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
+    const res = submitCode({
+      variables: { input: { language, code, problemId } },
+    });
   };
 
   const handleConsoleExpand = () => {
@@ -176,7 +188,12 @@ const EditorCode = ({ examples }) => {
             >
               {loading ? "Loading..." : "Run"}
             </button>
-            <button className="px-4 py-1 bg-gray-500 rounded-lg">Submit</button>
+            <button
+              onClick={handleSubmit}
+              className="px-4 py-1 bg-gray-500 rounded-lg"
+            >
+              {sloading ? "Loading..." : "Submit"}
+            </button>
           </div>
         </div>
       </div>

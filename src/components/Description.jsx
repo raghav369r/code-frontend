@@ -1,22 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Description = ({ data, loading }) => {
+  
   const { problem } = data || {};
-
+  const [menu, setMenu] = useState(0);
   return (
     <div className="p-3 m-2 pr-0 border rounded-xl overflow-x-hidden h-full mr-0 flex flex-col">
       {loading && <h1 className="text-center my-auto">Loading...</h1>}
-      <h1 className="py-2 text-xl font-semibold h-fit">{problem?.title}</h1>
-      <hr />
-      <div className="h-full overflow-y-scroll">
-        <p className="py-4">{problem?.description}</p>
-        {problem?.examples?.map((ex, ind) => (
-          <>
-            <h1 className="py-2 font-semibold">Example {ind + 1}</h1>
-            <Example example={ex} key={ind} />
-          </>
-        ))}
-      </div>
+      <ul className="cursor-pointer items-center flex gap-3 font-semibold text-lg border-b">
+        <li onClick={()=>setMenu(0)} className={menu==0?"p-2 border-black border-b":""}>Problems</li>
+        <li onClick={()=>setMenu(1)} className={menu==1?"p-2 border-black border-b":""}>Submitions</li>
+      </ul>
+      {menu == 0 && (
+        <div className="h-full overflow-y-scroll">
+          <h1 className="py-2 text-xl font-semibold h-fit">{problem?.title}</h1>
+          <p className="py-4">{problem?.description}</p>
+          {problem?.examples?.map((ex, ind) => (
+            <>
+              <h1 className="py-2 font-semibold">Example {ind + 1}</h1>
+              <Example example={ex} key={ind} />
+            </>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

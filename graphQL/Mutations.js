@@ -51,3 +51,22 @@ export const AddContest = gql`
     }
   }
 `;
+
+export const SubmitCode = gql`
+  mutation SubmitCode($input: submitInput) {
+    submitCode(input: $input) {
+      id
+      userId
+      problemId
+      isAccepted
+      isInContest
+      errorDetails
+      submittedAt
+      code
+      language
+      inputCase
+      output
+      expectedOutput
+    }
+  }
+`;

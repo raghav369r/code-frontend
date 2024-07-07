@@ -113,3 +113,75 @@ export const isnameAvailable = gql`
     }
   }
 `;
+export const GetAllSubmissions = gql`
+  query GetAllSubmissions($userId: ID!) {
+    submissions: getAllSubmissions(userId: $userId) {
+      id
+      userId
+      problemId
+      isAccepted
+      isInContest
+      errorDetails
+      submittedAt
+      code
+      language
+      inputCase
+      output
+      expectedOutput
+      testCasesResult
+      problem {
+        title
+      }
+    }
+  }
+`;
+export const GetUpcomingContests = gql`
+  query GetUpcomingContests {
+    upComing: getUpcomingContests {
+      id
+      name
+      url
+      startTime
+      endTime
+      owner
+      mediators
+      organisation
+    }
+  }
+`;
+
+export const GetContestProblems = gql`
+  query GetContestProblems($contestId: ID!) {
+    contest: getContestProblems(contestId: $contestId) {
+      id
+      name
+      url
+      startTime
+      endTime
+      owner
+      mediators
+      organisation
+      contestQuestions {
+        id
+        contestId
+        problem {
+          id
+          title
+          description
+          difficulty
+          startCode
+          solutionCode
+          constraints
+          examples {
+            id
+            input
+            output
+            explanation
+            problemId
+          }
+        }
+        problemId
+      }
+    }
+  }
+`;

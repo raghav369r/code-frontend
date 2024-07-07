@@ -9,10 +9,16 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { PiListChecksBold } from "react-icons/pi";
 import { MdCloudDone } from "react-icons/md";
 import { FaLink } from "react-icons/fa6";
+import { useQuery } from "@apollo/client";
+import { GetAllSubmissions } from "../../graphQL/Quary";
 
 const Profile = () => {
   const { user } = useContext(UserContext);
   const [rc, setRc] = useState(true);
+  const { data, error, loading } = useQuery(GetAllSubmissions, {
+    variables: { userId: user.id },
+  });
+  const { submissions } = data || {};
   const navigate = useNavigate();
   return (
     <div className="bg-[#f7f8fa] w-full">
@@ -65,6 +71,7 @@ const Profile = () => {
             <div className="flex justify-between">
               <ul className="flex gap-4 cursor-pointer">
                 <li
+                  onClick={() => setRc(true)}
                   className={
                     " flex items-center gap-2 text-black py-2 px-4 rounded-md hover:bg-slate-100" +
                     (rc ? " bg-slate-200" : "")
@@ -76,6 +83,7 @@ const Profile = () => {
                   Recent Acc
                 </li>
                 <li
+                  onClick={() => setRc(false)}
                   className={
                     "flex items-center gap-2 text-black py-2 px-4 rounded-md hover:bg-slate-100" +
                     (rc ? "" : " bg-slate-200")
@@ -87,11 +95,37 @@ const Profile = () => {
                   Recent submitted
                 </li>
               </ul>
-              <NavLink className="flex gap-2 items-center">
+              <NavLink
+                to={"allsubmissions"}
+                className="flex gap-2 items-center"
+              >
                 <h1 className="text-sm">View all submissions</h1>
                 <FaAngleRight />
               </NavLink>
             </div>
+            <table className="w-full p-2">
+              <tr className="text-gray-600 font-semibold ">
+                <td className="p-3 line-clamp-1 border-b">Title</td>
+                <td className="">Done in contest</td>
+                <td>Submitted At</td>
+              </tr>
+              {submissions?.map((ele, ind) =>
+                ele.isAccepted || !rc ? (
+                  <tr
+                    key={ind}
+                    className="text-black even:bg-neutral-100 border-b"
+                  >
+                    <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
+                      <NavLink to={"/problem/" + ele.problemId}>
+                        {ele?.problem.title}
+                      </NavLink>
+                    </td>
+                    <td className="">{ele.isInContest ? "true" : "false"}</td>
+                    <td>{new Date(ele.submittedAt).toDateString()}</td>
+                  </tr>
+                ) : null
+              )}
+            </table>
           </div>
         </div>
       </div>

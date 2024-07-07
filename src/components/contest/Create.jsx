@@ -16,8 +16,11 @@ const Create = () => {
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     const ndata = { ...data };
     ndata[name] = value;
+    if (name == "startTime" || name == "endTime") console.log(new Date(value).toISOString());
+
     setData(ndata);
   };
   const [inputs, setInputs] = useState([
@@ -42,7 +45,7 @@ const Create = () => {
   return (
     <div className="">
       <Contest handleChange={handleChange} data={data} />
-      {/* <Question inputs={inputs} setInputs={setInputs} />
+      <Question inputs={inputs} setInputs={setInputs} />
       <div className="flex justify-center ">
         <button
           onClick={handleCreate}
@@ -50,7 +53,7 @@ const Create = () => {
         >
           {loading ? "loading..." : "Create Contest"}
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };
