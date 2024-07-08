@@ -12,9 +12,9 @@ const SubmissionsTable = () => {
 
   const { submissions } = data || {};
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto min-h-[90vh]">
       <table className="w-full p-2">
-        <tr className="text-gray-600 font-semibold ">
+        <tr className="text-gray-600 font-semibold border-b">
           <td className="p-3 line-clamp-1 border-b">Title</td>
           <td className="">Done in contest</td>
           <td className="">Submitted At</td>

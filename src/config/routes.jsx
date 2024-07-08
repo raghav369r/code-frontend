@@ -17,6 +17,7 @@ import ContestHome from "../components/contest/ContestHome";
 import ContestProblems from "../components/contest/ContestProblems";
 import ContestLayout from "../components/layouts/ContestLayout";
 import ContestStart from "../components/contest/ContestStart";
+import OrganisedContests from "../components/organised/OrganisedContests";
 
 const AllRoutes = () => {
   return (
@@ -36,6 +37,9 @@ const AllRoutes = () => {
           <Route path="solve/:problemId" element={<SolveProblem />} />
         </Route>
         <Route element={<AuthLayout />}>
+          <Route path="/organised">
+            <Route index element={<OrganisedContests />} />
+          </Route>
           <Route path="/contest">
             <Route index element={<ContestHome />} />
             <Route path=":contestURL" element={<ContestStart />} />
@@ -45,7 +49,8 @@ const AllRoutes = () => {
               element={
                 <div className="h-[90vh] w-full flex justify-center  items-center">
                   <h1 className="text-red-600 text-2xl ">
-                    your submission canceled due to excessive switching of tabs
+                    you cant open as you are alredy opened or made excessive
+                    tabswitches
                   </h1>
                 </div>
               }
@@ -60,6 +65,10 @@ const AllRoutes = () => {
         <Route element={<CodeLayout />}>
           <Route path="/playground" element={<EditorCode />} />
           <Route path="/problem/:problemId" element={<SolveProblem />} />
+          <Route path="/contest/view/:contestURL">
+            <Route index element={<ContestProblems />} />
+            <Route path="solve/:problemId" element={<SolveProblem />} />
+          </Route>
         </Route>
         <Route path="/test" element={<Test />} />
       </Routes>

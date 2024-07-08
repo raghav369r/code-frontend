@@ -8,11 +8,13 @@ function ContestProblems() {
   const { contestURL } = useParams();
   const { data, error, loading } = useQuery(GetContestProblems, {
     variables: { contestUrl: contestURL },
+    fetchPolicy: "no-cache",
   });
   const date = new Date();
   const navigate = useNavigate();
   const { contestQuestions, name, endTime, startTime, title } =
     data?.contest || {};
+  if (error) navigate("/contest/responseClosed");
   if (loading) return <Shimmer />;
   return (
     <div className="container mx-auto text-black">

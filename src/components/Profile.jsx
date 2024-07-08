@@ -10,7 +10,7 @@ import { PiListChecksBold } from "react-icons/pi";
 import { MdCloudDone } from "react-icons/md";
 import { FaLink } from "react-icons/fa6";
 import { useQuery } from "@apollo/client";
-import { GetAllSubmissions } from "../../graphQL/Quary";
+import { GetAllSubmissions, PastParticipated } from "../../graphQL/Quary";
 
 const Profile = () => {
   const { user } = useContext(UserContext);
@@ -18,6 +18,7 @@ const Profile = () => {
   const { data, error, loading } = useQuery(GetAllSubmissions, {
     variables: { userId: user.id },
   });
+  const { data: condata } = useQuery(PastParticipated);
   const { submissions } = data || {};
   const navigate = useNavigate();
   return (
@@ -65,7 +66,28 @@ const Profile = () => {
         </div>
         <div className="flex flex-col gap-4 col-span-9">
           <div className="p-4 bg-white rounded-2xl shadow-lg h-fit">
-            <h1 className="text-balck">Participated contests</h1>
+            <h1 className="text-balck text-lg font-semibold text-center">Participated contests</h1>
+            <table className="w-full p-2">
+              <tr className="text-gray-600 font-semibold border-b">
+                <td className="p-3 line-clamp-1">name</td>
+                <td className="">oraganisation</td>
+                <td>Time</td>
+              </tr>
+              {condata?.contests?.map((ele, ind) => (
+                <tr
+                  key={ind}
+                  className="text-black even:bg-neutral-100 border-b"
+                >
+                  <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
+                    <NavLink to={"/contest/view/" + ele.url}>
+                      {ele?.name}
+                    </NavLink>
+                  </td>
+                  <td className="">{ele?.organisation}</td>
+                  <td>{new Date(ele?.startTime).toDateString()}</td>
+                </tr>
+              ))}
+            </table>
           </div>
           <div className="p-4 bg-white rounded-2xl shadow-lg h-fit">
             <div className="flex justify-between">
@@ -104,8 +126,8 @@ const Profile = () => {
               </NavLink>
             </div>
             <table className="w-full p-2">
-              <tr className="text-gray-600 font-semibold ">
-                <td className="p-3 line-clamp-1 border-b">Title</td>
+              <tr className="text-gray-600 font-semibold border-b">
+                <td className="p-3 line-clamp-1 ">Title</td>
                 <td className="">Done in contest</td>
                 <td>Submitted At</td>
               </tr>

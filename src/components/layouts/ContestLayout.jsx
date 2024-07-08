@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../context/User";
 import useFullScreen from "../../hooks/useFullScreen";
@@ -6,15 +6,22 @@ import usePreventTabSwitch from "../../hooks/usePreventTabSwitch";
 import { BsArrowsFullscreen } from "react-icons/bs";
 import { AiOutlineFullscreenExit } from "react-icons/ai";
 import { IoArrowBackSharp } from "react-icons/io5";
+import { useQuery } from "@apollo/client";
+import { GetContestDetails } from "../../../graphQL/Quary";
 
 const ContestLayout = () => {
+  const { contestURL } = useParams();
   const { user } = useContext(UserContext);
   if (!user) return null;
+  const { data } = useQuery(GetContestDetails, {
+    variables: { contestUrl: contestURL },
+  });
+  const [warning, setWarning] = useState(2);
+
   const contestRef = useRef(null);
   const { toggleFullscreen, isFullscreen } = useFullScreen(contestRef);
-  const __ = usePreventTabSwitch();
+  const __ = usePreventTabSwitch(data?.contest?.id, warning, setWarning);
   const navigate = useNavigate();
-  const { contestURL } = useParams();
   useEffect(() => {
     if (!user) navigate("/login");
   }, [user]);

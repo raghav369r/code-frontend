@@ -84,3 +84,8 @@ export const RegisterToContest = gql`
     }
   }
 `;
+export const BlockUser = gql`
+  mutation BlockUser($contestId: ID!) {
+    blockUser(contestId: $contestId)
+  }
+`;

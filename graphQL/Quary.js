@@ -32,21 +32,21 @@ export const RunCode = gql`
   }
 `;
 
-export const GetAllSubmitions = gql`
-  query GetAllSubmissions($userId: ID!) {
-    getAllSubmissions(userId: $userId) {
-      id
-      userId
-      problemId
-      isAccepted
-      isInContest
-      errorDetails
-      submittedAt
-      code
-      language
-    }
-  }
-`;
+// export const GetAllSubmitions = gql`
+//   query GetAllSubmissions($userId: ID!) {
+//     getAllSubmissions(userId: $userId) {
+//       id
+//       userId
+//       problemId
+//       isAccepted
+//       isInContest
+//       errorDetails
+//       submittedAt
+//       code
+//       language
+//     }
+//   }
+// `;
 
 export const GetUser = gql`
   query GetUser {
@@ -215,5 +215,67 @@ export const GetContestProblems = gql`
 export const IsRigistered = gql`
   query Query($contestId: ID!) {
     isRigistered(contestId: $contestId)
+  }
+`;
+
+export const PastParticipated = gql`
+  query Query {
+    contests: getAllParticipatedContests {
+      id
+      name
+      url
+      startTime
+      endTime
+      owner
+      mediators
+      organisation
+    }
+  }
+`;
+export const GetContestDetails = gql`
+  query GetContestDetails($contestUrl: String!) {
+    contest: getContestDetails(contestUrl: $contestUrl) {
+      id
+      name
+      url
+      startTime
+      endTime
+      owner
+      mediators
+      organisation
+    }
+  }
+`;
+export const GetProblemSubmissions = gql`
+  query GetProblemSubmissions($problemId: ID!) {
+    submissions: getProblemSubmissions(problemId: $problemId) {
+      id
+      userId
+      problemId
+      isAccepted
+      isInContest
+      errorDetails
+      submittedAt
+      code
+      language
+      inputCase
+      output
+      expectedOutput
+      testCasesResult
+    }
+  }
+`;
+export const GetOrganised = gql`
+  query GetAllOrganisedContests {
+    contests: getAllOrganisedContests {
+      id
+      name
+      url
+      startTime
+      endTime
+      owner
+      mediators
+      organisation
+    }
   }
 `;

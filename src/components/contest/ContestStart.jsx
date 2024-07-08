@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/User";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { GetContestProblems, IsRigistered } from "../../../graphQL/Quary";
-import useGetContestProblems from "../../hooks/useGetContestProblems";
+import { GetContestDetails, IsRigistered } from "../../../graphQL/Quary";
 import { RegisterToContest } from "../../../graphQL/Mutations";
 
 const ContestStart = () => {
   const { user } = useContext(UserContext);
   const { contestURL } = useParams();
-  const { contest } = useGetContestProblems(contestURL);
+  const { data: cdata } = useQuery(GetContestDetails, {
+    variables: { contestUrl: contestURL },
+  });
+  const { contest } = cdata || {};
   const navigate = useNavigate();
   const [bname, setBname] = useState("");
   const [registerToContest, { data, error, loading }] =
@@ -46,6 +48,8 @@ const ContestStart = () => {
     } else if (bname == "Join") {
       console.log("Joining");
       navigate(`/contest/participate/${contest?.url}`);
+    } else if (bname == "Open") {
+      navigate(`/contest/view/${contest?.url}`);
     } else {
       console.log("not yet started");
       // navigate("");

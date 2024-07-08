@@ -6,7 +6,7 @@ import { IoMdExit } from "react-icons/io";
 
 const Header = () => {
   const { user, setUser } = useContext(UserContext);
-  
+
   return (
     <div className="z-[20] p-2 flex justify-between items-center h-fit bg-white shadow-lg text-sky-500 sticky top-0">
       <NavLink to={"/"} className="h-full">
@@ -59,6 +59,12 @@ const Menu = ({ user, setUser }) => {
       </NavLink>
       <NavLink to={"/contest"} className="p-2 hover:bg-neutral-300 rounded-md">
         Join Contest
+      </NavLink>
+      <NavLink
+        to={"/organised"}
+        className="p-2 hover:bg-neutral-300 rounded-md"
+      >
+        manage Contest
       </NavLink>
       <div
         className="flex gap-4 items-center p-2 hover:bg-neutral-300 rounded-md"

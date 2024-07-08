@@ -18,7 +18,8 @@ const Create = () => {
     const { name, value } = e.target;
     const ndata = { ...data };
     ndata[name] = value;
-    if (name == "startTime" || name == "endTime") console.log(new Date(value).toISOString());
+    if (name == "startTime" || name == "endTime")
+      console.log(new Date(value).toISOString());
 
     setData(ndata);
   };
@@ -43,6 +44,16 @@ const Create = () => {
     <div className="">
       <Contest handleChange={handleChange} data={data} />
       <Question inputs={inputs} setInputs={setInputs} />
+      <div className="text-center font-semibold">
+        {error && (
+          <h1 className="text-red-700 ">
+            Error creating contest change url and fill all fields
+          </h1>
+        )}
+        {data.addContest && (
+          <h1 className="text-green-600">contest Created Successfully</h1>
+        )}
+      </div>
       <div className="flex justify-center ">
         <button
           onClick={handleCreate}
