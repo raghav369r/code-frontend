@@ -2,18 +2,17 @@ import { useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { GetContestProblems } from "../../../graphQL/Quary";
 import { useQuery } from "@apollo/client";
-import  Shimmer  from "./Shimmer";
+import Shimmer from "./Shimmer";
 
 function ContestProblems() {
-  const { contestId } = useParams();
+  const { contestURL } = useParams();
   const { data, error, loading } = useQuery(GetContestProblems, {
-    variables: { contestId },
+    variables: { contestUrl: contestURL },
   });
   const date = new Date();
   const navigate = useNavigate();
   const { contestQuestions, name, endTime, startTime, title } =
     data?.contest || {};
-  // console.log(contestQuestions);
   if (loading) return <Shimmer />;
   return (
     <div className="container mx-auto text-black">

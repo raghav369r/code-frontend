@@ -26,7 +26,6 @@ const EditorCode = ({ examples }) => {
     const size = splitRef?.current?.split?.getSizes();
     if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
     const res = run({ variables: { input: { language, code, problemId } } });
-    console.log(res);
   };
   const handleSubmit = async () => {
     const size = splitRef?.current?.split?.getSizes();

@@ -7,7 +7,6 @@ const useGetProblem = (problemId) => {
   useEffect(() => {
     const start = async () => {
       const res = await getProblem({ variables: { getProblemId: problemId } });
-      console.log(res);
     };
     if (problemId) start();
   }, [problemId]);

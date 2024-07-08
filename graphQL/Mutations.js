@@ -70,3 +70,17 @@ export const SubmitCode = gql`
     }
   }
 `;
+export const RegisterToContest = gql`
+  mutation RegisterToContest($contestId: ID!) {
+    contest: registerToContest(contestId: $contestId) {
+      id
+      name
+      url
+      startTime
+      endTime
+      owner
+      mediators
+      organisation
+    }
+  }
+`;

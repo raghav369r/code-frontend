@@ -1,16 +1,16 @@
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { GetUpcomingContests } from "../../graphQL/Quary";
+import { GetContests } from "../../graphQL/Quary";
 
 const useGetContests = () => {
   const [allContests, setAllContests] = useState({
     upComing: [],
-    rigistered: [],
+    registered: [],
     pastParticipated: [],
   });
-  const { data, error, loading } = useQuery(GetUpcomingContests, {
-    onCompleted: ({ upComing }) => {
-      setAllContests({ ...allContests, upComing });
+  const { data, error, loading } = useQuery(GetContests, {
+    onCompleted: ({ contests }) => {
+      setAllContests(contests);
     },
   });
   return allContests;

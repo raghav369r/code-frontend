@@ -16,6 +16,7 @@ import SubmissionsTable from "../components/SubmissionsTable";
 import ContestHome from "../components/contest/ContestHome";
 import ContestProblems from "../components/contest/ContestProblems";
 import ContestLayout from "../components/layouts/ContestLayout";
+import ContestStart from "../components/contest/ContestStart";
 
 const AllRoutes = () => {
   return (
@@ -28,7 +29,7 @@ const AllRoutes = () => {
           <Route path="/problems" element={<ProblemTable />} />
         </Route>
         <Route
-          path="contest/participate/:contestId"
+          path="contest/participate/:contestURL"
           element={<ContestLayout />}
         >
           <Route index element={<ContestProblems />} />
@@ -37,6 +38,7 @@ const AllRoutes = () => {
         <Route element={<AuthLayout />}>
           <Route path="/contest">
             <Route index element={<ContestHome />} />
+            <Route path=":contestURL" element={<ContestStart />} />
             <Route path="create" element={<Create />} />
             <Route
               path="responseClosed"

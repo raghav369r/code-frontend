@@ -4,15 +4,33 @@ import { NavLink } from "react-router-dom";
 
 const ContestHome = () => {
   const contests = useGetContests();
-  console.log(contests);
   return (
     <div className="container mx-auto">
+      <h1 className="text-3xl font-bold text-center p-4 text-black">
+        Registered Contests
+      </h1>
+      {!contests?.registered?.length && (
+        <h1 className=" text-center text-gray-700">No participated Contests </h1>
+      )}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 p-4">
+        {contests?.registered?.map((ele, ind) => (
+          <ContestCard contest={ele} key={ind} />
+        ))}
+      </div>
+      <h1 className="text-3xl font-bold text-center p-4 text-black">
+        Past Contests
+      </h1>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 p-4">
+        {contests?.pastParticipated?.map((ele, ind) => (
+          <ContestCard contest={ele} key={ind} />
+        ))}
+      </div>
       <h1 className="text-3xl font-bold text-center p-4 text-black">
         Upcoming Contests
       </h1>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 p-4">
-        {contests.upComing.map((ele) => (
-          <ContestCard contest={ele} />
+        {contests?.upComing?.map((ele, ind) => (
+          <ContestCard contest={ele} key={ind} />
         ))}
       </div>
     </div>
@@ -22,7 +40,7 @@ const ContestHome = () => {
 const ContestCard = ({ contest }) => {
   return (
     <NavLink
-      to={`participate/${contest.id}`}
+      to={`${contest.url}`}
       className="bg-gradient-to-br hover:scale-95 from-blue-200 to-blue-300 rounded-lg shadow-lg p-5 block"
     >
       <h2 className="text-xl font-bold mb-4 text-gray-800">{contest.name}</h2>

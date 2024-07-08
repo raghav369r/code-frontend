@@ -135,24 +135,46 @@ export const GetAllSubmissions = gql`
     }
   }
 `;
-export const GetUpcomingContests = gql`
-  query GetUpcomingContests {
-    upComing: getUpcomingContests {
-      id
-      name
-      url
-      startTime
-      endTime
-      owner
-      mediators
-      organisation
+export const GetContests = gql`
+  query GetContests {
+    contests: getContests {
+      upComing {
+        id
+        name
+        url
+        startTime
+        endTime
+        owner
+        mediators
+        organisation
+      }
+      pastParticipated {
+        id
+        name
+        url
+        startTime
+        endTime
+        owner
+        mediators
+        organisation
+      }
+      registered {
+        id
+        name
+        url
+        startTime
+        endTime
+        owner
+        mediators
+        organisation
+      }
     }
   }
 `;
 
 export const GetContestProblems = gql`
-  query GetContestProblems($contestId: ID!) {
-    contest: getContestProblems(contestId: $contestId) {
+  query GetContestProblems($contestUrl: String!) {
+    contest: getContestProblems(contestURL: $contestUrl) {
       id
       name
       url
@@ -170,8 +192,12 @@ export const GetContestProblems = gql`
           description
           difficulty
           startCode
+          topics
           solutionCode
+          createdAt
+          createdBy
           constraints
+          expectedComplexity
           examples {
             id
             input
@@ -183,5 +209,11 @@ export const GetContestProblems = gql`
         problemId
       }
     }
+  }
+`;
+
+export const IsRigistered = gql`
+  query Query($contestId: ID!) {
+    isRigistered(contestId: $contestId)
   }
 `;

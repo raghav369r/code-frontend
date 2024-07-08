@@ -16,7 +16,6 @@ const Create = () => {
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     const ndata = { ...data };
     ndata[name] = value;
     if (name == "startTime" || name == "endTime") console.log(new Date(value).toISOString());
@@ -38,9 +37,7 @@ const Create = () => {
   ]);
   const handleCreate = async () => {
     const newContest = { contestQuestions: inputs, ...data };
-    console.log({ contestQuestions: inputs, ...data });
     const res = await addContest({ variables: { newContest } });
-    console.log(res);
   };
   return (
     <div className="">

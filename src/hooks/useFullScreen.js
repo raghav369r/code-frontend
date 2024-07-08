@@ -1,52 +1,34 @@
-import { useEffect } from "react";
+import React, { useState } from "react";
 
-const useFullScreen = (appRef) => {
-  useEffect(() => {
-    if (!appRef.current) return;
+const FullscreenButton = () => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-    const enterFullScreen = () => {
-      if (appRef.current.requestFullscreen) {
-        appRef.current.requestFullscreen();
-      } else if (appRef.current.mozRequestFullScreen) {
-        appRef.current.mozRequestFullScreen();
-      } else if (appRef.current.webkitRequestFullscreen) {
-        appRef.current.webkitRequestFullscreen();
-      } else if (appRef.current.msRequestFullscreen) {
-        appRef.current.msRequestFullscreen();
-      }
-    };
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        alert(
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+        );
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
 
-    const exitFullScreen = () => {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
-    };
+  // Listen for fullscreen change events to update the state
+  const handleFullscreenChange = () => {
+    setIsFullscreen(!!document.fullscreenElement);
+  };
 
-    enterFullScreen();
-
-    // Optional: Handle fullscreen change event
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        console.log("closing fullscreen");
-        // enterFullScreen();
-        exitFullScreen();
-      }
-    };
-
+  React.useEffect(() => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-    // Cleanup the event listener on unmount
+    toggleFullscreen();
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
-  }, [appRef]);
-  return {};
+  }, []);
+
+  return { toggleFullscreen,isFullscreen };
 };
 
-export default useFullScreen;
+export default FullscreenButton;
