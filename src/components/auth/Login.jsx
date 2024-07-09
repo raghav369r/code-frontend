@@ -32,11 +32,39 @@ const Login = () => {
     setNewUser(newUser);
     setError("");
   };
+  const validate = (email, password) => {
+    // Validate email using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(email);
+
+    // Validate password length
+    const isValidPassword = password.length >= 4;
+
+    // Check for validation errors and return appropriate messages
+    if (!isValidEmail) {
+      return "Invalid email format.";
+    } else if (!isValidPassword) {
+      return "Password must be at least 4 characters long.";
+    } else {
+      return null;
+    }
+  };
+
   const handleLogin = async () => {
+    const validerror = validate(data.email, data.password);
+    if (validerror) {
+      setError(validerror);
+      return;
+    }
     var res;
     setError("");
-    if (newUser) res = await register({ variables: { newUser: data } });
-    else
+    if (newUser) {
+      if (data.userName.length <= 4) {
+        setError("username must be of length altelast 4");
+        return;
+      }
+      res = await register({ variables: { newUser: data } });
+    } else
       res = await login({
         variables: { email: data.email, password: data.password },
       });

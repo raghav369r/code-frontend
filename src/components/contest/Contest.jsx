@@ -2,14 +2,45 @@ import { useLazyQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { isnameAvailable } from "../../../graphQL/Quary";
 
-function Contest({ data, handleChange }) {
+function Contest({ data, handleChange, valerror, setValerror }) {
   const [isvailable, { data: nres, loading }] = useLazyQuery(isnameAvailable);
-  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  function validateData(data) {
+    const currentTime = new Date();
+    const startTime = new Date(data.startTime);
+    const endTime = new Date(data.endTime);
+    if (!data.startTime || !data.endTime) return "Enter Valid Date And Time!";
+    // Check if startTime is greater than current time
+    if (startTime <= currentTime) {
+      return "Start time must be in the future.";
+    }
+
+    // Check if endTime is greater than startTime
+    if (endTime <= startTime) {
+      return "End time must be greater than start time.";
+    }
+
+    // Validate URL using a regular expression
+    const urlRegex = /^[a-zA-Z0-9-]+$/;
+    if (!urlRegex.test(data.url)) {
+      return "URL can only contain numbers, alphabets, and hyphens.";
+    }
+
+    // If all validations pass, return null
+    return null;
+  }
 
   const handleNext = async () => {
+    const verror = validateData(data);
+    if (verror) {
+      setValerror(verror);
+      return;
+    }
     const res = await isvailable({ variables: { contestName: data.url } });
-    const { ok, error: er } = res?.data?.isContestNameAvailable || {};
-    setError(er);
+    const { ok: okk, error: er } = res?.data?.isContestNameAvailable || {};
+    setValerror(er);
+    setSuccess(okk);
     // if (ok) navigate("questions");
   };
   return (
@@ -62,7 +93,7 @@ function Contest({ data, handleChange }) {
                 onChange={handleChange}
               />
             </label>
-            
+
             <label className="input input-bordered flex items-center gap-2 w-full bg-gray-300">
               <span className="font-semibold">Organisation name</span>
               <input
@@ -74,12 +105,16 @@ function Contest({ data, handleChange }) {
                 value={data.organisation}
               />
             </label>
-            <span className="font-semibold p-2 text-red-700">{error}</span>
+            <span className="font-semibold p-2 text-red-700">{valerror}</span>
+            <span className="font-semibold p-2 text-green-600">
+              {!valerror && success ? "continue adding questions below" : ""}
+            </span>
+
             <button
               className="btn text-black bg-green-500 w-full hover:bg-green-400 border-none"
               onClick={handleNext}
             >
-              next
+              check url availability
             </button>
           </div>
           <div className="w-full lg:w-7/12 rounded-3xl overflow-hidden">

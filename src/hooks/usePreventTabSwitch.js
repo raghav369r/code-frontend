@@ -13,10 +13,11 @@ const usePreventTabSwitch = (contestId, warning, setWarning) => {
       console.log("after");
       const res = blockUser({ variables: { contestId } });
       navigate("/contest/responseClosed");
+    } else {
+      alert(
+        "You cannot switch tabs during the contest. If you try to switch one more time, your submission will be closed."
+      );
     }
-    alert(
-      "You cannot switch tabs during the contest. If you try to switch one more time, your submission will be closed."
-    );
     setWarning(warning - 1);
     setTimeout(() => {
       window.focus();
@@ -28,10 +29,11 @@ const usePreventTabSwitch = (contestId, warning, setWarning) => {
       if (!warning) {
         const res = blockUser({ variables: { contestId } });
         navigate("/contest/responseClosed");
+      } else {
+        alert(
+          "You cannot switch tabs during the contest.if we find you switching tab once again we will stop your response!"
+        );
       }
-      alert(
-        "You cannot switch tabs during the contest.if we find you switching tab once again we will stop your response!"
-      );
       setWarning(false);
 
       setTimeout(() => {

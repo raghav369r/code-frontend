@@ -192,12 +192,7 @@ export const GetContestProblems = gql`
           description
           difficulty
           startCode
-          topics
-          solutionCode
-          createdAt
-          createdBy
           constraints
-          expectedComplexity
           examples {
             id
             input

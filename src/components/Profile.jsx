@@ -7,7 +7,7 @@ import { BsGithub } from "react-icons/bs";
 import { FaAngleRight } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
 import { PiListChecksBold } from "react-icons/pi";
-import { MdCloudDone } from "react-icons/md";
+import { MdCloudDone, MdEmail } from "react-icons/md";
 import { FaLink } from "react-icons/fa6";
 import { useQuery } from "@apollo/client";
 import { GetAllSubmissions, PastParticipated } from "../../graphQL/Quary";
@@ -41,6 +41,10 @@ const Profile = () => {
             <h1>India</h1>
           </div>
           <div className="flex gap-4 items-center">
+            <MdEmail className="size-6" />
+            <h1>{user.email || "not Set"}</h1>
+          </div>
+          <div className="flex gap-4 items-center">
             <LiaLinkedin className="size-6" />
             <h1>{user.linkedinLink || "not Set"}</h1>
           </div>
@@ -66,7 +70,9 @@ const Profile = () => {
         </div>
         <div className="flex flex-col gap-4 col-span-9">
           <div className="p-4 bg-white rounded-2xl shadow-lg h-fit">
-            <h1 className="text-balck text-lg font-semibold text-center">Participated contests</h1>
+            <h1 className="text-balck text-lg font-semibold text-center">
+              Participated contests
+            </h1>
             <table className="w-full p-2">
               <tr className="text-gray-600 font-semibold border-b">
                 <td className="p-3 line-clamp-1">name</td>

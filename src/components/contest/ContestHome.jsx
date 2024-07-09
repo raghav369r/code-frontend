@@ -10,7 +10,9 @@ const ContestHome = () => {
         Registered Contests
       </h1>
       {!contests?.registered?.length && (
-        <h1 className=" text-center text-gray-700">No participated Contests </h1>
+        <h1 className=" text-center text-gray-700">
+          Not Registered to any contest{" "}
+        </h1>
       )}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 p-4">
         {contests?.registered?.map((ele, ind) => (

@@ -8,7 +8,7 @@ function ContestProblems() {
   const { contestURL } = useParams();
   const { data, error, loading } = useQuery(GetContestProblems, {
     variables: { contestUrl: contestURL },
-    fetchPolicy: "no-cache",
+    // fetchPolicy: "no-cache",
   });
   const date = new Date();
   const navigate = useNavigate();

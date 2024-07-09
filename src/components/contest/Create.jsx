@@ -14,13 +14,14 @@ const Create = () => {
     endTime: "",
     mediators: "",
   });
+  const [valerror, setValerror] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     const ndata = { ...data };
     ndata[name] = value;
-    if (name == "startTime" || name == "endTime")
-      console.log(new Date(value).toISOString());
-
+    if (name == "startTime" || name == "endTime") {
+      ndata[name] = new Date(value).toISOString();
+    }
     setData(ndata);
   };
   const [inputs, setInputs] = useState([
@@ -42,22 +43,29 @@ const Create = () => {
   };
   return (
     <div className="">
-      <Contest handleChange={handleChange} data={data} />
+      <Contest
+        handleChange={handleChange}
+        data={data}
+        valerror={valerror}
+        setValerror={setValerror}
+      />
       <Question inputs={inputs} setInputs={setInputs} />
       <div className="text-center font-semibold">
+        {valerror && <h1 className="text-red-700 ">{valerror}</h1>}
         {error && (
           <h1 className="text-red-700 ">
             Error creating contest change url and fill all fields
           </h1>
         )}
-        {data.addContest && (
+        {cdata?.addContest && (
           <h1 className="text-green-600">contest Created Successfully</h1>
         )}
       </div>
       <div className="flex justify-center ">
         <button
           onClick={handleCreate}
-          className="btn bg-green-300 mb-5 text-gray-600 px-4 font-semibold"
+          className="btn bg-green-300 m-5 text-black px-4 font-semibold"
+          disabled={valerror}
         >
           {loading ? "loading..." : "Create Contest"}
         </button>
