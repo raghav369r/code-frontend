@@ -4,19 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { BlockUser } from "../../graphQL/Mutations";
 
 const usePreventTabSwitch = (contestId, warning, setWarning) => {
-  console.log("contestId: ", contestId);
+  // console.log("contestId: ", contestId);
   const navigate = useNavigate();
   const [blockUser] = useMutation(BlockUser);
   const handleBlur = () => {
-    console.log("before");
+    // console.log("before");
     if (!warning) {
-      console.log("after");
+      // console.log("after");
       const res = blockUser({ variables: { contestId } });
       navigate("/contest/responseClosed");
     } else {
-      alert(
-        "You cannot switch tabs during the contest. If you try to switch one more time, your submission will be closed."
-      );
+      // alert(
+      //   "You cannot switch tabs during the contest. If you try to switch one more time, your submission will be closed."
+      // );
+      alert("blur");
     }
     setWarning(warning - 1);
     setTimeout(() => {

@@ -44,14 +44,14 @@ const ContestStart = () => {
         variables: { contestId: contest?.id },
       });
       if (res?.data?.contest?.id) setBname("will start soon");
-      console.log(res);
+      // console.log(res);
     } else if (bname == "Join") {
-      console.log("Joining");
+      // console.log("Joining");
       navigate(`/contest/participate/${contest?.url}`);
     } else if (bname == "Open") {
       navigate(`/contest/view/${contest?.url}`);
     } else {
-      console.log("not yet started");
+      // console.log("not yet started");
       // navigate("");
     }
   };

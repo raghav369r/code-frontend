@@ -1,17 +1,43 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { GetContestProblems } from "../../../graphQL/Quary";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import Shimmer from "./Shimmer";
+import ReCAPTCHA from "react-google-recaptcha";
+import { UserContext } from "../../context/User";
 
 function ContestProblems() {
+  const { varified, setVarified } = useContext(UserContext);
   const { contestURL } = useParams();
-  const { data, error, loading } = useQuery(GetContestProblems, {
-    variables: { contestUrl: contestURL },
-    // fetchPolicy: "no-cache",
-  });
-  const date = new Date();
   const navigate = useNavigate();
+  const [getproblem, { data, error, loading }] =
+    useLazyQuery(GetContestProblems);
+  useEffect(() => {
+    varified && getproblem({ variables: { contestUrl: contestURL } });
+  }, [varified]);
+  const onChange = (value) => {
+    // console.log("Captcha value:", value);
+    setVarified(!varified);
+  };
+  if (!varified) {
+    return (
+      <div
+        onClick={onChange}
+        className="h-screen w-full flex items-center justify-center"
+      >
+        <ReCAPTCHA
+          sitekey="6Le1NAwqAAAAAEzeuz1TLBivBZ2ifBZ2ubomCM3C"
+          onChange={onChange}
+        />
+      </div>
+    );
+  }
+
+  // const { data, error, loading } = useQuery(GetContestProblems, {
+  //   variables: { contestUrl: contestURL },
+  //   // fetchPolicy: "no-cache",
+  // });
+  const date = new Date();
   const { contestQuestions, name, endTime, startTime, title } =
     data?.contest || {};
   if (error) navigate("/contest/responseClosed");

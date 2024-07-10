@@ -74,7 +74,7 @@ const Login = () => {
         res?.errors?.[0]?.message ||
         res?.errors?.graphQLErrors?.[0]?.message ||
         "un Known";
-      console.log(errorMessage);
+      // console.log(errorMessage);
       setError(errorMessage);
     } else {
       const { token, user } = res.data.user;
