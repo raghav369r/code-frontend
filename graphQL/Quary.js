@@ -49,14 +49,13 @@ export const RunCode = gql`
 // `;
 
 export const GetUser = gql`
-  query GetUser {
-    user: getUser {
+  query GetUser($userId: ID) {
+    user:getUser(userId: $userId) {
       id
       firstName
       lastName
       userName
       email
-      password
       createdAt
       profileLink
       linkedinLink
@@ -214,8 +213,8 @@ export const IsRigistered = gql`
 `;
 
 export const PastParticipated = gql`
-  query Query {
-    contests: getAllParticipatedContests {
+  query GetAllParticipatedContests($userId: ID!) {
+    contests: getAllParticipatedContests(userId: $userId) {
       id
       name
       url
@@ -271,6 +270,17 @@ export const GetOrganised = gql`
       owner
       mediators
       organisation
+    }
+  }
+`;
+export const GetAllRegistered = gql`
+  query GetAllregistered($contestUrl: String!) {
+    users: getAllregistered(contestUrl: $contestUrl) {
+      id
+      firstName
+      lastName
+      userName
+      email
     }
   }
 `;

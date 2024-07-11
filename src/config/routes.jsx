@@ -47,16 +47,19 @@ const AllRoutes = () => {
             <Route
               path="responseClosed"
               element={
-                <div className="h-[90vh] w-full flex justify-center  items-center">
-                  <h1 className="text-red-600 text-2xl ">
+                <div className="h-[90vh] w-full flex flex-col justify-center  items-center text-red-600">
+                  <h1 className=" text-2xl ">
                     you cant open as you are alredy opened or made excessive
                     tabswitches
+                  </h1>
+                  <h1 className=" text-2xl ">
+                    Contact organiser for more details
                   </h1>
                 </div>
               }
             />
           </Route>
-          <Route path="/profile">
+          <Route path="/profile/:userId?">
             <Route index element={<Profile />} />
             <Route path="edit" element={<Edit />} />
             <Route path="allsubmissions" element={<SubmissionsTable />} />

@@ -5,20 +5,28 @@ import { CiLocationOn } from "react-icons/ci";
 import { LiaLinkedin } from "react-icons/lia";
 import { BsGithub } from "react-icons/bs";
 import { FaAngleRight } from "react-icons/fa6";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { PiListChecksBold } from "react-icons/pi";
 import { MdCloudDone, MdEmail } from "react-icons/md";
 import { FaLink } from "react-icons/fa6";
 import { useQuery } from "@apollo/client";
-import { GetAllSubmissions, PastParticipated } from "../../graphQL/Quary";
+import {
+  GetAllSubmissions,
+  GetUser,
+  PastParticipated,
+} from "../../graphQL/Quary";
 
 const Profile = () => {
+  const { userId } = useParams();
   const { user } = useContext(UserContext);
   const [rc, setRc] = useState(true);
+  const { data: ndata } = useQuery(GetUser, { variables: { userId } });
   const { data, error, loading } = useQuery(GetAllSubmissions, {
-    variables: { userId: user.id },
+    variables: { userId: userId || user.id },
   });
-  const { data: condata } = useQuery(PastParticipated);
+  const { data: condata } = useQuery(PastParticipated, {
+    variables: { userId: userId || user.id },
+  });
   const { submissions } = data || {};
   const navigate = useNavigate();
   return (
@@ -27,8 +35,12 @@ const Profile = () => {
         <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 md:col-span-3">
           <div className="flex gap-3 items-center">
             <CgProfile className="size-32" />
-            <h1 className="text-2xl font-semibold">{user.firstName}</h1>
-            <h2>{user.userName}</h2>
+            <div className="">
+              <h1 className="text-2xl font-semibold">
+                {ndata?.user?.firstName}
+              </h1>
+              <h2>{ndata?.user?.userName}</h2>
+            </div>
           </div>
           <button
             className="text-green-500 bg-green-500 bg-opacity-25 py-2 px-4 rounded-lg"
@@ -42,19 +54,19 @@ const Profile = () => {
           </div>
           <div className="flex gap-4 items-center">
             <MdEmail className="size-6" />
-            <h1>{user.email || "not Set"}</h1>
+            <h1>{ndata?.user?.email || "not Set"}</h1>
           </div>
           <div className="flex gap-4 items-center">
             <LiaLinkedin className="size-6" />
-            <h1>{user.linkedinLink || "not Set"}</h1>
+            <h1>{ndata?.user?.linkedinLink || "not Set"}</h1>
           </div>
           <div className="flex gap-4 items-center">
             <BsGithub className="size-6" />
-            <h1>{user.githubLink || "not Set"}</h1>
+            <h1>{ndata?.user?.githubLink || "not Set"}</h1>
           </div>
           <div className="flex gap-4 items-center">
             <FaLink className="size-6" />
-            <h1>{user.portfolioLink || "not Set"}</h1>
+            <h1>{ndata?.user?.portfolioLink || "not Set"}</h1>
           </div>
           <hr />
           <h1 className="text-black">Languages</h1>

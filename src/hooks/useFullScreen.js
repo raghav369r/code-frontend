@@ -6,6 +6,7 @@ const FullscreenButton = () => {
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch((err) => {
+        console.log("error entering full screen!!");
         // alert(
         //   `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
         // );
@@ -28,7 +29,7 @@ const FullscreenButton = () => {
     };
   }, []);
 
-  return { toggleFullscreen,isFullscreen };
+  return { toggleFullscreen, isFullscreen };
 };
 
 export default FullscreenButton;

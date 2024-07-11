@@ -6,8 +6,19 @@ import { useState } from "react";
 const App = () => {
   const [user, setUser] = useGetUser();
   const [varified, setVarified] = useState(false);
+  const [isInteractingWithRecaptcha, setIsInteractingWithRecaptcha] =
+    useState(true);
   return (
-    <UserContext.Provider value={{ user, setUser, varified, setVarified }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        varified,
+        setVarified,
+        isInteractingWithRecaptcha,
+        setIsInteractingWithRecaptcha,
+      }}
+    >
       <BrowserRouter>
         <main>
           <AllRoutes />

@@ -1,45 +1,102 @@
+// import { useMutation } from "@apollo/client";
+// import { useContext, useEffect, useCallback } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { BlockUser } from "../../graphQL/Mutations";
+// import { UserContext } from "../context/User";
+
+// const usePreventTabSwitch = (contestId, warning, setWarning) => {
+//   const { isInteractingWithRecaptcha } = useContext(UserContext);
+//   const [blockUser] = useMutation(BlockUser);
+
+//   const handleReloadNavigation = () => {
+//     window.location.reload();
+//   };
+
+//   const handleBlur = useCallback(async () => {
+//     if (!warning && !isInteractingWithRecaptcha) {
+//       await blockUser({ variables: { contestId } });
+//       handleReloadNavigation("/contest/responseClosed");
+//     } else {
+//       if (!isInteractingWithRecaptcha) {
+//         alert(
+//           "You cannot switch tabs during the contest. If you try to switch one more time, your submission will be closed."
+//         );
+//         setWarning((prevWarning) => prevWarning - 1);
+//       }
+//     }
+//   }, [
+//     blockUser,
+//     contestId,
+//     handleReloadNavigation,
+//     isInteractingWithRecaptcha,
+//     setWarning,
+//     warning,
+//   ]);
+
+//   const handleVisibilityChange = useCallback(async () => {
+//     if (document.visibilityState === "hidden") {
+//       if (!warning) {
+//         await blockUser({ variables: { contestId } });
+//         handleReloadNavigation("/contest/responseClosed");
+//       } else {
+//         alert(
+//           "You cannot switch tabs during the contest. If we find you switching tabs once again, we will stop your response!"
+//         );
+//         setWarning((prevWarning) => prevWarning - 1);
+//       }
+//     }
+//   }, [blockUser, contestId, handleReloadNavigation, warning, setWarning]);
+
+//   useEffect(() => {
+//     document.addEventListener("visibilitychange", handleVisibilityChange);
+//     window.addEventListener("blur", handleBlur);
+
+//     return () => {
+//       document.removeEventListener("visibilitychange", handleVisibilityChange);
+//       window.removeEventListener("blur", handleBlur);
+//     };
+//   }, [handleBlur, handleVisibilityChange]);
+
+//   return null;
+// };
+
+// export default usePreventTabSwitch;
+
 import { useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BlockUser } from "../../graphQL/Mutations";
+import { UserContext } from "../context/User";
 
 const usePreventTabSwitch = (contestId, warning, setWarning) => {
   // console.log("contestId: ", contestId);
-  const navigate = useNavigate();
+  const { isInteractingWithRecaptcha } = useContext(UserContext);
   const [blockUser] = useMutation(BlockUser);
   const handleBlur = () => {
-    // console.log("before");
-    if (!warning) {
-      // console.log("after");
+    if (!warning && !isInteractingWithRecaptcha) {
       const res = blockUser({ variables: { contestId } });
-      navigate("/contest/responseClosed");
+      handleReloadNavigation("/contest/responseClosed");
     } else {
-      // alert(
-      //   "You cannot switch tabs during the contest. If you try to switch one more time, your submission will be closed."
-      // );
-      alert("blur");
+      if (!isInteractingWithRecaptcha) {
+        alert(
+          "You cannot switch tabs during the contest. If you try to switch one more time, your submission will be closed."
+        );
+        setWarning(warning - 1);
+      }
     }
-    setWarning(warning - 1);
-    setTimeout(() => {
-      window.focus();
-    }, 0);
   };
 
   const handleVisibilityChange = () => {
     if (document.visibilityState === "hidden") {
       if (!warning) {
         const res = blockUser({ variables: { contestId } });
-        navigate("/contest/responseClosed");
+        handleReloadNavigation("/contest/responseClosed");
       } else {
         alert(
           "You cannot switch tabs during the contest.if we find you switching tab once again we will stop your response!"
         );
+        setWarning(warning - 1);
       }
-      setWarning(false);
-
-      setTimeout(() => {
-        window.focus();
-      }, 0);
     }
   };
   useEffect(() => {
@@ -50,7 +107,11 @@ const usePreventTabSwitch = (contestId, warning, setWarning) => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("blur", handleBlur);
     };
-  }, [handleVisibilityChange, handleBlur]);
+  }, [handleVisibilityChange, handleBlur, warning]);
 };
 
 export default usePreventTabSwitch;
+const handleReloadNavigation = (path) => {
+  window.location.reload();
+  // window.location.href = path;
+};

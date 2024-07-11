@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Split from "react-split";
 import useGetProblem from "../hooks/useGetProblem";
 import EditorCode from "./EditorCode";
@@ -7,7 +7,11 @@ import Description from "./Description";
 
 const SolveProblem = () => {
   const { problemId } = useParams();
-  const [data, loading, error] = useGetProblem(problemId);
+  const navigate = useNavigate();
+  const [data, error, loading] = useGetProblem(problemId);
+  useEffect(() => {
+    if (error) navigate("/contest/responseClosed");
+  }, [error]);
   const splitReff = useRef(null);
   return (
     <Split

@@ -1,29 +1,40 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import { GetContestProblems } from "../../../graphQL/Quary";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { GetAllRegistered, GetContestProblems } from "../../../graphQL/Quary";
+import { useLazyQuery } from "@apollo/client";
 import Shimmer from "./Shimmer";
 import ReCAPTCHA from "react-google-recaptcha";
 import { UserContext } from "../../context/User";
 
 function ContestProblems() {
+  const navigate = useNavigate();
+  const { setIsInteractingWithRecaptcha } = useContext(UserContext);
+  useState(false);
   const { varified, setVarified } = useContext(UserContext);
   const { contestURL } = useParams();
-  const navigate = useNavigate();
   const [getproblem, { data, error, loading }] =
     useLazyQuery(GetContestProblems);
+  const [getRegistered, { data: udata }] = useLazyQuery(GetAllRegistered);
   useEffect(() => {
-    varified && getproblem({ variables: { contestUrl: contestURL } });
+    // if (!varified) setIsInteractingWithRecaptcha(true);
+    // else setIsInteractingWithRecaptcha(false);
+    setIsInteractingWithRecaptcha(!varified);
+    if (varified) {
+      getproblem({ variables: { contestUrl: contestURL } });
+      getRegistered({
+        variables: { contestUrl: contestURL },
+        onCompleted: (data) => console.log(data),
+      });
+    }
   }, [varified]);
   const onChange = (value) => {
-    // console.log("Captcha value:", value);
     setVarified(!varified);
   };
   if (!varified) {
     return (
       <div
         onClick={onChange}
-        className="h-screen w-full flex items-center justify-center"
+        className="relative h-screen w-full flex items-center justify-center"
       >
         <ReCAPTCHA
           sitekey="6Le1NAwqAAAAAEzeuz1TLBivBZ2ifBZ2ubomCM3C"
@@ -71,24 +82,31 @@ function ContestProblems() {
             </div>
           ))}
         </div>
-        <div className="w-full border border-gray-300 rounded-md md:w-2/5 shadow-md">
-          <h1 className="border-b border-gray-200 bg-gray-200 p-2">Ranking</h1>
-          <div className="flex justify-between border-b border-gray-200 bg-white p-2">
-            <p className="">Rank</p>
-            <p className="">Name</p>
-            <p>Score</p>
-            <p>finish time</p>
-          </div>
-          {contestQuestions?.map((ele, ind) => (
-            <div
-              key={ind}
-              className="flex justify-between border-b border-gray-200 bg-white p-2"
-            >
-              <p className="">{ind + 1}</p>
-              <p className="bg-gray-300 px-2 rounded-xl">3</p>
+        {date > new Date(endTime) && (
+          <div className="w-full border border-gray-300 rounded-md md:w-2/5 shadow-md">
+            <h1 className="border-b border-gray-200 bg-gray-200 p-2">
+              Ranking
+            </h1>
+            <div className="flex justify-between border-b border-gray-200 bg-white p-2">
+              <p className="">Rank</p>
+              <p className="">Name</p>
+              <p>Score</p>
+              {/* <p>finish time</p> */}
             </div>
-          ))}
-        </div>
+            {udata?.users?.map((ele, ind) => (
+              <div
+                key={ind}
+                className="flex justify-between border-b border-gray-200 bg-white p-2"
+              >
+                <p className="">{ind + 1}</p>
+                <Link to={`/profile/${ele.id}`} className="hover:text-blue-500">
+                  {ele?.userName}
+                </Link>
+                <p className="bg-gray-300 px-2 rounded-xl">{3}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
