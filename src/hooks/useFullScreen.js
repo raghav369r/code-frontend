@@ -5,13 +5,19 @@ const FullscreenButton = () => {
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch((err) => {
-        alert(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-        );
-      });
+      document.documentElement
+        .requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true);
+          console.log(isFullscreen);
+        })
+        .catch((err) => {
+          console.log("error entering full screen");
+        });
     } else {
       document.exitFullscreen();
+      setIsFullscreen(false);
+      console.log(isFullscreen)
     }
   };
 
@@ -28,7 +34,7 @@ const FullscreenButton = () => {
     };
   }, []);
 
-  return { toggleFullscreen,isFullscreen };
+  return { toggleFullscreen, isFullscreen };
 };
 
 export default FullscreenButton;
