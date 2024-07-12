@@ -3,6 +3,7 @@ import { IoMdExpand } from "react-icons/io";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import useFull from "../hooks/useFull";
 import useTab from "../hooks/useTab";
+import Forbidden from "./errorPages/Forbidden";
 
 const Test = () => {
   const [warnings, setWarnings] = useState(5);

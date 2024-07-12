@@ -18,6 +18,8 @@ import ContestProblems from "../components/contest/ContestProblems";
 import ContestLayout from "../components/layouts/ContestLayout";
 import ContestStart from "../components/contest/ContestStart";
 import OrganisedContests from "../components/organised/OrganisedContests";
+import Forbidden from "../components/errorPages/Forbidden";
+import PageNotFound from "../components/errorPages/PageNotFound";
 
 const AllRoutes = () => {
   return (
@@ -28,6 +30,7 @@ const AllRoutes = () => {
           <Route path="/Login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/problems" element={<ProblemTable />} />
+          <Route path="/forbidden" element={<Forbidden />} />
         </Route>
         <Route
           path="contest/participate/:contestURL"
@@ -71,6 +74,7 @@ const AllRoutes = () => {
           </Route>
         </Route>
         <Route path="/test" element={<Test />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </div>
   );
