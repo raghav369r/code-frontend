@@ -44,7 +44,7 @@ const ContestStart = () => {
         variables: { contestId: contest?.id },
       });
       if (res?.data?.contest?.id) setBname("will start soon");
-      console.log(res);
+      // console.log(res);
     } else if (bname == "Join") {
       console.log("Joining");
       navigate(`/contest/participate/${contest?.url}`);

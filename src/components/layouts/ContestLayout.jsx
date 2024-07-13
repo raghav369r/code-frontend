@@ -19,8 +19,9 @@ const ContestLayout = () => {
   const [warning, setWarning] = useState(2);
 
   const contestRef = useRef(null);
-  const { toggleFullscreen, isFullscreen } = useFullScreen(contestRef);
-  const __ = usePreventTabSwitch(data?.contest?.id, warning, setWarning);
+  const { toggleFullscreen, isFullscreen } = {};
+  // const { toggleFullscreen, isFullscreen } = useFullScreen(contestRef);
+  // const __ = usePreventTabSwitch(data?.contest?.id, warning, setWarning);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) navigate("/login");

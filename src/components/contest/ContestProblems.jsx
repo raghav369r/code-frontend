@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { GetContestProblems } from "../../../graphQL/Quary";
 import { useQuery } from "@apollo/client";
 import Shimmer from "./Shimmer";
+import { getTimeDiff } from "../../services/time";
 
 function ContestProblems() {
   const { contestURL } = useParams();
@@ -14,16 +15,24 @@ function ContestProblems() {
   const navigate = useNavigate();
   const { contestQuestions, name, endTime, startTime, title } =
     data?.contest || {};
-  if (error) navigate("/contest/responseClosed");
+  const [remTime, setRemTime] = useState(
+    `Ends at  ${new Date(endTime).toLocaleString()}`
+  );
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRemTime(getTimeDiff(null, endTime, true));
+    }, 1000);
+    return () => clearInterval(id);
+  }, [endTime]);
+  if (error) navigate("/forbidden");
   if (loading) return <Shimmer />;
   return (
     <div className="container mx-auto text-black">
       <h1 className="text-2xl my-4">{name}</h1>
-      {date > new Date(endTime) && (
-        <h1 className="p-4 border-[1px] border-gray-300 border-l-[6px] rounded-sm bg-white">
-          The contest has ended.
-        </h1>
-      )}
+      <h1 className="p-4 border-[1px] border-gray-300 border-l-[6px] rounded-sm bg-white">
+        {date > new Date(endTime) ? "The contest has ended" : remTime}
+      </h1>
+
       <div className="md:flex md:gap-10 mt-10">
         <div className="w-full border border-gray-300 rounded-md md:w-2/5 shadow-md h-fit">
           <div className="flex justify-between border-b border-gray-200 bg-gray-200 p-2">
