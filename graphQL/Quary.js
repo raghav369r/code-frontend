@@ -56,7 +56,6 @@ export const GetUser = gql`
       lastName
       userName
       email
-      password
       createdAt
       profileLink
       linkedinLink

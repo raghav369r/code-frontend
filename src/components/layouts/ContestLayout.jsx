@@ -25,7 +25,7 @@ const ContestLayout = () => {
   useEffect(() => {
     if (!user) navigate("/login");
   }, [user]);
-  console.log("full sceen: ", isFullscreen);
+  // console.log("full sceen: ", isFullscreen);
   return (
     <div
       ref={contestRef}

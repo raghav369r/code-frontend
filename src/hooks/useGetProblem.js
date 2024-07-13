@@ -10,7 +10,7 @@ const useGetProblem = (problemId) => {
     };
     if (problemId) start();
   }, [problemId]);
-  return [data, error, loading];
+  return { data, error, loading };
 };
 
 export default useGetProblem;

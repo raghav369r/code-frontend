@@ -1,11 +1,8 @@
-import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import useGetPsubmissions from "../hooks/useGetPsubmissions";
 
-const Description = ({ data, loading }) => {
+const Description = ({ data, submissions, loading }) => {
   const { problem } = data || {};
   const [menu, setMenu] = useState(0);
-  const { submissions, setSubmissions } = useGetPsubmissions(problem?.id);
 
   return (
     <div className="p-3 m-2 pr-0 border rounded-xl overflow-x-hidden h-full mr-0 flex flex-col">

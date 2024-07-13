@@ -8,7 +8,7 @@ import { RegisterToContest } from "../../../graphQL/Mutations";
 const ContestStart = () => {
   const { user } = useContext(UserContext);
   const { contestURL } = useParams();
-  const { data: cdata } = useQuery(GetContestDetails, {
+  const { data: cdata, error: cerror } = useQuery(GetContestDetails, {
     variables: { contestUrl: contestURL },
   });
   const { contest } = cdata || {};
@@ -36,7 +36,7 @@ const ContestStart = () => {
       } else setBname("SignIn");
     }
   }, [contest, rdata]);
-
+  if (cerror) navigate("/pageNotFound");
   const handleClick = async () => {
     if (bname == "SignIn") navigate("/login");
     else if (bname == "Register") {

@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { SubmitCode } from "../../graphQL/Mutations";
 
-const EditorCode = ({ examples }) => {
+const EditorCode = ({ examples, setSubmissions }) => {
   const [run, data, error, loading] = useRunCode();
   const [submitCode, { data: sdata, loading: sloading, error: serror }] =
     useMutation(SubmitCode);
@@ -30,9 +30,11 @@ const EditorCode = ({ examples }) => {
   const handleSubmit = async () => {
     const size = splitRef?.current?.split?.getSizes();
     if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
-    const res = submitCode({
+    const res = await submitCode({
       variables: { input: { language, code, problemId } },
     });
+    const submitted = res?.data?.submitCode;
+    if (submitted) setSubmissions((prev) => [submitted, ...prev]);
   };
 
   const handleConsoleExpand = () => {

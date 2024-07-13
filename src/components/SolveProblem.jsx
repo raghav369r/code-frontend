@@ -1,14 +1,18 @@
 import React, { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Split from "react-split";
 import useGetProblem from "../hooks/useGetProblem";
 import EditorCode from "./EditorCode";
 import Description from "./Description";
+import useGetProblemSubmissions from "../hooks/useGetProblemSubmissions";
 
 const SolveProblem = () => {
   const { problemId } = useParams();
-  const [data, loading, error] = useGetProblem(problemId);
+  const { data, error, loading } = useGetProblem(problemId);
+  const [submissions, setSubmissions] = useGetProblemSubmissions(problemId);
   const splitReff = useRef(null);
+  const navigate = useNavigate();
+  if (error) navigate("/pageNotFound");
   return (
     <Split
       ref={splitReff}
@@ -20,10 +24,13 @@ const SolveProblem = () => {
       direction="horizontal"
       cursor="col-resize"
     >
-      <Description data={data} loading={loading} />
+      <Description data={data} submissions={submissions} loading={loading} />
 
       <div className="h-full">
-        <EditorCode examples={data?.problem?.examples} />
+        <EditorCode
+          examples={data?.problem?.examples}
+          setSubmissions={setSubmissions}
+        />
       </div>
     </Split>
   );
