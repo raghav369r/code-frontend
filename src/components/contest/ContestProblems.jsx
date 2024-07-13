@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { ContestRankings, GetContestProblems } from "../../../graphQL/Quary";
 import { useQuery } from "@apollo/client";
 import Shimmer from "./Shimmer";
 import { getTimeDiff } from "../../services/time";
+import { UserContext } from "../../context/User";
 
 function ContestProblems() {
+  const { user } = useContext(UserContext);
   const { contestURL } = useParams();
   const { data, error, loading } = useQuery(GetContestProblems, {
     variables: { contestUrl: contestURL },
@@ -59,26 +61,28 @@ function ContestProblems() {
           ))}
         </div>
         <div className="w-full border border-gray-300 rounded-md md:w-2/5 shadow-md my-10 md:my-0">
-          <h1 className="border-b border-gray-200 bg-gray-200 p-2">Ranking</h1>
+          <h1 className="border-b border-gray-200 bg-gray-200 p-2">Rankings</h1>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-white">
-              <tr className="flex justify-between border-b border-gray-200 p-2">
-                <th className="flex-1 text-left">Rank</th>
-                <th className="flex-1 text-left">Name</th>
-                <th className="flex-1 text-left">Score</th>
-                <th className="flex-1 text-left">Finish Time</th>
+              <tr className="border-b border-gray-200 p-2">
+                <th className="text-left p-2">Rank</th>
+                <th className="text-left p-2">Name</th>
+                <th className="text-left p-2">Score</th>
+                <th className="text-left p-2">Finish Time</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {rdata?.rankings?.map((ele, ind) => (
                 <tr
                   key={ind}
-                  className="flex justify-between border-b border-gray-200 p-2"
+                  className={`border-b border-gray-200 p-2 ${
+                    ele?.User?.id == user.id ? "bg-neutral-100" : ""
+                  }`}
                 >
-                  <td className="flex-1">{ind + 1}</td>
-                  <td className="flex-1">{ele?.User?.userName}</td>
-                  <td className="flex-1">{ele.score}</td>
-                  <td className="flex-1"></td>
+                  <td className="p-2">{ind + 1}</td>
+                  <td className="p-2">{ele?.User?.userName}</td>
+                  <td className="p-2">{ele.score}</td>
+                  <td className="p-2"></td>
                 </tr>
               ))}
             </tbody>

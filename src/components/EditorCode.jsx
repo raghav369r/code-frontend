@@ -8,6 +8,7 @@ import OutputCard from "./OutputCard";
 import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { SubmitCode } from "../../graphQL/Mutations";
+import { FaTriangleExclamation } from "react-icons/fa6";
 
 const EditorCode = ({ examples, setSubmissions }) => {
   const [run, data, error, loading] = useRunCode();
@@ -20,8 +21,8 @@ const EditorCode = ({ examples, setSubmissions }) => {
   const selectorRef = useRef(null);
   const editorRef = useRef(null);
   const splitRef = useRef(null);
-  const { problemId } = useParams();
-
+  const { problemId, contestURL } = useParams();
+  const [popUp, setPopUp] = useState(false);
   const handleRun = async () => {
     const size = splitRef?.current?.split?.getSizes();
     if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
@@ -31,7 +32,9 @@ const EditorCode = ({ examples, setSubmissions }) => {
     const size = splitRef?.current?.split?.getSizes();
     if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
     const res = await submitCode({
-      variables: { input: { language, code, problemId } },
+      variables: {
+        input: { language, code, problemId, contestUrl: contestURL },
+      },
     });
     const submitted = res?.data?.submitCode;
     if (submitted) setSubmissions((prev) => [submitted, ...prev]);
@@ -58,16 +61,18 @@ const EditorCode = ({ examples, setSubmissions }) => {
     if (e.length <= code.length + 15 || code.indexOf(e) != -1) setCode(e);
     else {
       editorRef.current.setValue(code);
-      warningRef.current.classList.remove("-top-full");
-      warningRef.current.classList.add("top-8");
-      setTimeout(() => {
-        warningRef.current.classList.add("-top-full");
-        warningRef.current.classList.remove("top-8");
-      }, 2500);
+      setPopUp(true);
+      // warningRef.current.classList.remove("-top-full");
+      // warningRef.current.classList.add("top-8");
+      // setTimeout(() => {
+      //   warningRef.current.classList.add("-top-full");
+      //   warningRef.current.classList.remove("top-8");
+      // }, 2500);
     }
   };
   return (
     <div className="h-full overflow-hidden  flex flex-col p-2 m-2 ml-0 border rounded-lg border-gray-300 text-gray-900">
+      {popUp && <PasteCodePopUp setPopUp={setPopUp} />}
       <div
         ref={warningRef}
         className="absolute z-[1000] p-4 border-gray-300 -translate-x-1/2 -top-full transition-all duration-500 border rounded-xl bg-white text-red-600 font-semibold left-1/2"
@@ -203,3 +208,26 @@ const EditorCode = ({ examples, setSubmissions }) => {
 };
 
 export default EditorCode;
+
+const PasteCodePopUp = ({ setPopUp }) => {
+  return (
+    <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-[100dvh] z-10 backdrop-blur-sm">
+      <div className="bg-white flex flex-col rounded shadow-black shadow-md p-4 w-4/5 md:w-[500px] backdrop:blur-lg">
+        <div className="flex gap-2 text-red-900 font-semibold items-center pb-2 border-b">
+          <FaTriangleExclamation className="text-lg" />
+          <h1 className="text-lg">Detected copy pasting code</h1>
+        </div>
+        <p className="text-black py-2">
+          You are not allowed to paste code to editor. Click 'confirm' to
+          continue.
+        </p>
+        <button
+          onClick={() => setPopUp(false)}
+          className="bg-blue-700 px-4 py-1.5 w-fit mx-auto"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  );
+};

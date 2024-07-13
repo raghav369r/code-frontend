@@ -5,7 +5,8 @@ import { GetProblemSubmissions } from "../../graphQL/Quary";
 const useGetProblemSubmissions = (problemId) => {
   const [submissions, setSubmissions] = useState([]);
   const [getSubmissions, { data, error, loading }] = useLazyQuery(
-    GetProblemSubmissions
+    GetProblemSubmissions,
+    { fetchPolicy: "no-cache" }
   );
   useEffect(() => {
     const start = async () => {

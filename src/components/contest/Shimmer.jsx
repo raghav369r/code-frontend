@@ -4,8 +4,8 @@ const Shimmer = () => {
   const questions = [1, 2, 3, 4, 5];
   return (
     <div className="m-20">
-      <div className="border-[1px] border-l-6 rounded-sm border-gray-500 h-14 w-full ">
-        <p className="w-full p-4 bg-gray-300 animate-pulse"></p>
+      <div className="border-[1px] border-l-6 rounded-sm border-gray-200 h-14 w-full ">
+        <p className="w-full p-4 bg-gray-300 animate-pulse h-full"></p>
       </div>
 
       <div className="md:flex md:gap-10 mt-10">
