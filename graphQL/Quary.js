@@ -273,3 +273,29 @@ export const GetOrganised = gql`
     }
   }
 `;
+export const ContestRankings = gql`
+  query GetContestRankings($contestUrl: String!) {
+    rankings: getContestRankings(contestUrl: $contestUrl) {
+      id
+      userId
+      contestId
+      lastSubmitted
+      isJoined
+      isBlocked
+      score
+      User {
+        id
+        firstName
+        lastName
+        userName
+        email
+        createdAt
+        profileLink
+        linkedinLink
+        githubLink
+        instagramLink
+        portfolioLink
+      }
+    }
+  }
+`;

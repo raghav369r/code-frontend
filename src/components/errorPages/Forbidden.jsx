@@ -11,10 +11,11 @@ const Forbidden = () => {
           <h1 className="">Access Restricted</h1>
         </div>
         <p className="text-black py-2">
-          Access Restricted Sorry, you have been blocked from the assessment due
-          to unfair practices. Please contact assessment organiser for further
-          details, You will be able to check your report card after the end of
-          assessment You will be able to retake this assessment after a few days
+          Access Restricted Sorry,you have been already submitted or you have
+          been blocked from the assessment due to unfair practices. Please
+          contact assessment organiser for further details, You will be able to
+          check your report card after the end of assessment You will be able to
+          retake this assessment after a few days
         </p>
         <Link to={"/home"} className="bg-red-600 px-4 py-1.5 w-fit mx-auto">
           Go to Home
