@@ -11,20 +11,22 @@ const ProblemTable = () => {
         Practice Problems from previous Contests
       </h1>
       <table className="w-full">
-        <tr className="text-gray-500 text-center border-b">
-          <td className="p-3">Title</td>
-          <td className="p-3">Difficulty</td>
-        </tr>
-        {data?.problems?.map((ele, ind) => (
-          <tr key={ind} className="text-black even:bg-neutral-100">
-            <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
-              <NavLink to={"/problem/" + ele.id}>
-                {ind + 1 + ". " + ele.title}
-              </NavLink>
-            </td>
-            <Difficulty difficulty={ele.difficulty} />
+        <tbody>
+          <tr className="text-gray-500 text-center border-b">
+            <td className="p-3">Title</td>
+            <td className="p-3">Difficulty</td>
           </tr>
-        ))}
+          {data?.problems?.map((ele, ind) => (
+            <tr key={ind} className="text-black even:bg-neutral-100">
+              <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
+                <NavLink to={"/problem/" + ele.id}>
+                  {ind + 1 + ". " + ele.title}
+                </NavLink>
+              </td>
+              <Difficulty difficulty={ele.difficulty} />
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

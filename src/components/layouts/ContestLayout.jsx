@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../context/User";
-import useFullScreen from "../../hooks/useFullScreen";
-import usePreventTabSwitch from "../../hooks/usePreventTabSwitch";
 import { BsArrowsFullscreen } from "react-icons/bs";
 import { AiOutlineFullscreenExit } from "react-icons/ai";
 import { IoArrowBackSharp } from "react-icons/io5";
@@ -33,7 +31,6 @@ const ContestLayout = () => {
   useEffect(() => {
     if (!user) navigate("/login");
   }, [user]);
-  // console.log("full sceen: ", isFullscreen);
   return (
     <div className="h-[100vh] flex flex-col bg-white container mx-auto">
       <div className="sticky text-black top-0 z-10 left-0 flex justify-between w-full px-10 bg-slate-200 py-2">

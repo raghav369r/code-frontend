@@ -9,20 +9,23 @@ import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { SubmitCode } from "../../graphQL/Mutations";
 import { PasteCodePopUp } from "./popUps/PopUps";
+import useCodePersistance from "../hooks/useCodePersistance";
 
 const EditorCode = ({ examples, setSubmissions }) => {
   const [run, data, error, loading] = useRunCode();
   const [submitCode, { data: sdata, loading: sloading, error: serror }] =
     useMutation(SubmitCode);
-  const [language, setLanguage] = useState("cpp");
   const [height, setHeight] = useState("0");
-  const [code, setCode] = useState("//write ur code here");
   const warningRef = useRef(null);
   const selectorRef = useRef(null);
   const editorRef = useRef(null);
   const splitRef = useRef(null);
   const { problemId, contestURL } = useParams();
   const [popUp, setPopUp] = useState(false);
+
+  const { code, setCode, language, setLanguage } =
+    useCodePersistance(editorRef);
+
   const handleRun = async () => {
     const size = splitRef?.current?.split?.getSizes();
     if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);

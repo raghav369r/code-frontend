@@ -5,8 +5,9 @@ const useTab = (warnings, setWarnings) => {
   const [tabSwitchWarning, setTabSwitchWarning] = useState(false);
   const navigate = useNavigate();
   const handleBlur = () => {
-    if (!warnings) {
-      navigate("/contest/responseClosed");
+    if (warnings==1) {
+      // document.location.reload();
+      navigate("/forbidden");
     } else {
       setTabSwitchWarning(true);
     }
@@ -18,8 +19,9 @@ const useTab = (warnings, setWarnings) => {
 
   const handleVisibilityChange = () => {
     if (document.visibilityState === "hidden") {
-      if (!warnings) {
-        navigate("/contest/responseClosed");
+      if (warnings==1) {
+        // document.location.reload();
+        navigate("/forbidden");
       } else {
         setTabSwitchWarning(true);
       }

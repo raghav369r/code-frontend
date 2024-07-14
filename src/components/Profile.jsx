@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { CgProfile } from "react-icons/cg";
 import { UserContext } from "../context/User";
 import { CiLocationOn } from "react-icons/ci";
 import { LiaLinkedin } from "react-icons/lia";
@@ -11,6 +10,7 @@ import { MdCloudDone, MdEmail } from "react-icons/md";
 import { FaLink } from "react-icons/fa6";
 import { useQuery } from "@apollo/client";
 import { GetAllSubmissions, PastParticipated } from "../../graphQL/Quary";
+import { FaUserAlt } from "react-icons/fa";
 
 const Profile = () => {
   const { user } = useContext(UserContext);
@@ -23,12 +23,18 @@ const Profile = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-[#f7f8fa] w-full">
-      <div className="container mx-auto py-10 gap-4 md:grid grid-cols-12  text-gray-500">
-        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 md:col-span-3">
+      <div className="px-4 py-10 gap-4 md:grid grid-cols-12  text-gray-500">
+        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 md:col-span-3 overflow-x-hidden">
           <div className="flex gap-3 items-center">
-            <CgProfile className="size-32" />
-            <h1 className="text-2xl font-semibold">{user.firstName}</h1>
-            <h2>{user.userName}</h2>
+            <div className="min-h-32 min-w-32 rounded-full bg-neutral-100 p-5 hover:bg-slate-100">
+              <FaUserAlt className=" size-full text-gray-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-semibold">
+                {user.firstName + " " + user.lastName}
+              </h1>
+              <h2>{"@" + user.userName}</h2>
+            </div>
           </div>
           <button
             className="text-green-500 bg-green-500 bg-opacity-25 py-2 px-4 rounded-lg"
@@ -54,7 +60,9 @@ const Profile = () => {
           </div>
           <div className="flex gap-4 items-center">
             <FaLink className="size-6" />
-            <h1>{user.portfolioLink || "not Set"}</h1>
+            <a href={user.portfolioLink} target="_blank">
+              {user.portfolioLink || "not Set"}
+            </a>
           </div>
           <hr />
           <h1 className="text-black">Languages</h1>
@@ -175,3 +183,10 @@ const Language = ({ language, solved }) => {
 };
 
 export default Profile;
+
+// for leetcode Profile
+// operationName: "userProfileUserQuestionProgressV2";
+// query: "\n    query userProfileUserQuestionProgressV2($userSlug: String!) {\n  userProfileUserQuestionProgressV2(userSlug: $userSlug) {\n    numAcceptedQuestions {\n      count\n      difficulty\n    }\n    numFailedQuestions {\n      count\n      difficulty\n    }\n    numUntouchedQuestions {\n      count\n      difficulty\n    }\n    userSessionBeatsPercentage {\n      difficulty\n      percentage\n    }\n  }\n}\n    ";
+// variables: {
+//   userSlug: "raghav_reddyy";
+// }

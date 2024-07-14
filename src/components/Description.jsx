@@ -51,10 +51,10 @@ const Description = ({ data, submissions, loading }) => {
           <h1 className="py-2 text-xl font-semibold h-fit">{problem?.title}</h1>
           <p className="py-4">{problem?.description}</p>
           {problem?.examples?.map((ex, ind) => (
-            <>
+            <div key={ind}>
               <h1 className="py-2 font-semibold">Example {ind + 1}</h1>
               <Example example={ex} key={ind} />
-            </>
+            </div>
           ))}
         </div>
       )}

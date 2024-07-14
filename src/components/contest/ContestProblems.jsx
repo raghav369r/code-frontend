@@ -82,7 +82,11 @@ function ContestProblems() {
                   <td className="p-2">{ind + 1}</td>
                   <td className="p-2">{ele?.User?.userName}</td>
                   <td className="p-2">{ele.score}</td>
-                  <td className="p-2"></td>
+                  <td className="p-2">
+                    {ele?.lastSubmitted
+                      ? new Date(ele.lastSubmitted).toLocaleString()
+                      : "N/A"}
+                  </td>
                 </tr>
               ))}
             </tbody>
