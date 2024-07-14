@@ -8,7 +8,7 @@ import OutputCard from "./OutputCard";
 import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { SubmitCode } from "../../graphQL/Mutations";
-import { FaTriangleExclamation } from "react-icons/fa6";
+import { PasteCodePopUp } from "./popUps/PopUps";
 
 const EditorCode = ({ examples, setSubmissions }) => {
   const [run, data, error, loading] = useRunCode();
@@ -208,26 +208,3 @@ const EditorCode = ({ examples, setSubmissions }) => {
 };
 
 export default EditorCode;
-
-const PasteCodePopUp = ({ setPopUp }) => {
-  return (
-    <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-[100dvh] z-10 backdrop-blur-sm">
-      <div className="bg-white flex flex-col rounded shadow-black shadow-md p-4 w-4/5 md:w-[500px] backdrop:blur-lg">
-        <div className="flex gap-2 text-red-900 font-semibold items-center pb-2 border-b">
-          <FaTriangleExclamation className="text-lg" />
-          <h1 className="text-lg">Detected copy pasting code</h1>
-        </div>
-        <p className="text-black py-2">
-          You are not allowed to paste code to editor. Click 'confirm' to
-          continue.
-        </p>
-        <button
-          onClick={() => setPopUp(false)}
-          className="bg-blue-700 px-4 py-1.5 w-fit mx-auto"
-        >
-          Confirm
-        </button>
-      </div>
-    </div>
-  );
-};

@@ -8,6 +8,9 @@ import { AiOutlineFullscreenExit } from "react-icons/ai";
 import { IoArrowBackSharp } from "react-icons/io5";
 import { useQuery } from "@apollo/client";
 import { GetContestDetails } from "../../../graphQL/Quary";
+import useFull from "../../hooks/useFull";
+import useTab from "../../hooks/useTab";
+import { FullScreenPopUp, TabSwitchPopUp } from "../popUps/PopUps";
 
 const ContestLayout = () => {
   const { contestURL } = useParams();
@@ -16,10 +19,14 @@ const ContestLayout = () => {
   const { data } = useQuery(GetContestDetails, {
     variables: { contestUrl: contestURL },
   });
-  const [warning, setWarning] = useState(2);
 
-  const contestRef = useRef(null);
-  const { toggleFullscreen, isFullscreen } = {};
+  const [warnings, setWarnings] = useState(5);
+  const { toggleFullscreen, isFullscreen } = useFull();
+  const { tabSwitchWarning, setTabSwitchWarning } = useTab(
+    warnings,
+    setWarnings
+  );
+  // const { toggleFullscreen, isFullscreen } = {};
   // const { toggleFullscreen, isFullscreen } = useFullScreen(contestRef);
   // const __ = usePreventTabSwitch(data?.contest?.id, warning, setWarning);
   const navigate = useNavigate();
@@ -28,10 +35,7 @@ const ContestLayout = () => {
   }, [user]);
   // console.log("full sceen: ", isFullscreen);
   return (
-    <div
-      ref={contestRef}
-      className="relative h-[100vh] flex flex-col bg-white container mx-auto"
-    >
+    <div className="h-[100vh] flex flex-col bg-white container mx-auto">
       <div className="sticky text-black top-0 z-10 left-0 flex justify-between w-full px-10 bg-slate-200 py-2">
         <Link
           to={`/contest/participate/${contestURL}`}
@@ -52,6 +56,11 @@ const ContestLayout = () => {
         </div>
       </div>
       <Outlet />
+
+      {!isFullscreen && <FullScreenPopUp toggleFullscreen={toggleFullscreen} />}
+      {tabSwitchWarning && (
+        <TabSwitchPopUp setTabSwitchWarning={setTabSwitchWarning} />
+      )}
     </div>
   );
 };
