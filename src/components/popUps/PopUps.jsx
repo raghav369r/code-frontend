@@ -1,13 +1,42 @@
 import { IoMdExpand } from "react-icons/io";
 import { FaTriangleExclamation } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+
+export const EndContestPopUp = ({ setEndContest }) => {
+  return (
+    <div className="fixed z-20 top-0 left-0 flex justify-center items-center w-screen h-[100dvh] backdrop-blur-sm">
+      <div className="bg-white flex flex-col rounded shadow-md p-4 w-4/5 md:w-[500px]">
+        <div className="flex gap-2 text-lg text-red-600 items-center font-semibold pb-2 border-b">
+          <FaTriangleExclamation className="text-lg" />
+          <h1 className="">Confirm End Contest</h1>
+        </div>
+        <p className="text-black py-2">
+          Are you sure to end this contest.Once you end contest you can not open
+          it until contest is over. Click 'End contest' to end Contest.
+        </p>
+        <div className="flex gap-4 justify-center font-semibold">
+          <button
+            onClick={() => setEndContest(false)}
+            className="bg-green-500 px-4 py-1.5 w-fit"
+          >
+            Continue Contest
+          </button>
+          <a href={"/home"} className="bg-red-600 px-4 py-1.5 w-fit">
+            End Contest
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const TabSwitchPopUp = ({ setTabSwitchWarning }) => {
   return (
     <div className="fixed z-20 top-0 left-0 flex justify-center items-center w-screen h-[100dvh] backdrop-blur-sm">
       <div className="bg-white flex flex-col rounded shadow-md p-4 w-4/5 md:w-[500px]">
-        <div className="flex gap-2 text-black items-center pb-2 border-b">
+        <div className="flex gap-2 text-lg text-red-600 items-center font-semibold pb-2 border-b">
           <FaTriangleExclamation className="text-lg" />
-          <h1 className="text-lg">Attention! Tab Switch Detected!</h1>
+          <h1 className="">Attention! Tab Switch Detected!</h1>
         </div>
         <p className="text-black py-2">
           Switching tabs between the conetst is not allowed. Doing so may lead

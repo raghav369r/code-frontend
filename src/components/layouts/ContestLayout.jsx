@@ -8,7 +8,11 @@ import { useQuery } from "@apollo/client";
 import { GetContestDetails } from "../../../graphQL/Quary";
 import useFull from "../../hooks/useFull";
 import useTab from "../../hooks/useTab";
-import { FullScreenPopUp, TabSwitchPopUp } from "../popUps/PopUps";
+import {
+  EndContestPopUp,
+  FullScreenPopUp,
+  TabSwitchPopUp,
+} from "../popUps/PopUps";
 
 const ContestLayout = () => {
   const { contestURL } = useParams();
@@ -20,6 +24,7 @@ const ContestLayout = () => {
 
   const [warnings, setWarnings] = useState(5);
   const { toggleFullscreen, isFullscreen } = useFull();
+  const [endContest, setEndContest] = useState(false);
   const { tabSwitchWarning, setTabSwitchWarning } = useTab(
     warnings,
     setWarnings
@@ -41,16 +46,12 @@ const ContestLayout = () => {
           <IoArrowBackSharp />
           <h1>Go to all questions</h1>
         </Link>
-        <div
-          onClick={toggleFullscreen}
-          className="cursor-pointer hover:scale-110"
+        <button
+          className="py-2 px-5 bg-blue-700 rounded-md text-white"
+          onClick={() => setEndContest(true)}
         >
-          {isFullscreen ? (
-            <AiOutlineFullscreenExit className=" size-5" />
-          ) : (
-            <BsArrowsFullscreen className=" size-5" />
-          )}
-        </div>
+          End Contest
+        </button>
       </div>
       <Outlet />
 
@@ -58,6 +59,7 @@ const ContestLayout = () => {
       {tabSwitchWarning && (
         <TabSwitchPopUp setTabSwitchWarning={setTabSwitchWarning} />
       )}
+      {endContest && <EndContestPopUp setEndContest={setEndContest} />}
     </div>
   );
 };
