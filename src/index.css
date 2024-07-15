@@ -2,37 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    color:#eef2f5;
-    background-color: white;
+body {
+  color: #eef2f5;
+  background-color: white;
 }
 
 .gutter {
-    /* background-color: #eee; */
-    background-repeat: no-repeat;
-    background-position: 50%;
+  /* background-color: #eee; */
+  background-repeat: no-repeat;
+  background-position: 50%;
 }
 
 .gutter.gutter-vertical {
-    cursor: row-resize;
+  cursor: row-resize;
 }
 .split {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .gutter {
-    /* background-color: #e9eef3; */
-    background-repeat: no-repeat;
-    background-position: 50%;
+  /* background-color: #e9eef3; */
+  background-repeat: no-repeat;
+  background-position: 50%;
 }
 
 .gutter.gutter-horizontal {
-    cursor: col-resize;
+  cursor: col-resize;
 }
 .gutter.gutter-horizontal:hover {
-    background: blue;
+  background: blue;
 }
 .gutter.gutter-vertical:hover {
-    background: blue;
+  background: blue;
 }

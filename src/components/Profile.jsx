@@ -18,7 +18,9 @@ const Profile = () => {
   const { data, error, loading } = useQuery(GetAllSubmissions, {
     variables: { userId: user.id },
   });
-  const { data: condata } = useQuery(PastParticipated);
+  const { data: condata } = useQuery(PastParticipated, {
+    variables: { userId: user?.id },
+  });
   const { submissions } = data || {};
   const navigate = useNavigate();
   return (
@@ -98,7 +100,7 @@ const Profile = () => {
                     </NavLink>
                   </td>
                   <td className="">{ele?.organisation}</td>
-                  <td>{new Date(ele?.startTime).toDateString()}</td>
+                  <td>{new Date(ele?.startTime).toLocaleString()}</td>
                 </tr>
               ))}
             </table>
@@ -140,27 +142,29 @@ const Profile = () => {
               </NavLink>
             </div>
             <table className="w-full p-2">
-              <tr className="text-gray-600 font-semibold border-b">
-                <td className="p-3 line-clamp-1 ">Title</td>
-                <td className="">Done in contest</td>
-                <td>Submitted At</td>
-              </tr>
-              {submissions?.map((ele, ind) =>
-                ele.isAccepted || !rc ? (
-                  <tr
-                    key={ind}
-                    className="text-black even:bg-neutral-100 border-b"
-                  >
-                    <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
-                      <NavLink to={"/problem/" + ele.problemId}>
-                        {ele?.problem.title}
-                      </NavLink>
-                    </td>
-                    <td className="">{ele.isInContest ? "true" : "false"}</td>
-                    <td>{new Date(ele.submittedAt).toDateString()}</td>
-                  </tr>
-                ) : null
-              )}
+              <tbody>
+                <tr className="text-gray-600 font-semibold border-b">
+                  <td className="p-3 line-clamp-1 ">Title</td>
+                  <td className="">Done in contest</td>
+                  <td>Submitted At</td>
+                </tr>
+                {submissions?.map((ele, ind) =>
+                  ele.isAccepted || !rc ? (
+                    <tr
+                      key={ind}
+                      className="text-black even:bg-neutral-100 border-b"
+                    >
+                      <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
+                        <NavLink to={"/problem/" + ele.problemId}>
+                          {ele?.problem.title}
+                        </NavLink>
+                      </td>
+                      <td className="">{ele.isInContest ? "true" : "false"}</td>
+                      <td>{new Date(ele.submittedAt).toLocaleString()}</td>
+                    </tr>
+                  ) : null
+                )}
+              </tbody>
             </table>
           </div>
         </div>

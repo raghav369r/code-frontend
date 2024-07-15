@@ -5,13 +5,13 @@ import useGetUser from "./hooks/useGetUser";
 import CodesContest from "./context/Codes";
 import { useState } from "react";
 const App = () => {
-  const [user, setUser] = useGetUser();
+  const { user, setUser, loading } = useGetUser();
   const [codes, setCodes] = useState([]);
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, loading }}>
       <CodesContest.Provider value={{ codes, setCodes }}>
         <BrowserRouter>
-          <main>
+          <main className="font-poppins">
             <AllRoutes />
           </main>
         </BrowserRouter>

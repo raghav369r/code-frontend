@@ -75,6 +75,7 @@ export const GetAllProblems = gql`
       topics
       createdAt
       createdBy
+      status
     }
   }
 `;
@@ -213,8 +214,8 @@ export const IsRigistered = gql`
 `;
 
 export const PastParticipated = gql`
-  query Query {
-    contests: getAllParticipatedContests {
+  query Query($userId: ID!) {
+    contests: getAllParticipatedContests(userId: $userId) {
       id
       name
       url

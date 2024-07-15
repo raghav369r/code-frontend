@@ -24,7 +24,7 @@ function ContestProblems() {
     `Ends at  ${new Date(endTime).toLocaleString()}`
   );
   useEffect(() => {
-    if (new Date() > new Date(endTime)) navigate("/forbidden");
+    // if (new Date() > new Date(endTime)) navigate("/forbidden");
     const id = setInterval(() => {
       setRemTime(getTimeDiff(null, endTime, true));
     }, 1000);

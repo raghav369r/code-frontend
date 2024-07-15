@@ -2,6 +2,8 @@ import React from "react";
 import { NEWTON_LINK } from "../../config/constants";
 import Header from "../Header";
 import { Link } from "react-router-dom";
+import { BiHome } from "react-icons/bi";
+import { FaHome } from "react-icons/fa";
 
 const PageNotFound = () => {
   return (
@@ -17,9 +19,10 @@ const PageNotFound = () => {
         <div className="relative">
           <Link
             to={"/home"}
-            className="absolute top-0 z-20 text-xl cursor-pointer px-5 py-3 rounded-lg border m-4 border-gray-400 "
+            className="absolute flex items-center gap-2 top-0 z-20 text-xl cursor-pointer px-5 py-3 rounded-lg border m-4 hover:bg-neutral-200 border-gray-400 "
           >
-            Go To Home
+            <FaHome />
+            <h1> Back To Home</h1>
           </Link>
         </div>
       </div>

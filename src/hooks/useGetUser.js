@@ -1,20 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/User";
+import React, { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { GetUser } from "../../graphQL/Quary";
 
 const useGetUser = () => {
   const [user, setUser] = useState("");
-  const [getuser] = useLazyQuery(GetUser);
+  const [getuser, { loading }] = useLazyQuery(GetUser);
   useEffect(() => {
     const start = async () => {
       const res = await getuser();
-    //   console.log(res.data);
+      //   console.log(res.data);
       setUser(res?.data?.user);
     };
     start();
   }, []);
-  return [user, setUser];
+  return { user, setUser, loading };
 };
 
 export default useGetUser;

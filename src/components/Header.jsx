@@ -3,10 +3,10 @@ import { UserContext } from "../context/User";
 import { NavLink } from "react-router-dom";
 import { HiMiniUserCircle } from "react-icons/hi2";
 import { IoMdExit } from "react-icons/io";
+import { TbLoaderQuarter } from "react-icons/tb";
 
 const Header = () => {
-  const { user, setUser } = useContext(UserContext);
-
+  const { user, setUser, loading } = useContext(UserContext);
   return (
     <div className="z-[20] p-2 flex justify-between items-center h-fit bg-white shadow-lg text-sky-500 sticky top-0">
       <NavLink to={"/"} className="h-full">
@@ -28,7 +28,13 @@ const Header = () => {
             to={"/login"}
             className="bg-sky-400 bg-opacity-25 px-4 py-2 rounded-md font-semibold"
           >
-            Register/Login
+            {loading ? (
+              <div className="animate-spin">
+                <TbLoaderQuarter className="animate-spin" />
+              </div>
+            ) : (
+              "Register/Login"
+            )}
           </NavLink>
         )}
       </div>

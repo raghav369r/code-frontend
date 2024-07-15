@@ -1,6 +1,8 @@
 import React from "react";
 import useGetAllProblems from "../hooks/useGetAllProblems";
 import { NavLink } from "react-router-dom";
+import { LuCheckCircle } from "react-icons/lu";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const ProblemTable = () => {
   const [data, error, loading] = useGetAllProblems();
@@ -11,13 +13,23 @@ const ProblemTable = () => {
         Practice Problems from previous Contests
       </h1>
       <table className="w-full">
-        <tbody>
-          <tr className="text-gray-500 text-center border-b">
+        <tbody className="">
+          <tr className="text-gray-500 text-left border-b">
+            <td className="p-3 w-10">Status</td>
             <td className="p-3">Title</td>
             <td className="p-3">Difficulty</td>
           </tr>
           {data?.problems?.map((ele, ind) => (
             <tr key={ind} className="text-black even:bg-neutral-100">
+              <td className="pl-4 w-10">
+                {ele.status == "done" ? (
+                  <LuCheckCircle className="text-green-600 size-6" />
+                ) : ele.status == "try" ? (
+                  <IoMdCloseCircleOutline className="text-yellow-500 size-7" />
+                ) : (
+                  ""
+                )}
+              </td>
               <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
                 <NavLink to={"/problem/" + ele.id}>
                   {ind + 1 + ". " + ele.title}

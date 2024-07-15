@@ -85,7 +85,7 @@ const Login = () => {
   // setUser({ id: "123", name: "raghav", email: "raghav@gmail.com" });
   return (
     <>
-      <div className="bg-light-bg h-screen w-full pt-8">
+      <div className="bg-light-bg h-screen w-full pt-8 bg-pattern">
         <div className="md:flex flex-row items-center justify-around container mx-auto">
           <div className="">
             <h1 className="text-gray-700 text-3xl font-semibold py-4">
@@ -100,6 +100,9 @@ const Login = () => {
               </span>
               <span onClick={() => handleUser(true)}>
                 <Button data="Sign Up" selected={newUser} />
+              </span>
+              <span>
+                <Button data="For Organisations" selected={false} />
               </span>
             </div>
 
