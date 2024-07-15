@@ -1,5 +1,5 @@
 import Editor from "@monaco-editor/react";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Split from "react-split";
 import { FaCaretDown } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
@@ -10,8 +10,10 @@ import { useMutation } from "@apollo/client";
 import { SubmitCode } from "../../graphQL/Mutations";
 import { PasteCodePopUp } from "./popUps/PopUps";
 import useCodePersistance from "../hooks/useCodePersistance";
+import { UserContext } from "../context/User";
 
 const EditorCode = ({ examples, setSubmissions }) => {
+  const { user } = useContext(UserContext);
   const [run, data, error, loading] = useRunCode();
   const [submitCode, { data: sdata, loading: sloading, error: serror }] =
     useMutation(SubmitCode);
@@ -199,7 +201,8 @@ const EditorCode = ({ examples, setSubmissions }) => {
             </button>
             <button
               onClick={handleSubmit}
-              className="px-4 py-1 bg-gray-500 rounded-lg"
+              className="px-4 py-1 bg-gray-500 rounded-lg disabled:cursor-not-allowed disabled:opacity-30"
+              disabled={!user?.id}
             >
               {sloading ? "Loading..." : "Submit"}
             </button>

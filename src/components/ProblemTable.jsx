@@ -3,6 +3,7 @@ import useGetAllProblems from "../hooks/useGetAllProblems";
 import { NavLink } from "react-router-dom";
 import { LuCheckCircle } from "react-icons/lu";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import TableShimmer from "./shimmer/TableShimmer";
 
 const ProblemTable = () => {
   const [data, error, loading] = useGetAllProblems();
@@ -19,6 +20,7 @@ const ProblemTable = () => {
             <td className="p-3">Title</td>
             <td className="p-3">Difficulty</td>
           </tr>
+          {loading && <TableShimmer />}
           {data?.problems?.map((ele, ind) => (
             <tr key={ind} className="text-black even:bg-neutral-100">
               <td className="pl-4 w-10">
