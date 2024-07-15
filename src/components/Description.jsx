@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DisplayCode from "./DisplayCode";
 
 const Description = ({ data, submissions, loading }) => {
   const { problem } = data || {};
@@ -20,31 +21,46 @@ const Description = ({ data, submissions, loading }) => {
         >
           Submitions
         </li>
+        {menu >= 2 && (
+          <li className="p-2 border-black border-b">Sub details</li>
+        )}
       </ul>
       {menu == 1 &&
         (submissions.length ? (
           <table className="w-full">
             <tr className="text-gray-500 text-center border-b">
-              <td className="p-3">Accepted</td>
-              <td className="p-3">filed TestCase</td>
-              <td className="p-3">submittedAt</td>
-              <td className="p-3">Solved In</td>
+              <td className="p-3">Status</td>
+              <td className="p-3">Language</td>
+              <td className="p-3">SubmittedAt</td>
             </tr>
             {submissions?.map((ele, ind) => (
-              <tr key={ind} className="text-black even:bg-neutral-100">
-                <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
-                  {ele.isAccepted ? "true" : "false"}
+              <tr
+                key={ind}
+                className="text-black even:bg-neutral-100 cursor-pointer hover:bg-neutral-200"
+                onClick={() => setMenu(ind + 2)}
+              >
+                <td
+                  className={`p-3 line-clamp-1 cursor-pointer ${
+                    ele.errorDetails ? "text-red-700" : "text-green-700"
+                  }`}
+                >
+                  {!ele.errorDetails
+                    ? "Accepted"
+                    : ele.errorDetails.startsWith(" Error at test case")
+                    ? "Wrong Answer"
+                    : "Runtime Error"}
                 </td>
-                <td p-3>{ele.inputCase == "-1" ? "None" : ele.inputCase}</td>
+                <td className="p-3 ">
+                  <h1 className="p-1 rounded-full bg-gray-200 w-fit text-sm px-2">{ele?.language}</h1>
+                </td>
                 <td className="p-3 line-clamp-1">
                   {new Date(ele?.submittedAt).toLocaleString()}
                 </td>
-                <td className="p-3">{ele?.language}</td>
               </tr>
             ))}
           </table>
         ) : (
-          <h1>not submitted any code yet</h1>
+          <h1 className="p-3 text-center">not submitted any code yet</h1>
         ))}
       {menu == 0 && (
         <div className="h-full overflow-y-scroll">
@@ -56,6 +72,18 @@ const Description = ({ data, submissions, loading }) => {
               <Example example={ex} key={ind} />
             </div>
           ))}
+        </div>
+      )}
+      {menu >= 2 && (
+        <div className="p-2">
+          <h1>submission details</h1>
+          {/* {submissions[menu - 2].code.split("\n").map((ele) => (
+              <p>{ele}</p>
+            ))} */}
+          <DisplayCode
+            code={submissions[menu - 2].code}
+            language={submissions[menu - 2].language}
+          />
         </div>
       )}
     </div>

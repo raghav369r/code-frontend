@@ -26,7 +26,7 @@ const Profile = () => {
   return (
     <div className="bg-[#f7f8fa] w-full">
       <div className="px-4 py-10 gap-4 md:grid grid-cols-12  text-gray-500">
-        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 md:col-span-3 overflow-x-hidden">
+        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 md:col-span-3 overflow-x-hidden h-fit">
           <div className="flex gap-3 items-center">
             <div className="min-h-32 min-w-32 rounded-full bg-neutral-100 p-5 hover:bg-slate-100">
               <FaUserAlt className=" size-full text-gray-400" />
