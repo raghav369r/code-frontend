@@ -93,7 +93,7 @@ const Comp = ({ name, data, setData }) => {
         {!edit && <h1>{data[name]}</h1>}
         {edit && (
           <input
-            className="appearance-none focus:outline-none outline-none border-2 py-1.5 px-4"
+            className="appearance-none focus:outline-none outline-none border focus:border-blue-300 py-1.5 px-4 bg-transparent"
             value={val}
             onChange={(e) => setVal(e.target.value)}
           />

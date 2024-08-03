@@ -66,8 +66,8 @@ export const GetUser = gql`
   }
 `;
 export const GetAllProblems = gql`
-  query GetAllProblems {
-    problems: getAllProblems {
+  query GetAllProblems($pagination: Pagination) {
+    problems: getAllProblems(Pagination: $pagination) {
       id
       title
       description
@@ -114,8 +114,8 @@ export const isnameAvailable = gql`
   }
 `;
 export const GetAllSubmissions = gql`
-  query GetAllSubmissions($userId: ID!) {
-    submissions: getAllSubmissions(userId: $userId) {
+  query GetAllSubmissions($userId: ID!, $pagination: Pagination) {
+    submissions: getAllSubmissions(userId: $userId, Pagination: $pagination) {
       id
       userId
       problemId
@@ -242,8 +242,11 @@ export const GetContestDetails = gql`
   }
 `;
 export const GetProblemSubmissions = gql`
-  query GetProblemSubmissions($problemId: ID!) {
-    submissions: getProblemSubmissions(problemId: $problemId) {
+  query GetProblemSubmissions($problemId: ID!, $pagination: Pagination) {
+    submissions: getProblemSubmissions(
+      problemId: $problemId
+      Pagination: $pagination
+    ) {
       id
       userId
       problemId

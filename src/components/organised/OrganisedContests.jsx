@@ -4,9 +4,8 @@ import { GetOrganised } from "../../../graphQL/Quary";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 const OrganisedContests = () => {
-  const { user } = useContext(UserContext);
   const { data } = useQuery(GetOrganised);
-  if (!data?.contests?.length) return <h1>Note organised any contest Yet!!</h1>;
+  if (!data?.contests?.length) return <h1 className="h-[90vh] flex items-center justify-center text-2xl text-black">Not organised any contests Yet!!</h1>;
   return (
     <div className="container mx-auto text-black min-h-[90vh]">
       <table className="w-full">

@@ -6,7 +6,7 @@ const Description = ({ data, submissions, loading }) => {
   const [menu, setMenu] = useState(0);
 
   return (
-    <div className="p-3 m-2 pr-0 border rounded-xl overflow-x-hidden h-full mr-0 flex flex-col">
+    <div className="p-3 m-2 pr-0 border rounded-xl overflow-x-hidden h-full mr-0 flex flex-col select-none">
       {loading && <h1 className="text-center my-auto">Loading...</h1>}
       <ul className="cursor-pointer items-center flex gap-3 font-semibold text-lg border-b">
         <li
@@ -51,7 +51,9 @@ const Description = ({ data, submissions, loading }) => {
                     : "Runtime Error"}
                 </td>
                 <td className="p-3 ">
-                  <h1 className="p-1 rounded-full bg-gray-200 w-fit text-sm px-2">{ele?.language}</h1>
+                  <h1 className="p-1 rounded-full bg-gray-200 w-fit text-sm px-2">
+                    {ele?.language}
+                  </h1>
                 </td>
                 <td className="p-3 line-clamp-1">
                   {new Date(ele?.submittedAt).toLocaleString()}
@@ -76,10 +78,37 @@ const Description = ({ data, submissions, loading }) => {
       )}
       {menu >= 2 && (
         <div className="p-2">
-          <h1>submission details</h1>
-          {/* {submissions[menu - 2].code.split("\n").map((ele) => (
-              <p>{ele}</p>
-            ))} */}
+          <h1 className="my-2">submission details</h1>
+          {submissions[menu - 2].errorDetails ? (
+            <div>
+              <h1 className="my-2 text-red-600">Error</h1>
+              <div className="my-2 bg-red-500 bg-opacity-30 rounded-md p-3 text-red-500">
+                {submissions[menu - 2].errorDetails}
+              </div>
+            </div>
+          ) : (
+            <h1 className="text-green-700">Accepted</h1>
+          )}
+
+          {submissions[menu - 2].errorDetails.startsWith(
+            " Error at test case"
+          ) && (
+            <div>
+              <h1 className="font-semibold p-2">Input</h1>
+              <h2 className="px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
+                {submissions[menu - 2]?.input || "N/A"}
+              </h2>
+              <h1 className="font-semibold p-2">Expected Output</h1>
+              <h2 className="px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
+                {submissions[menu - 2]?.expectedOutput}
+              </h2>
+              <h1 className="font-semibold p-2">Your Output</h1>
+              <h2 className="min-h-8 cursor-pointer px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
+                {/* output for all test cases to is availabale at Output */}
+                {submissions[menu - 2]?.output}
+              </h2>
+            </div>
+          )}
           <DisplayCode
             code={submissions[menu - 2].code}
             language={submissions[menu - 2].language}
@@ -93,7 +122,7 @@ const Description = ({ data, submissions, loading }) => {
 const Example = ({ example }) => {
   const { input, output, explanation } = example || {};
   return (
-    <div className="bg-neutral-100 p-3 m-2 rounded">
+    <div className="bg-neutral-100 border-l-4 border-gray-300 p-3 m-2 rounded">
       <h1 className="font-semibold">input</h1>
       <h2 className="p-1">{input}</h2>
       <h1 className="font-semibold">output</h1>

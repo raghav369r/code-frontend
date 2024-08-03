@@ -78,12 +78,6 @@ const EditorCode = ({ examples, setSubmissions }) => {
   return (
     <div className="h-full overflow-hidden  flex flex-col p-2 m-2 ml-0 border rounded-lg border-gray-300 text-gray-900">
       {popUp && <PasteCodePopUp setPopUp={setPopUp} />}
-      <div
-        ref={warningRef}
-        className="absolute z-[1000] p-4 border-gray-300 -translate-x-1/2 -top-full transition-all duration-500 border rounded-xl bg-white text-red-600 font-semibold left-1/2"
-      >
-        Not Allowed To Paste Code
-      </div>
       <div className="flex justify-between h-fit">
         <div className="relative px-4 py-1 bg-slate-200 min-w-32 rounded-lg">
           <div
@@ -96,7 +90,7 @@ const EditorCode = ({ examples, setSubmissions }) => {
           {height != "0" && (
             <ul
               ref={selectorRef}
-              className="absolute z-[10] bg-white overflow-hidden w-full top-full left-0 text-center cursor-pointer border z-100 flex flex-col"
+              className="max-h-56 overflow-y-scroll absolute z-[10] bg-white overflow-hidden w-full top-full left-0 text-center cursor-pointer border z-100 flex flex-col"
             >
               <li
                 className=" py-2 hover:bg-neutral-100 border-b"

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import useGetAllProblems from "../hooks/useGetAllProblems";
 import { NavLink } from "react-router-dom";
 import { LuCheckCircle } from "react-icons/lu";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import TableShimmer from "./shimmer/TableShimmer";
+import Paginate from "./shared/Paginate";
 
 const ProblemTable = () => {
-  const [data, error, loading] = useGetAllProblems();
+  const [page, setPage] = useState(1);
+  const [data, error, loading] = useGetAllProblems(page);
 
   return (
     <div className="container mx-auto text-lg ">
@@ -34,7 +36,7 @@ const ProblemTable = () => {
               </td>
               <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
                 <NavLink to={"/problem/" + ele.id}>
-                  {ind + 1 + ". " + ele.title}
+                  {(page-1)*10+(ind + 1) + ". " + ele.title}
                 </NavLink>
               </td>
               <Difficulty difficulty={ele.difficulty} />
@@ -42,6 +44,7 @@ const ProblemTable = () => {
           ))}
         </tbody>
       </table>
+      <Paginate page={page} setPage={setPage} />
     </div>
   );
 };
