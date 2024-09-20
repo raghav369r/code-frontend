@@ -1,19 +1,11 @@
 import React from "react";
-import ReactSyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import MDEditor from "@uiw/react-md-editor";
 
 const DisplayCode = ({ code, language }) => {
-    
-    return (
-    <div className="">
+  return (
+    <div className="" data-color-mode="light">
       <h1 className="pt-5 text-sm text-neutral-700">Code | {language}</h1>
-      <ReactSyntaxHighlighter
-        className="h-fit w-full p-3 rounded-xl"
-        language={language}
-        style={docco}
-      >
-        {code}
-      </ReactSyntaxHighlighter>
+      <MDEditor.Markdown source={`\`\`\`${language}\n${code}`}/>
     </div>
   );
 };

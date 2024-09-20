@@ -18,7 +18,7 @@ const EditorCode = ({ examples, setSubmissions }) => {
   const [submitCode, { data: sdata, loading: sloading, error: serror }] =
     useMutation(SubmitCode);
   const [height, setHeight] = useState("0");
-  const warningRef = useRef(null);
+  // const warningRef = useRef(null);
   const selectorRef = useRef(null);
   const editorRef = useRef(null);
   const splitRef = useRef(null);

@@ -64,7 +64,7 @@ const Create = () => {
       <div className="flex justify-center ">
         <button
           onClick={handleCreate}
-          className="btn bg-green-300 m-5 text-black px-4 font-semibold"
+          className="btn btn-primary m-5 px-4 font-semibold"
           disabled={valerror}
         >
           {loading ? "loading..." : "Create Contest"}
