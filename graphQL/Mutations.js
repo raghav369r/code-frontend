@@ -89,3 +89,27 @@ export const BlockUser = gql`
     blockUser(contestId: $contestId)
   }
 `;
+export const AddProblem = gql`
+  mutation AddProblem($newProblem: problemInput) {
+    addProblem(newProblem: $newProblem) {
+      id
+      title
+      description
+      difficulty
+      startCode
+      topics
+      solutionCode
+      createdAt
+      createdBy
+      constraints
+      expectedComplexity
+      examples {
+        id
+        input
+        output
+        explanation
+        problemId
+      }
+    }
+  }
+`;

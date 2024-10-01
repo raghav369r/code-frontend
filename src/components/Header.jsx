@@ -67,6 +67,12 @@ const Menu = ({ user, setUser }) => {
         Join Contest
       </NavLink>
       <NavLink
+        to={"/addProblem"}
+        className="p-2 hover:bg-neutral-300 rounded-md"
+      >
+        Add problem
+      </NavLink>
+      <NavLink
         to={"/organised"}
         className="p-2 hover:bg-neutral-300 rounded-md"
       >

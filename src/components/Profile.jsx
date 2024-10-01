@@ -32,10 +32,10 @@ const Profile = () => {
               <FaUserAlt className=" size-full text-gray-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold">
+              <span className="text-2xl font-semibold">
                 {user.firstName + " " + user.lastName}
-              </h1>
-              <h2>{"@" + user.userName}</h2>
+              </span>
+              <span>{"@" + user.userName}</span>
             </div>
           </div>
           <button
@@ -46,24 +46,32 @@ const Profile = () => {
           </button>
           <div className="flex gap-4 items-center">
             <CiLocationOn className="size-6" />
-            <h1>India</h1>
+            <span>India</span>
           </div>
           <div className="flex gap-4 items-center">
             <MdEmail className="size-6" />
-            <h1>{user.email || "not Set"}</h1>
+            <span>{user.email || "not Set"}</span>
           </div>
           <div className="flex gap-4 items-center">
             <LiaLinkedin className="size-6" />
-            <h1>{user.linkedinLink || "not Set"}</h1>
+            <a href={user.linkedinLink || null} className="text-sm">
+              {user.linkedinLink || "not Set"}
+            </a>
           </div>
           <div className="flex gap-4 items-center">
             <BsGithub className="size-6" />
-            <h1>{user.githubLink || "not Set"}</h1>
+            <a
+              href={user.githubLink || null}
+              className="text-sm"
+              target="_blank"
+            >
+              {user.githubLink?"GitHub": "not Set"}
+            </a>
           </div>
           <div className="flex gap-4 items-center">
             <FaLink className="size-6" />
-            <a href={user.portfolioLink} target="_blank">
-              {user.portfolioLink || "not Set"}
+            <a className="text-sm" href={user.portfolioLink || null} target="_blank">
+              {user.portfolioLink ? "portfolio" : "not Set"}
             </a>
           </div>
           <hr />

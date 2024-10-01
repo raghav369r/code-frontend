@@ -28,6 +28,7 @@ const ContestStart = lazy(() => import("../components/contest/ContestStart"));
 const OrganisedContests = lazy(() =>
   import("../components/organised/OrganisedContests")
 );
+const AddProblem = lazy(() => import("../components/addProblem/AddProblem"));
 
 const AllRoutes = () => {
   return (
@@ -49,6 +50,7 @@ const AllRoutes = () => {
             <Route path="solve/:problemId" element={<SolveProblem />} />
           </Route>
           <Route element={<AuthLayout />}>
+            <Route path="/addProblem" element={<AddProblem />} />
             <Route path="/organised">
               <Route index element={<OrganisedContests />} />
             </Route>

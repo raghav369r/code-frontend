@@ -43,13 +43,13 @@ const Edit = () => {
         <div className="rounded-3xl  bg-gray-300 p-2 border-[8px] border-slate-100 group h-fit ml-20 mt-10">
           <FaUser className="size-36 group-hover:opacity-35" color="gray" />
         </div>
-        <h1 className="font-semibold text-gray-900 mt-32">
+        <label className="font-semibold text-gray-900 mt-32">
           {user.userName || user.firstName}
-        </h1>
+        </label>
       </div>
       <div className="w-full flex justify-center text-gray-600">
         <div className="md:w-1/2 w-full mx-10 bg-white shadow-lg h-fit mb-10 -my-32 rounded-2xl p-4">
-          <h1 className="font-semibold text-center p-4 text-xl">Basic Info</h1>
+          <label className="font-semibold text-center p-4 text-xl">Basic Info</label>
           <Comp name={"firstName"} data={data} setData={setData} />
           <Comp name={"lastName"} data={data} setData={setData} />
           <Comp name={"userName"} data={data} setData={setData} />
@@ -89,8 +89,8 @@ const Comp = ({ name, data, setData }) => {
   return (
     <>
       <div className="flex justify-between py-3">
-        <h1 className="text-gray-700">{name}</h1>
-        {!edit && <h1>{data[name]}</h1>}
+        <label className="text-gray-700">{name}</label>
+        {!edit && <span>{data[name]}</span>}
         {edit && (
           <input
             className="appearance-none focus:outline-none outline-none border focus:border-blue-300 py-1.5 px-4 bg-transparent"
@@ -98,12 +98,12 @@ const Comp = ({ name, data, setData }) => {
             onChange={(e) => setVal(e.target.value)}
           />
         )}
-        <h1
+        <label
           className="text-md text-sky-500 font-semibold"
           onClick={() => setEdit(true)}
         >
           Edit
-        </h1>
+        </label>
       </div>
       {edit && (
         <div className="flex gap-6 justify-center mb-4">
