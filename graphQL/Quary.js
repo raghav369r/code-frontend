@@ -303,3 +303,27 @@ export const ContestRankings = gql`
     }
   }
 `;
+export const findProblem = gql`
+  query FindProblem($title: String!) {
+    matches:findProblem(title: $title) {
+      id
+      title
+      description
+      difficulty
+      startCode
+      topics
+      solutionCode
+      createdAt
+      createdBy
+      constraints
+      expectedComplexity
+      examples {
+        id
+        input
+        output
+        explanation
+        problemId
+      }
+    }
+  }
+`;

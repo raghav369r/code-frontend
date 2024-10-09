@@ -78,7 +78,7 @@ const Login = () => {
       setError(errorMessage);
     } else {
       const { token, user } = res.data.user;
-      localStorage.setItem("token", token);
+      localStorage.setItem("codehere_token", token);
       setUser({ ...user });
     }
   };

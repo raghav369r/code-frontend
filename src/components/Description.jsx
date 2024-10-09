@@ -120,7 +120,7 @@ const Description = ({ data, submissions, loading }) => {
   );
 };
 
-const Example = ({ example }) => {
+export const Example = ({ example }) => {
   const { input, output, explanation } = example || {};
   return (
     <div className="bg-neutral-100 border-l-4 border-gray-300 p-3 m-2 rounded">

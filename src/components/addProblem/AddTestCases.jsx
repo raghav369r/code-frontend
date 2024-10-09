@@ -1,3 +1,4 @@
+import { Editor } from "@monaco-editor/react";
 import React from "react";
 
 const AddTestCases = ({ setFormData, formData }) => {
@@ -14,7 +15,29 @@ and so on `}
       <p>*\n**\n***</p>
       <p>4</p>
       <p>*\n**\n***\n****</p>
-      <textarea
+      <Editor
+        className="h-[50vh] border-2 rounded"
+        value={formData.testcases}
+        onChange={(e) => setFormData((prev) => ({ ...prev, testcases: e }))}
+        language="text"
+        options={{
+          minimap: { enabled: false },
+          selectOnLineNumbers: true,
+          quickSuggestions: {
+            other: false,
+            comments: false,
+            strings: false,
+          },
+          parameterHints: {
+            enabled: false,
+          },
+          suggestOnTriggerCharacters: false,
+          acceptSuggestionOnEnter: "off",
+          tabCompletion: "off",
+          wordBasedSuggestions: false,
+        }}
+      />
+      {/* <textarea
         name=""
         placeholder="enter multiple test cases"
         rows={12}
@@ -28,7 +51,7 @@ and so on `}
 
           })
         }
-      />
+      /> */}
     </div>
   );
 };
