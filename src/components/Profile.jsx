@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/User";
-import { CiLocationOn } from "react-icons/ci";
 import { LiaLinkedin } from "react-icons/lia";
 import { BsGithub } from "react-icons/bs";
-import { FaAngleRight } from "react-icons/fa6";
+import { FaAngleRight, FaLocationPin } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
 import { PiListChecksBold } from "react-icons/pi";
 import { MdCloudDone, MdEmail } from "react-icons/md";
@@ -45,21 +44,21 @@ const Profile = () => {
             Edit Profile
           </button>
           <div className="flex gap-4 items-center">
-            <CiLocationOn className="size-6" />
+            <FaLocationPin className="text-2xl min-w-fit" />
             <span>India</span>
           </div>
           <div className="flex gap-4 items-center">
-            <MdEmail className="size-6" />
+            <MdEmail className="text-2xl min-w-fit" />
             <span>{user.email || "not Set"}</span>
           </div>
           <div className="flex gap-4 items-center">
-            <LiaLinkedin className="size-6" />
+            <LiaLinkedin className="text-2xl min-w-fit" />
             <a href={user.linkedinLink || null} className="text-sm">
               {user.linkedinLink || "not Set"}
             </a>
           </div>
           <div className="flex gap-4 items-center">
-            <BsGithub className="size-6" />
+            <BsGithub className="text-2xl min-w-fit" />
             <a
               href={user.githubLink || null}
               className="text-sm"
@@ -69,7 +68,7 @@ const Profile = () => {
             </a>
           </div>
           <div className="flex gap-4 items-center">
-            <FaLink className="size-6" />
+            <FaLink className="text-2xl min-w-fit" />
             <a className="text-sm" href={user.portfolioLink || null} target="_blank">
               {user.portfolioLink ? "portfolio" : "not Set"}
             </a>

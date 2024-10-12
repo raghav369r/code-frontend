@@ -1,8 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const LoginUser = gql`
-  query LoginUser($email: String!, $password: String!) {
-    user: loginUser(email: $email, password: $password) {
+  query LoginUser($email: String!, $password: String!, $organisation: Boolean) {
+    user: loginUser(
+      email: $email
+      password: $password
+      organisation: $organisation
+    ) {
       token
       user {
         id
@@ -16,6 +20,7 @@ export const LoginUser = gql`
         githubLink
         instagramLink
         portfolioLink
+        organisation
       }
     }
   }
@@ -62,6 +67,7 @@ export const GetUser = gql`
       githubLink
       instagramLink
       portfolioLink
+      organisation
     }
   }
 `;
@@ -305,7 +311,7 @@ export const ContestRankings = gql`
 `;
 export const findProblem = gql`
   query FindProblem($title: String!) {
-    matches:findProblem(title: $title) {
+    matches: findProblem(title: $title) {
       id
       title
       description

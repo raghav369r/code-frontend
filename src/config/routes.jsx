@@ -84,6 +84,9 @@ const AllRoutes = () => {
               <Route path="solve/:problemId" element={<SolveProblem />} />
             </Route>
           </Route>
+          <Route path="/organisation" element={<HomeLayout />}>
+            <Route index element={<Login organisation />} />
+          </Route>
           <Route path="/load" element={<Loading />} />
           <Route path="/test" element={<Test />} />
           <Route path="/*" element={<PageNotFound />} />

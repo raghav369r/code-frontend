@@ -57,32 +57,36 @@ const Menu = ({ user, setUser }) => {
       >
         All Submitions
       </NavLink>
-      <NavLink
-        to={"/contest/create"}
-        className="p-2 hover:bg-neutral-300 rounded-md"
-      >
-        Organise Contest
-      </NavLink>
       <NavLink to={"/contest"} className="p-2 hover:bg-neutral-300 rounded-md">
         Join Contest
       </NavLink>
-      <NavLink
-        to={"/addProblem"}
-        className="p-2 hover:bg-neutral-300 rounded-md"
-      >
-        Add problem
-      </NavLink>
-      <NavLink
-        to={"/organised"}
-        className="p-2 hover:bg-neutral-300 rounded-md"
-      >
-        manage Contest
-      </NavLink>
+      {user?.organisation && (
+        <>
+          <NavLink
+            to={"/contest/create"}
+            className="p-2 hover:bg-neutral-300 rounded-md"
+          >
+            Organise Contest
+          </NavLink>
+          <NavLink
+            to={"/addProblem"}
+            className="p-2 hover:bg-neutral-300 rounded-md"
+          >
+            Add problem
+          </NavLink>
+          <NavLink
+            to={"/organised"}
+            className="p-2 hover:bg-neutral-300 rounded-md"
+          >
+            manage Contest
+          </NavLink>
+        </>
+      )}
       <div
         className="flex gap-4 items-center p-2 hover:bg-neutral-300 rounded-md"
         onClick={() => {
           setUser("");
-          localStorage.removeItem("token");
+          localStorage.removeItem("codehere_token");
         }}
       >
         <IoMdExit className="size-7" />

@@ -8,7 +8,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { registerUser } from "../../../graphQL/Mutations";
 import { LoginUser } from "../../../graphQL/Quary";
 
-const Login = () => {
+const Login = ({ organisation }) => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [newUser, setNewUser] = useState(true);
@@ -19,8 +19,9 @@ const Login = () => {
   const [login, { data: ldata, loading: lloading, error: lerror }] =
     useLazyQuery(LoginUser);
   useEffect(() => {
-    if (user) navigate(-1);
-  }, [user]);
+    if (user && !organisation) navigate("/");
+    if (user && organisation) navigate(-1);
+  }, [user, organisation]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     var ndata = { ...data };
@@ -63,10 +64,12 @@ const Login = () => {
         setError("username must be of length altelast 4");
         return;
       }
-      res = await register({ variables: { newUser: data } });
+      res = await register({
+        variables: { newUser: { ...data, organisation } },
+      });
     } else
       res = await login({
-        variables: { email: data.email, password: data.password },
+        variables: { email: data.email, password: data.password, organisation },
       });
 
     if (res.errors) {
@@ -89,7 +92,7 @@ const Login = () => {
         <div className="md:flex flex-row items-center justify-around container mx-auto">
           <div className="">
             <h1 className="text-gray-700 text-3xl font-semibold py-4">
-              Sign up on Code Here
+              {organisation ? "Oranisaton Login" : "Sign up on Code Here"}
             </h1>
             <h2 className="text-gray-500 text-2xl font-semibold py-4">
               Access your account or get started with us
@@ -101,18 +104,20 @@ const Login = () => {
               <span onClick={() => handleUser(true)}>
                 <Button data="Sign Up" selected={newUser} />
               </span>
-              <span>
-                <Button data="For Organisations" selected={false} />
-              </span>
+              {!organisation && (
+                <span onClick={() => navigate("/organisation")}>
+                  <Button data="For Organisations" selected={false} />
+                </span>
+              )}
             </div>
 
             {error && <h1 className="text-red-700 mt-4">{error}</h1>}
-            <div className="bg-form bg-opacity-10 my-5">
+            <div className="bg-form bg-opacity-10 my-5 divide-y">
               {newUser && (
                 <Input
                   handleChange={handleChange}
                   data={data}
-                  placeholder="User Name"
+                  placeholder={organisation ? "Organisation Name" : "User Name"}
                   type="text"
                   name="userName"
                   Logo={PiTextbox}
@@ -121,7 +126,7 @@ const Login = () => {
               <Input
                 handleChange={handleChange}
                 data={data}
-                placeholder="Email"
+                placeholder={organisation ? "Organisation Email" : "Email"}
                 type="email"
                 name="email"
                 Logo={MdOutlineEmail}

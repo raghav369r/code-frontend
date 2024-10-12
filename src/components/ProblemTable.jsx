@@ -36,7 +36,7 @@ const ProblemTable = () => {
               </td>
               <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
                 <NavLink to={"/problem/" + ele.id}>
-                  {(page-1)*10+(ind + 1) + ". " + ele.title}
+                  {(page - 1) * 10 + (ind + 1) + ". " + ele.title}
                 </NavLink>
               </td>
               <Difficulty difficulty={ele.difficulty} />
