@@ -78,6 +78,7 @@ const AllRoutes = () => {
               <Route index element={<Profile />} />
               <Route path="edit" element={<Edit />} />
               <Route path="allsubmissions" element={<SubmissionsTable />} />
+              <Route path="id/:userId" element={<Profile />} />
             </Route>
           </Route>
           <Route element={<CodeLayout />}>

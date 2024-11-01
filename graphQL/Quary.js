@@ -54,8 +54,8 @@ export const RunCode = gql`
 // `;
 
 export const GetUser = gql`
-  query GetUser {
-    user: getUser {
+  query GetUser($userId: ID) {
+    user: getUser(userId: $userId) {
       id
       firstName
       lastName
@@ -360,15 +360,15 @@ export const mangeProblem = gql`
 
 export const getComments = gql`
   query GetComments($problemId: ID!, $page: Int, $limit: Int) {
-    comments:getComments(problemId: $problemId, page: $page, limit: $limit) {
-    id
-    userId
-    comment
-    problemId
-    user {
+    comments: getComments(problemId: $problemId, page: $page, limit: $limit) {
       id
-      userName
+      userId
+      comment
+      problemId
+      user {
+        id
+        userName
+      }
     }
   }
-}
 `;

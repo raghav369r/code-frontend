@@ -1,76 +1,94 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/User";
 import { LiaLinkedin } from "react-icons/lia";
 import { BsGithub } from "react-icons/bs";
 import { FaAngleRight, FaLocationPin } from "react-icons/fa6";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PiListChecksBold } from "react-icons/pi";
 import { MdCloudDone, MdEmail } from "react-icons/md";
 import { FaLink } from "react-icons/fa6";
-import { useQuery } from "@apollo/client";
-import { GetAllSubmissions, PastParticipated } from "../../graphQL/Quary";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import {
+  GetAllSubmissions,
+  GetUser,
+  PastParticipated,
+} from "../../graphQL/Quary";
 import { FaUserAlt } from "react-icons/fa";
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { userId } = useParams();
+  const { user: rootUser } = useContext(UserContext);
+  const [getUser, { data: userData }] = useLazyQuery(GetUser);
+  useEffect(() => {
+    const get = async (id) => {
+      await getUser({ variables: { userId: id } });
+    };
+    userId ? get(userId) : get(rootUser?.id);
+  }, [userId]);
   const [rc, setRc] = useState(true);
   const { data, error, loading } = useQuery(GetAllSubmissions, {
-    variables: { userId: user.id },
+    variables: { userId: userId ? userId : rootUser?.id },
   });
   const { data: condata } = useQuery(PastParticipated, {
-    variables: { userId: user?.id },
+    variables: { userId: userId ? userId : rootUser?.id },
   });
   const { submissions } = data || {};
   const navigate = useNavigate();
   return (
-    <div className="bg-[#f7f8fa] w-full">
-      <div className="px-4 py-10 gap-4 md:grid grid-cols-12  text-gray-500">
-        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 md:col-span-3 overflow-x-hidden h-fit">
+    <div className="bg-[#f7f8fa] w-full min-h-[95vh]">
+      <div className="px-4 py-10 gap-4 text-gray-500 flex flex-col md:flex-row">
+        <div className="p-4 bg-white shadow-md rounded-2xl flex flex-col gap-3 h-fit w-fit min-w-[320px] max-w-[550px] mx-auto">
           <div className="flex gap-3 items-center">
-            <div className="min-h-32 min-w-32 rounded-full bg-neutral-100 p-5 hover:bg-slate-100">
+            <div className="min-h-32 min-w-32 rounded-full bg-neutral-100 p-5 hover:bg-slate-100 ">
               <FaUserAlt className=" size-full text-gray-400" />
             </div>
             <div>
-              <span className="text-2xl font-semibold">
-                {user.firstName + " " + user.lastName}
-              </span>
-              <span>{"@" + user.userName}</span>
+              <p className="text-2xl font-semibold">
+                {userData?.user?.firstName + " " + userData?.user?.lastName}
+              </p>
+              <p>{"@" + userData?.user?.userName}</p>
             </div>
           </div>
-          <button
-            className="text-green-500 bg-green-500 bg-opacity-25 py-2 px-4 rounded-lg"
-            onClick={() => navigate("edit")}
-          >
-            Edit Profile
-          </button>
-          <div className="flex gap-4 items-center">
+          {!userId && (
+            <button
+              className="text-green-500 bg-green-500 bg-opacity-25 py-2 px-4 rounded-lg"
+              onClick={() => navigate("edit")}
+            >
+              Edit Profile
+            </button>
+          )}
+          <div className="flex gap-4 items-center overflow-x-scroll">
             <FaLocationPin className="text-2xl min-w-fit" />
             <span>India</span>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center overflow-x-scroll">
             <MdEmail className="text-2xl min-w-fit" />
-            <span>{user.email || "not Set"}</span>
+            <span>{userData?.user?.email || "not Set"}</span>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center overflow-x-scroll">
             <LiaLinkedin className="text-2xl min-w-fit" />
-            <a href={user.linkedinLink || null} className="text-sm">
-              {user.linkedinLink || "not Set"}
+            <a href={userData?.user?.linkedinLink || null} className="text-sm">
+              {userData?.user?.linkedinLink || "not Set"}
             </a>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center overflow-x-scroll">
             <BsGithub className="text-2xl min-w-fit" />
             <a
-              href={user.githubLink || null}
+              href={userData?.user?.githubLink || null}
               className="text-sm"
               target="_blank"
             >
-              {user.githubLink?"GitHub": "not Set"}
+              {userData?.user?.githubLink ? "GitHub" : "not Set"}
             </a>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center overflow-x-scroll">
             <FaLink className="text-2xl min-w-fit" />
-            <a className="text-sm" href={user.portfolioLink || null} target="_blank">
-              {user.portfolioLink ? "portfolio" : "not Set"}
+            <a
+              className="text-sm"
+              href={userData?.user?.portfolioLink || null}
+              target="_blank"
+            >
+              {userData?.user?.portfolioLink ? "portfolio" : "not Set"}
             </a>
           </div>
           <hr />
@@ -85,12 +103,12 @@ const Profile = () => {
             <Language language="R" solved="112" />
           </div>
         </div>
-        <div className="flex flex-col gap-4 col-span-9">
+        <div className="flex flex-col gap-4 w-full min-w-500px overflow-x-scroll">
           <div className="p-4 bg-white rounded-2xl shadow-lg h-fit">
             <h1 className="text-balck text-lg font-semibold text-center">
               Participated contests
             </h1>
-            <table className="w-full p-2">
+            <table className="w-full p-2 ">
               <tr className="text-gray-600 font-semibold border-b">
                 <td className="p-3 line-clamp-1">name</td>
                 <td className="">oraganisation</td>
@@ -99,12 +117,12 @@ const Profile = () => {
               {condata?.contests?.map((ele, ind) => (
                 <tr
                   key={ind}
-                  className="text-black even:bg-neutral-100 border-b"
+                  className="text-black even:bg-neutral-100 border-b "
                 >
                   <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
-                    <NavLink to={"/contest/view/" + ele.url}>
+                    <Link to={"/contest/view/" + ele.url}>
                       {ele?.name}
-                    </NavLink>
+                    </Link>
                   </td>
                   <td className="">{ele?.organisation}</td>
                   <td>{new Date(ele?.startTime).toLocaleString()}</td>
@@ -140,13 +158,13 @@ const Profile = () => {
                   Recent submitted
                 </li>
               </ul>
-              <NavLink
+              {!userId && <Link
                 to={"allsubmissions"}
                 className="flex gap-2 items-center"
               >
                 <h1 className="text-sm">View all submissions</h1>
                 <FaAngleRight />
-              </NavLink>
+              </Link>}
             </div>
             <table className="w-full p-2">
               <tbody>
@@ -162,9 +180,9 @@ const Profile = () => {
                       className="text-black even:bg-neutral-100 border-b"
                     >
                       <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
-                        <NavLink to={"/problem/" + ele.problemId}>
+                        <Link to={"/problem/" + ele.problemId}>
                           {ele?.problem.title}
-                        </NavLink>
+                        </Link>
                       </td>
                       <td className="">{ele.isInContest ? "true" : "false"}</td>
                       <td>{new Date(ele.submittedAt).toLocaleString()}</td>

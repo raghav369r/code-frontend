@@ -80,7 +80,11 @@ function ContestProblems() {
                   }`}
                 >
                   <td className="p-2">{ind + 1}</td>
-                  <td className="p-2">{ele?.User?.userName}</td>
+                  <td className="p-2">
+                    <a href={`/profile/id/${ele?.User?.id}`} target="_blank">
+                      {ele?.User?.userName}
+                    </a>
+                  </td>
                   <td className="p-2">{ele.score}</td>
                   <td className="p-2">
                     {ele?.lastSubmitted

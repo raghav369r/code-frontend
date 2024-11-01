@@ -13,6 +13,9 @@ export default {
         footer: "hsla(205, 42%, 17%, 1)",
         // "hsla(212,99%,61%,.2)",
       },
+      screens: {
+        tab:"950px"
+      },
     },
   },
   plugins: [require("daisyui")],

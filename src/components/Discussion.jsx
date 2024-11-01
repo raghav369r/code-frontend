@@ -5,6 +5,8 @@ import { UserContext } from "../context/User";
 import { useMutation, useQuery } from "@apollo/client";
 import { getComments } from "../../graphQL/Quary";
 import { addComment } from "../../graphQL/Mutations";
+import { FaRegUser } from "react-icons/fa";
+// FaRegUser
 
 const Discussion = ({ problemId }) => {
   const { user } = useContext(UserContext);
@@ -18,7 +20,7 @@ const Discussion = ({ problemId }) => {
   };
   const handlePost = async () => {
     if (!comment || comment.length < 2) return;
-  
+
     try {
       await postComment({
         variables: { problemId, comment },
@@ -47,7 +49,7 @@ const Discussion = ({ problemId }) => {
       console.error("Error posting comment:", err);
     }
   };
-  
+
   return (
     <>
       <div className="flex justify-between items-center">
@@ -71,7 +73,8 @@ const Discussion = ({ problemId }) => {
           </>
         )}
         <div className="h-4" />
-        {data && data?.comments.map((ele) => <Comment ele={ele} key={ele.id}/>)}
+        {data &&
+          data?.comments.map((ele) => <Comment ele={ele} key={ele.id} />)}
       </div>
     </>
   );
@@ -82,10 +85,14 @@ const Comment = ({ ele }) => {
   return (
     <div className="border rounded p-2 my-2">
       <div className="flex justify-between items-center text-gray-600">
-        <div className="flex gap-2 items-center cursor-pointer">
-          <RxAvatar className="text-2xl " />
-          <h1>{user?.userName}</h1>
-        </div>
+        <a
+          className="flex gap-2 items-center cursor-pointer"
+          href={`/profile/id/${user.id}`}
+          target="_blank"
+        >
+          <FaRegUser className="text-3xl p-1 border rounded-full text-gray-400" />
+          <h2>{user?.userName}</h2>
+        </a>
         <span>{time}</span>
       </div>
       <MDEditor.Markdown source={comment} className="py-2" />
