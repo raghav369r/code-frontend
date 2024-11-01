@@ -19,8 +19,7 @@ const Login = ({ organisation }) => {
   const [login, { data: ldata, loading: lloading, error: lerror }] =
     useLazyQuery(LoginUser);
   useEffect(() => {
-    if (user && !organisation) navigate("/");
-    if (user && organisation) navigate(-1);
+    if (user) navigate(-1);
   }, [user, organisation]);
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -18,7 +18,7 @@ export const getTimeDiff = (start, end, full) => {
   const seconds = Math.floor(diff / 1000);
 
   if (full)
-    return `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds left`;
+    return `${days?days+" Days":""} ${hours?hours+" Hours":""} ${minutes} minutes ${seconds} seconds left`;
   else {
     if (days) return `${days} days`;
     if (hours) return `${days} days`;

@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import DisplayCode from "./DisplayCode";
 import MDEditor from "@uiw/react-md-editor";
+import Discussion from "./Discussion";
 
 const Description = ({ data, submissions, loading }) => {
   const { problem } = data || {};
   const [menu, setMenu] = useState(0);
 
   return (
-    <div className="p-3 m-2 pr-0 border rounded-xl overflow-x-hidden h-full mr-0 flex flex-col select-none">
+    <div className="p-3 m-2 mr-0 pr-0 pt-0 border rounded-xl overflow-y-scroll relative">
       {loading && <h1 className="text-center my-auto">Loading...</h1>}
-      <ul className="cursor-pointer items-center flex gap-3 text-lg border-b">
+      <ul className="cursor-pointer items-center flex gap-3 text-lg border-b sticky top-0 bg-white">
         <li
           onClick={() => setMenu(0)}
           className={menu == 0 ? "p-2 border-black border-b" : ""}
@@ -66,7 +67,7 @@ const Description = ({ data, submissions, loading }) => {
           <h1 className="p-3 text-center">not submitted any code yet</h1>
         ))}
       {menu == 0 && (
-        <div className="h-full overflow-y-scroll px-2" data-color-mode="light">
+        <div className="h-full px-2" data-color-mode="light">
           <h1 className="py-2 text-xl font-semibold h-fit">{problem?.title}</h1>
           <MDEditor.Markdown source={problem?.description} />
           {problem?.examples?.map((ex, ind) => (
@@ -75,6 +76,7 @@ const Description = ({ data, submissions, loading }) => {
               <Example example={ex} key={ind} />
             </div>
           ))}
+          <Discussion problemId={problem?.id} />
         </div>
       )}
       {menu >= 2 && (

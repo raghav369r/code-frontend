@@ -333,3 +333,42 @@ export const findProblem = gql`
     }
   }
 `;
+export const mangeProblem = gql`
+  query ManageProblmes {
+    problems: manageProblmes {
+      id
+      title
+      description
+      difficulty
+      startCode
+      topics
+      solutionCode
+      createdAt
+      createdBy
+      constraints
+      expectedComplexity
+      examples {
+        id
+        input
+        output
+        explanation
+        problemId
+      }
+    }
+  }
+`;
+
+export const getComments = gql`
+  query GetComments($problemId: ID!, $page: Int, $limit: Int) {
+    comments:getComments(problemId: $problemId, page: $page, limit: $limit) {
+    id
+    userId
+    comment
+    problemId
+    user {
+      id
+      userName
+    }
+  }
+}
+`;

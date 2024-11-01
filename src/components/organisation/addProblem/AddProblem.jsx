@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
-import { startDescription } from "../../config/constants";
+import { startDescription } from "../../../config/constants";
 import AddExamples from "./AddExamples";
 import AddTestCases from "./AddTestCases";
-import { validateProblem } from "../../services/validation";
+import { validateProblem } from "../../../services/validation";
 import { useMutation } from "@apollo/client";
-import { AddProblem as AddProblemMutation } from "../../../graphQL/Mutations";
+import { AddProblem as AddProblemMutation } from "../../../../graphQL/Mutations";
 
 const AddProblem = () => {
   const [formData, setFormData] = useState({

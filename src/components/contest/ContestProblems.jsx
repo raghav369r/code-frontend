@@ -60,7 +60,7 @@ function ContestProblems() {
             </div>
           ))}
         </div>
-        <div className="w-full border border-gray-300 rounded-md md:w-2/5 shadow-md my-10 md:my-0">
+        <div className="w-full border border-gray-300 rounded-md md:w-2/5 shadow-md my-10 md:my-0 h-fit">
           <h1 className="border-b border-gray-200 bg-gray-200 p-2">Rankings</h1>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-white">

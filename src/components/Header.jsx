@@ -80,6 +80,12 @@ const Menu = ({ user, setUser }) => {
           >
             manage Contest
           </NavLink>
+          <NavLink
+            to={"/added"}
+            className="p-2 hover:bg-neutral-300 rounded-md"
+          >
+            manage Problem
+          </NavLink>
         </>
       )}
       <div

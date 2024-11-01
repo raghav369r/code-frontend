@@ -114,3 +114,17 @@ export const AddProblem = gql`
     }
   }
 `;
+export const addComment = gql`
+  mutation AddComment($problemId: ID!, $comment: String) {
+    addComment(problemId: $problemId, comment: $comment) {
+      id
+      userId
+      comment
+      problemId
+      user {
+        id
+        userName
+      }
+    }
+  }
+`;

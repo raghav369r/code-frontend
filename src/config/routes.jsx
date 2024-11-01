@@ -10,6 +10,7 @@ import EditorCode from "../components/EditorCode";
 import ContestLayout from "../components/layouts/ContestLayout";
 import Forbidden from "../components/errorPages/Forbidden";
 import PageNotFound from "../components/errorPages/PageNotFound";
+import AddedProblems from "../components/organisation/organised/AddedProblems";
 
 // Lazy load components
 const Profile = lazy(() => import("../components/Profile"));
@@ -26,9 +27,11 @@ const ContestProblems = lazy(() =>
 );
 const ContestStart = lazy(() => import("../components/contest/ContestStart"));
 const OrganisedContests = lazy(() =>
-  import("../components/organised/OrganisedContests")
+  import("../components/organisation/organised/OrganisedContests")
 );
-const AddProblem = lazy(() => import("../components/addProblem/AddProblem"));
+const AddProblem = lazy(() =>
+  import("../components/organisation/addProblem/AddProblem")
+);
 
 const AllRoutes = () => {
   return (
@@ -54,6 +57,7 @@ const AllRoutes = () => {
             <Route path="/organised">
               <Route index element={<OrganisedContests />} />
             </Route>
+            <Route path="/added" element={<AddedProblems />} />
             <Route path="/contest">
               <Route index element={<ContestHome />} />
               <Route path=":contestURL" element={<ContestStart />} />
