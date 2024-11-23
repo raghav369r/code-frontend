@@ -12,6 +12,7 @@ import Forbidden from "../components/errorPages/Forbidden";
 import PageNotFound from "../components/errorPages/PageNotFound";
 import AddedProblems from "../components/organisation/organised/AddedProblems";
 import Timer from "../components/Timer";
+import PlayGround from "../components/PlayGround";
 
 // Lazy load components
 const Profile = lazy(() => import("../components/Profile"));
@@ -72,7 +73,7 @@ const AllRoutes = () => {
             </Route>
           </Route>
           <Route element={<CodeLayout />}>
-            <Route path="/playground" element={<EditorCode />} />
+            <Route path="/playground" element={<PlayGround />} />
             <Route path="/problem/:problemId" element={<SolveProblem />} />
             <Route path="/contest/view/:contestURL">
               <Route index element={<ContestProblems />} />
