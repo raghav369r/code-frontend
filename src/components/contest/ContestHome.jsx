@@ -9,9 +9,9 @@ const ContestHome = () => {
       <h1 className="text-3xl font-bold text-center p-4 text-black">
         Registered Contests
       </h1>
-      {!contests?.registered?.length && (
+      {contests?.registered?.length == 0 && (
         <h1 className=" text-center text-gray-700">
-          Not Registered to any contest{" "}
+          Not Registered to any contest
         </h1>
       )}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 p-4">
@@ -30,6 +30,11 @@ const ContestHome = () => {
       <h1 className="text-3xl font-bold text-center p-4 text-black">
         Upcoming Contests
       </h1>
+      {contests?.upComing?.length == 0 && (
+        <h1 className="text-center w-full text-gray-600">
+          Currently There are no upcoming Contests!
+        </h1>
+      )}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 p-4">
         {contests?.upComing?.map((ele, ind) => (
           <ContestCard contest={ele} key={ind} />

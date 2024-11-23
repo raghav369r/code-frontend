@@ -5,7 +5,7 @@ import { FaCaretDown } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
 import useRunCode from "../hooks/useRunCode";
 import OutputCard from "./OutputCard";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { SubmitCode } from "../../graphQL/Mutations";
 import { PasteCodePopUp } from "./popUps/PopUps";
@@ -30,12 +30,12 @@ const EditorCode = ({ examples, setSubmissions }) => {
 
   const handleRun = async () => {
     const size = splitRef?.current?.split?.getSizes();
-    if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
+    if (size[1] < 20) splitRef.current.split.setSizes([30, 70]);
     const res = run({ variables: { input: { language, code, problemId } } });
   };
   const handleSubmit = async () => {
     const size = splitRef?.current?.split?.getSizes();
-    if (size[1] < 1) splitRef.current.split.setSizes([30, 70]);
+    if (size[1] < 20) splitRef.current.split.setSizes([30, 70]);
     const res = await submitCode({
       variables: {
         input: { language, code, problemId, contestUrl: contestURL },
@@ -63,7 +63,8 @@ const EditorCode = ({ examples, setSubmissions }) => {
     editorRef.current = editor;
   };
   const handleContent = (e, editor) => {
-    if (e.length <= code.length + 15 || code.indexOf(e) != -1) setCode(e);
+    if (!contestURL || e.length <= code.length + 15 || code.indexOf(e) != -1)
+      setCode(e);
     else {
       editorRef.current.setValue(code);
       setPopUp(true);
@@ -193,13 +194,18 @@ const EditorCode = ({ examples, setSubmissions }) => {
             >
               {loading ? "Loading..." : "Run"}
             </button>
-            <button
-              onClick={handleSubmit}
-              className="px-4 py-1 bg-gray-500 rounded-lg disabled:cursor-not-allowed disabled:opacity-30"
-              disabled={!user?.id}
-            >
-              {sloading ? "Loading..." : "Submit"}
-            </button>
+            {problemId && (
+              <button
+                onClick={handleSubmit}
+                className="relative px-4 py-1 group bg-gray-500 rounded-lg disabled:cursor-not-allowed disabled:opacity-30"
+                disabled={!user?.id}
+              >
+                <p className={`w-fit bottom-full right-0 absolute hidden ${!user?"group-hover:block":""} p-1 rounded border hover:underline`}>
+                  <Link to="/login" className="text-black p-1">login to submit</Link>
+                </p> 
+                {sloading ? "Loading..." : "Submit"}
+              </button>
+            )}
           </div>
         </div>
       </div>

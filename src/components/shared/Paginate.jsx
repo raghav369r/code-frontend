@@ -11,7 +11,7 @@ const Paginate = ({ page, setPage }) => {
       <ul className="border rounded-md flex text-blue-700 w-fit m-3 select-none">
         <li>
           <button
-            className={`p-3 border-r ${page == 1 ? "text-gray-500" : ""}`}
+            className={`py-1.5 px-4 border-r ${page == 1 ? "text-gray-500" : ""}`}
             onClick={() => handleChange(-1)}
             disabled={page === 1}
           >
@@ -19,9 +19,9 @@ const Paginate = ({ page, setPage }) => {
           </button>
         </li>
 
-        <li className="p-3 px-5 border-r ">{page}</li>
+        <li className="py-1.5 px-5 border-r ">{page}</li>
         <li>
-          <button className="p-3" onClick={() => handleChange(1)}>
+          <button className="py-1.5 px-4" onClick={() => handleChange(1)}>
             Next
           </button>
         </li>

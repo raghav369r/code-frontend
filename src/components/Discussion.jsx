@@ -1,12 +1,11 @@
 import MDEditor from "@uiw/react-md-editor";
 import React, { useContext, useState } from "react";
-import { RxAvatar } from "react-icons/rx";
 import { UserContext } from "../context/User";
 import { useMutation, useQuery } from "@apollo/client";
 import { getComments } from "../../graphQL/Quary";
 import { addComment } from "../../graphQL/Mutations";
 import { FaRegUser } from "react-icons/fa";
-// FaRegUser
+import { BiDownArrow } from "react-icons/bi";
 
 const Discussion = ({ problemId }) => {
   const { user } = useContext(UserContext);
@@ -15,6 +14,7 @@ const Discussion = ({ problemId }) => {
     variables: { problemId, limit: 10, page: 0 },
   });
   const [postComment, { loading }] = useMutation(addComment);
+  const [show, setShow] = useState(false);
   const onChange = (e) => {
     setComment(e);
   };
@@ -52,30 +52,32 @@ const Discussion = ({ problemId }) => {
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center cursor-pointer" onClick={() => setShow(!show)}>
         <h1 className="p-3 font-semibold">Discussions</h1>
-        {/* <span onClick={() => {}}>
-          <BiDownArrow className="text-2xl text-gray-700" />
-        </span> */}
+        <span>
+          <BiDownArrow className="text-xl text-gray-700" />
+        </span>
       </div>
-      <div className="">
-        {user && (
-          <>
-            <MDEditor height="20vh" value={comment} onChange={onChange} />
-            <div className="flex justify-end">
-              <button
-                className="px-4 py-2 bg-green-500 rounded-lg my-4 hover:scale-110"
-                onClick={handlePost}
-              >
-                Post
-              </button>
-            </div>
-          </>
-        )}
-        <div className="h-4" />
-        {data &&
-          data?.comments.map((ele) => <Comment ele={ele} key={ele.id} />)}
-      </div>
+      {show && (
+        <div className="">
+          {user && (
+            <>
+              <MDEditor height="20vh" value={comment} onChange={onChange} />
+              <div className="flex justify-end">
+                <button
+                  className="px-4 py-2 bg-green-500 rounded-lg my-4 hover:scale-110"
+                  onClick={handlePost}
+                >
+                  Post
+                </button>
+              </div>
+            </>
+          )}
+          <div className="h-4" />
+          {data &&
+            data?.comments.map((ele) => <Comment ele={ele} key={ele.id} />)}
+        </div>
+      )}
     </>
   );
 };
@@ -84,7 +86,7 @@ const Comment = ({ ele }) => {
   const { user, comment, time } = ele || {};
   return (
     <div className="border rounded p-2 my-2">
-      <div className="flex justify-between items-center text-gray-600">
+      <div className="flex justify-between items-center text-gray-600 border-b">
         <a
           className="flex gap-2 items-center cursor-pointer"
           href={`/profile/id/${user.id}`}

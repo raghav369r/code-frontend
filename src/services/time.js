@@ -21,8 +21,8 @@ export const getTimeDiff = (start, end, full) => {
     return `${days?days+" Days":""} ${hours?hours+" Hours":""} ${minutes} minutes ${seconds} seconds left`;
   else {
     if (days) return `${days} days`;
-    if (hours) return `${days} days`;
-    if (minutes) return `${minutes} days`;
-    if (seconds) return `${seconds} days`;
+    if (hours) return `${hours} hours`;
+    if (minutes) return `${minutes} minutes`;
+    if (seconds) return `${seconds} seconds`;
   }
 };

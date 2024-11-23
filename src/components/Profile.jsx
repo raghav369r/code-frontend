@@ -10,6 +10,7 @@ import { FaLink } from "react-icons/fa6";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import {
   GetAllSubmissions,
+  GetSolvedCountBylanguage,
   GetUser,
   PastParticipated,
 } from "../../graphQL/Quary";
@@ -19,9 +20,13 @@ const Profile = () => {
   const { userId } = useParams();
   const { user: rootUser } = useContext(UserContext);
   const [getUser, { data: userData }] = useLazyQuery(GetUser);
+  const [langCount, { data: langData }] = useLazyQuery(
+    GetSolvedCountBylanguage
+  );
   useEffect(() => {
     const get = async (id) => {
       await getUser({ variables: { userId: id } });
+      await langCount({ variables: { userId: id } });
     };
     userId ? get(userId) : get(rootUser?.id);
   }, [userId]);
@@ -34,6 +39,7 @@ const Profile = () => {
   });
   const { submissions } = data || {};
   const navigate = useNavigate();
+  // console.log(langData);
   return (
     <div className="bg-[#f7f8fa] w-full min-h-[95vh]">
       <div className="px-4 py-10 gap-4 text-gray-500 flex flex-col md:flex-row">
@@ -94,13 +100,10 @@ const Profile = () => {
           <hr />
           <h1 className="text-black">Languages</h1>
           <div className="flex flex-col gap-2">
-            <Language language="C++" solved="10" />
-            <Language language="C" solved="36" />
-            <Language language="Python" solved="98" />
-            <Language language="Java" solved="1" />
-            <Language language="JavaScript" solved="22" />
-            <Language language="Ruby" solved="21" />
-            <Language language="R" solved="112" />
+            {langData?.languageCount &&
+              Object.entries(langData.languageCount).map(([key, val]) => (
+                <Language language={key} solved={val} />
+              ))}
           </div>
         </div>
         <div className="flex flex-col gap-4 w-full min-w-500px overflow-x-scroll">
@@ -120,9 +123,7 @@ const Profile = () => {
                   className="text-black even:bg-neutral-100 border-b "
                 >
                   <td className="p-3 line-clamp-1 hover:text-blue-600 cursor-pointer">
-                    <Link to={"/contest/view/" + ele.url}>
-                      {ele?.name}
-                    </Link>
+                    <Link to={"/contest/view/" + ele.url}>{ele?.name}</Link>
                   </td>
                   <td className="">{ele?.organisation}</td>
                   <td>{new Date(ele?.startTime).toLocaleString()}</td>
@@ -158,13 +159,12 @@ const Profile = () => {
                   Recent submitted
                 </li>
               </ul>
-              {!userId && <Link
-                to={"allsubmissions"}
-                className="flex gap-2 items-center"
-              >
-                <h1 className="text-sm">View all submissions</h1>
-                <FaAngleRight />
-              </Link>}
+              {!userId && (
+                <Link to={"allsubmissions"} className="flex gap-2 items-center">
+                  <h1 className="text-sm">View all submissions</h1>
+                  <FaAngleRight />
+                </Link>
+              )}
             </div>
             <table className="w-full p-2">
               <tbody>
@@ -199,13 +199,14 @@ const Profile = () => {
 };
 
 const Language = ({ language, solved }) => {
+  if (language === "__typename") return null;
   return (
-    <div className="flex justify-between text-sm">
-      <h1 className="px-2 py-1 min-w-12 text-center rounded-full bg-gray-200">
-        {language}
+    <div className="flex justify-between">
+      <h1 className="px-2 py-1 min-w-12 text-center rounded-full bg-gray-200  text-xs">
+        {language.toUpperCase()}
       </h1>
-      <h1>
-        <span className="font-semibold">{solved}</span> problems solved
+      <h1 className=" text-sm">
+        <span className="font-semibold text-xs">{solved}</span> problems solved
       </h1>
     </div>
   );

@@ -12,7 +12,7 @@ const useFull = () => {
     }
   };
   const handleFullscreenChange = () => {
-    console.log(document.fullscreenElement);
+    // console.log(document.fullscreenElement);
     setIsFullscreen(!!document.fullscreenElement);
   };
 

@@ -103,11 +103,13 @@ const Login = ({ organisation }) => {
               <span onClick={() => handleUser(true)}>
                 <Button data="Sign Up" selected={newUser} />
               </span>
-              {!organisation && (
-                <span onClick={() => navigate("/organisation")}>
-                  <Button data="For Organisations" selected={false} />
-                </span>
-              )}
+              <span
+                onClick={() =>
+                  navigate(`${organisation ? "/login" : "/organisation"}`)
+                }
+              >
+                <Button data={`${organisation?"User Login":"For Organisations"}`} selected={false} />
+              </span>
             </div>
 
             {error && <h1 className="text-red-700 mt-4">{error}</h1>}

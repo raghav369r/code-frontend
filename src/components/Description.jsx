@@ -10,7 +10,7 @@ const Description = ({ data, submissions, loading }) => {
   return (
     <div className="p-3 m-2 mr-0 pr-0 pt-0 border rounded-xl overflow-y-scroll relative">
       {loading && <h1 className="text-center my-auto">Loading...</h1>}
-      <ul className="cursor-pointer items-center flex gap-3 text-lg border-b sticky top-0 bg-white">
+      <ul className="cursor-pointer items-center flex gap-3 text-lg border-b sticky z-10 top-0 bg-white">
         <li
           onClick={() => setMenu(0)}
           className={menu == 0 ? "p-2 border-black border-b" : ""}

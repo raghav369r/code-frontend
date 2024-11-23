@@ -25,9 +25,12 @@ function Timer() {
     };
 
     return (
+        <div className="w-screen h-[100dvh] text-black">
+
         <div className="flex cursor-pointer">
             <h1 className="px-1" onClick={()=>setRunning(!running)}>{formatTime(time)}</h1>
             <VscDebugRestart className="mt-1" onClick={()=>{setTime(0);setRunning(false)}}/>
+        </div>
         </div>
     );
 }

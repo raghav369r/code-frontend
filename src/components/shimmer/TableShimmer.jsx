@@ -4,11 +4,7 @@ const TableShimmer = () => {
   return (
     <>
       {data.map((ele, ind) => (
-        <tr className="even:bg-gray-300 animate-pulse" key={ind}>
-          <td className="h-11"></td>
-          <td className="h-11"></td>
-          <td className="h-11"></td>
-        </tr>
+        <div className="even:bg-gray-300 animate-pulse h-10 w-screen" key={ind} />
       ))}
     </>
   );

@@ -36,13 +36,13 @@ const OutputCard = ({ data, error: derror, loading, examples }) => {
         >
           OutPut
         </li>
-        {loading && <li className="ml-auto p-2">loading...</li>}
-        <li className="ml-auto p-2 font-semibold text-green-600">
+        <li className="ml-auto p-2 font-semibold text-gray-600">
           {testCasesResult &&
             `${testCasesResult.filter((value) => value === true).length} /
-              ${testCasesResult.length} 
-              Passed`}
+            ${testCasesResult.length} 
+            Passed`}
         </li>
+        {loading && <li className="ml-auto p-2">loading...</li>}
       </ul>
       <div className="p-2 overflow-y-scroll h-fit">
         {menu == 2 && stdout && (

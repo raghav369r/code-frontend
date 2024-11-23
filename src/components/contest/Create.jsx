@@ -79,7 +79,7 @@ const Create = () => {
             setMenu(data.contestQuestions.length);
           }}
         >
-          <GrAdd className="text-2xl cursor-pointer" />
+          <GrAdd className="text-xl cursor-pointer hover:scale-110" />
         </div>
       </div>
       <div className="">

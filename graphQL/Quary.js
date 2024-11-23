@@ -372,3 +372,16 @@ export const getComments = gql`
     }
   }
 `;
+export const GetSolvedCountBylanguage = gql`
+  query getProblemsSolved($userId: ID) {
+    languageCount: getProblemsSolved(userId: $userId) {
+      cpp
+      c
+      python
+      java
+      javascript
+      ruby
+      r
+    }
+  }
+`;

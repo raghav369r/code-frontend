@@ -6,7 +6,7 @@ const useGetAllProblems = (page) => {
   const [getProbelms, { data, error, loading }] = useLazyQuery(GetAllProblems);
   useEffect(() => {
     const start = async () => {
-      await getProbelms({ variables: { pagination: { page } } });
+      await getProbelms({ variables: { pagination: { page,limit:15 } } });
     };
     start();
   }, [page]);

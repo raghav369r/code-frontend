@@ -11,6 +11,7 @@ import ContestLayout from "../components/layouts/ContestLayout";
 import Forbidden from "../components/errorPages/Forbidden";
 import PageNotFound from "../components/errorPages/PageNotFound";
 import AddedProblems from "../components/organisation/organised/AddedProblems";
+import Timer from "../components/Timer";
 
 // Lazy load components
 const Profile = lazy(() => import("../components/Profile"));
@@ -62,17 +63,6 @@ const AllRoutes = () => {
               <Route index element={<ContestHome />} />
               <Route path=":contestURL" element={<ContestStart />} />
               <Route path="create" element={<Create />} />
-              <Route
-                path="responseClosed"
-                element={
-                  <div className="h-[90vh] w-full flex justify-center  items-center">
-                    <h1 className="text-red-600 text-2xl ">
-                      you cant open as you are already opened or made excessive
-                      tabswitches
-                    </h1>
-                  </div>
-                }
-              />
             </Route>
             <Route path="/profile">
               <Route index element={<Profile />} />
@@ -94,6 +84,7 @@ const AllRoutes = () => {
           </Route>
           <Route path="/load" element={<Loading />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/timer" element={<Timer />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Suspense>

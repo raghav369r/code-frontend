@@ -22,7 +22,7 @@ const ContestLayout = () => {
     variables: { contestUrl: contestURL },
   });
 
-  const [warnings, setWarnings] = useState(5);
+  const [warnings, setWarnings] = useState(5);  // shows warning 5 times then blocks user
   const { toggleFullscreen, isFullscreen } = useFull();
   const [endContest, setEndContest] = useState(false);
   const { tabSwitchWarning, setTabSwitchWarning } = useTab(
