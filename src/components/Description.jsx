@@ -2,24 +2,25 @@ import React, { useState } from "react";
 import DisplayCode from "./DisplayCode";
 import MDEditor from "@uiw/react-md-editor";
 import Discussion from "./Discussion";
+import { useParams } from "react-router-dom";
 
 const Description = ({ data, submissions, loading }) => {
   const { problem } = data || {};
   const [menu, setMenu] = useState(0);
-
+  const { contestURL } = useParams();
   return (
     <div className="p-3 m-2 mr-0 pr-0 pt-0 border rounded-xl overflow-y-scroll relative">
       {loading && <h1 className="text-center my-auto">Loading...</h1>}
       <ul className="cursor-pointer items-center flex gap-3 text-lg border-b sticky z-10 top-0 bg-white">
         <li
           onClick={() => setMenu(0)}
-          className={menu == 0 ? "p-2 border-black border-b" : ""}
+          className={menu == 0 ? "p-2 border-black border-b" : "p-2"}
         >
           Problems
         </li>
         <li
           onClick={() => setMenu(1)}
-          className={menu == 1 ? "p-2 border-black border-b" : ""}
+          className={menu == 1 ? "p-2 border-black border-b" : "p-2"}
         >
           Submitions
         </li>
@@ -43,12 +44,14 @@ const Description = ({ data, submissions, loading }) => {
               >
                 <td
                   className={`p-3 line-clamp-1 cursor-pointer ${
-                    ele.errorDetails ? "text-red-700" : "text-green-700"
+                    !ele.isAccepted ? "text-red-700" : "text-green-700"
                   }`}
                 >
-                  {!ele.errorDetails
+                  {ele.isAccepted
                     ? "Accepted"
-                    : ele.errorDetails.startsWith(" Error at test case")
+                    : !ele.errorDetails ||
+                      ele.errorDetails.startsWith("Wrong Answer") ||
+                      ele.errorDetails.startsWith(" Error at test case")
                     ? "Wrong Answer"
                     : "Runtime Error"}
                 </td>
@@ -68,7 +71,6 @@ const Description = ({ data, submissions, loading }) => {
         ))}
       {menu == 0 && (
         <div className="h-full px-2" data-color-mode="light">
-          <h1 className="py-2 text-xl font-semibold h-fit">{problem?.title}</h1>
           <MDEditor.Markdown source={problem?.description} />
           {problem?.examples?.map((ex, ind) => (
             <div key={ind}>
@@ -76,42 +78,43 @@ const Description = ({ data, submissions, loading }) => {
               <Example example={ex} key={ind} />
             </div>
           ))}
-          <Discussion problemId={problem?.id} />
+          {!contestURL && <Discussion problemId={problem?.id} />}
         </div>
       )}
       {menu >= 2 && (
         <div className="p-2">
           <h1 className="my-2">submission details</h1>
-          {submissions[menu - 2].errorDetails ? (
+          {!submissions[menu - 2].isAccepted ? (
             <div>
               <h1 className="my-2 text-red-600">Error</h1>
               <div className="my-2 bg-red-500 bg-opacity-30 rounded-md p-3 text-red-500">
-                {submissions[menu - 2].errorDetails}
+                {submissions[menu - 2].errorDetails || "wrong Answer"}
               </div>
             </div>
           ) : (
             <h1 className="text-green-700">Accepted</h1>
           )}
 
-          {submissions[menu - 2].errorDetails.startsWith(
-            " Error at test case"
-          ) && (
-            <div>
-              <h1 className="font-semibold p-2">Input</h1>
-              <h2 className="px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
-                {submissions[menu - 2]?.input || "N/A"}
-              </h2>
-              <h1 className="font-semibold p-2">Expected Output</h1>
-              <h2 className="px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
-                {submissions[menu - 2]?.expectedOutput}
-              </h2>
-              <h1 className="font-semibold p-2">Your Output</h1>
-              <h2 className="min-h-8 cursor-pointer px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
-                {/* output for all test cases to is availabale at Output */}
-                {submissions[menu - 2]?.output}
-              </h2>
-            </div>
-          )}
+          {/* {submissions[menu - 2].errorDetails.startsWith(
+            " Error at test case" ||
+              submissions[menu - 2].errorDetails.startsWith("Wrong Answer")
+          ) && ( */}
+          <div>
+            <h1 className="font-semibold p-2">Input</h1>
+            <h2 className="px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
+              {submissions[menu - 2]?.input || "N/A"}
+            </h2>
+            <h1 className="font-semibold p-2">Expected Output</h1>
+            <h2 className="px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
+              {submissions[menu - 2]?.expectedOutput}
+            </h2>
+            <h1 className="font-semibold p-2">Your Output</h1>
+            <h2 className="min-h-8 cursor-pointer px-2 py-1.5 border rounded border-blue-500 bg-neutral-100">
+              {/* output for all test cases to is availabale at Output */}
+              {submissions[menu - 2]?.output}
+            </h2>
+          </div>
+          {/* )} */}
           <DisplayCode
             code={submissions[menu - 2].code}
             language={submissions[menu - 2].language}

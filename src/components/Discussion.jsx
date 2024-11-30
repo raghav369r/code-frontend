@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { getComments } from "../../graphQL/Quary";
 import { addComment } from "../../graphQL/Mutations";
 import { FaRegUser } from "react-icons/fa";
-import { BiDownArrow } from "react-icons/bi";
+import { FaChevronDown } from "react-icons/fa";
 
 const Discussion = ({ problemId }) => {
   const { user } = useContext(UserContext);
@@ -55,7 +55,7 @@ const Discussion = ({ problemId }) => {
       <div className="flex justify-between items-center cursor-pointer" onClick={() => setShow(!show)}>
         <h1 className="p-3 font-semibold">Discussions</h1>
         <span>
-          <BiDownArrow className="text-xl text-gray-700" />
+          <FaChevronDown className="text-xl text-gray-700" />
         </span>
       </div>
       {show && (

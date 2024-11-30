@@ -65,9 +65,11 @@ export const SubmitCode = gql`
       submittedAt
       code
       language
-      inputCase
+      input
       output
       expectedOutput
+      total
+      passed
     }
   }
 `;

@@ -34,12 +34,14 @@ const SubmissionsTable = () => {
             <tr key={ind} className="text-black even:bg-neutral-100 border-b">
               <td
                 className={`p-3 line-clamp-1 cursor-pointer ${
-                  ele.errorDetails ? "text-red-700" : "text-green-700"
+                  !ele.isAccepted ? "text-red-700" : "text-green-700"
                 }`}
               >
-                {!ele.errorDetails
+                {ele.isAccepted
                   ? "Accepted"
-                  : ele.errorDetails.startsWith(" Error at test case")
+                  : !ele.errorDetails ||
+                    ele.errorDetails.startsWith("Wrong Answer") ||
+                    ele.errorDetails.startsWith(" Error at test case")
                   ? "Wrong Answer"
                   : "Runtime Error"}
               </td>

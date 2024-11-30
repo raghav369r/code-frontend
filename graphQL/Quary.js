@@ -31,6 +31,7 @@ export const RunCode = gql`
       stdout
       error
       stderr
+      input
       testCasesResult
       testcaseOutput
     }
@@ -131,7 +132,7 @@ export const GetAllSubmissions = gql`
       submittedAt
       code
       language
-      inputCase
+      input
       output
       expectedOutput
       testCasesResult
@@ -262,7 +263,7 @@ export const GetProblemSubmissions = gql`
       submittedAt
       code
       language
-      inputCase
+      input
       output
       expectedOutput
       testCasesResult
